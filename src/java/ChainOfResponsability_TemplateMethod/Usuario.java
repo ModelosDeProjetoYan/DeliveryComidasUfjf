@@ -15,7 +15,9 @@ import java.util.ArrayList;
 public abstract class Usuario {
     protected Pedido pedido;
     protected String nome;
-    protected int id;
+    protected String email;
+    protected String senha;
+    protected Integer id;
     protected boolean acaoFeita;
     private Usuario proxUsuario;
     
@@ -45,9 +47,22 @@ public abstract class Usuario {
         this.id = id;
         return this;
     }
-
     public Usuario setAcaoFeita(boolean acaoFeita) {
         this.acaoFeita = acaoFeita;
+        return this;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public Usuario setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+    public String getSenha() {
+        return senha;
+    }
+    public Usuario setSenha(String senha) {
+        this.senha = senha;
         return this;
     }
     
