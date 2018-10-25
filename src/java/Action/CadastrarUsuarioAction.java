@@ -23,8 +23,6 @@ public class CadastrarUsuarioAction implements Action{
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         //aqui vem a logica para cadastrar qlqr tipo de usuario.
-        String action = request.getParameter("Action");
-        Usuario u = ActionFactoryUser.create(action);
         
     }
     

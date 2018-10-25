@@ -5,16 +5,15 @@
  */
 package Action;
 
-import ChainOfResponsability_TemplateMethod.*;
 
 /**
  *
  * @author YanNotebook
  */
-public class ActionFactoryUser {
-    public static Usuario create(String action){
-        Usuario actionObject = null;
-        String nomeClasse = "ChainOfResponsability_TemplateMethod.Usuario"+action;
+public class ActionFactory {
+    public static Action create(String action){
+        Action actionObject = null;
+        String nomeClasse = "action."+action+"Action";
         Class classe = null;
         Object objeto = null;
         try {
@@ -23,8 +22,8 @@ public class ActionFactoryUser {
         } catch (Exception e) {
             return null;
         }
-        if(!(objeto instanceof Usuario)) return null;
-        actionObject = (Usuario) objeto;
+        if(!(objeto instanceof Action)) return null;
+        actionObject = (Action) objeto;
         return actionObject;
     }
     
