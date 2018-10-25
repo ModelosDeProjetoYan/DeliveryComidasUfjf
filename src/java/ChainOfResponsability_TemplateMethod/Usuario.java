@@ -21,7 +21,7 @@ public abstract class Usuario implements Observer {
     protected String email;
     protected String senha;
     protected Integer id;
-    protected boolean acaoFeita;
+    protected Boolean acaoFeita;
     private Usuario proxUsuario;
 
     public Pedido getPedido() {
@@ -80,7 +80,11 @@ public abstract class Usuario implements Observer {
         this.senha = senha;
         return this;
     }
-
+    
+    public Usuario setObservable(Pedido p){
+        p.addObserver(this);
+        return this;
+    }
     //abstract do template
     abstract String getTipo();
 
@@ -90,8 +94,12 @@ public abstract class Usuario implements Observer {
     //implementar observer para chamar delegar pedido assim que trocar valor de ação feita
     public String delegarPedido(Pedido p) {
         if (acaoFeita && proxUsuario != null) {
+            proxUsuario.setObservable(p);
             return proxUsuario.delegarPedido(p);
-        } else {
+        } else if(this instanceof  UsuarioCliente && !acaoFeita){
+            p.deleteObservers();
+            return acompanhaPedido();
+        }else{
             return acompanhaPedido();
         }
     }
