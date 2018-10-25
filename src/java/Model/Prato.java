@@ -3,12 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package PadraoComposite;
+package Model;
 
 /**
  *
  * @author yan
  */
-public class Cardapio {
+public class Prato extends Item{
+
+    public Prato() {
+        setTipo("Prato");
+    }
+    
+    @Override
+    String getTipo() {
+        return "Prato";
+    }
     
 }
