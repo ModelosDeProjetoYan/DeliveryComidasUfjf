@@ -14,7 +14,9 @@ import java.sql.SQLException;
  * @author yan
  */
 public class DataBaseLocator {
+
     private static DataBaseLocator instance = new DataBaseLocator();
+    private Connection conn;
 
     private DataBaseLocator() {
     }
@@ -22,10 +24,11 @@ public class DataBaseLocator {
     public static DataBaseLocator getInstance() {
         return instance;
     }
-        public Connection getConnection() throws ClassNotFoundException, SQLException {
-      
-        Connection conn =
-                DriverManager.getConnection("jdbc:derby://localhost:1527/todosProjetosMarco", "root", "senha");    
+
+    public Connection getConnection() throws ClassNotFoundException, SQLException {
+
+        conn
+                = DriverManager.getConnection("jdbc:derby://localhost:1527/todosProjetosMarco", "root", "senha");
         return conn;
     }
 

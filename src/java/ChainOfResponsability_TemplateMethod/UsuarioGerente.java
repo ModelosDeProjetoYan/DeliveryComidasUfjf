@@ -11,13 +11,13 @@ import java.util.ArrayList;
  *
  * @author yan
  */
-public class ChefeDeCozinha extends Usuario{
+public class UsuarioGerente extends Usuario{
 
-    public ChefeDeCozinha() {
-    }    
+    public UsuarioGerente() {
+    }   
     @Override
     String getTipo() {
-        return "Chefe de Cozinha";
+        return "Gerente";
     }
 
     @Override

@@ -10,12 +10,13 @@ import Model.Endereco;
 import Model.Item;
 import State.StatePedido;
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  *
  * @author yan
  */
-public class Pedido {
+public class Pedido extends Observable {
 
     private StatePedido pedido;
     private ArrayList<Item> carrinho;
@@ -25,7 +26,6 @@ public class Pedido {
     public Pedido() {
     }
 
-    
     public Pedido(StatePedido p) {
         carrinho = new ArrayList<>();
         pedido = p;
@@ -63,6 +63,8 @@ public class Pedido {
 
     private void setStatusPedido() {
         this.statusPedido = pedido.getEstado();
+        setChanged();
+        notifyObservers();
     }
 
     public void removeItemCarrinho(int i) {
@@ -107,7 +109,7 @@ public class Pedido {
         return new PedidoMemento(pedido);
     }
 
-    public void restoreFormMemento(PedidoMemento memento) {
+    public void restoreFromMemento(PedidoMemento memento) {
         pedido = memento.getEstadoSalvo();
     }
 

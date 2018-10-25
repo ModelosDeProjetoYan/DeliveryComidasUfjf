@@ -11,19 +11,15 @@ import java.util.ArrayList;
  *
  * @author yan
  */
-public class Entregador extends Usuario{
+public class UsuarioCliente extends Usuario{
 
-    public Entregador() {
-    }
     @Override
     String getTipo() {
-        return "Entregador";
+        return "Cliente";
     }
 
     @Override
     String acompanhaPedido() {
         return pedido.getStatusPedido();
-    }
-    
-    
+    }   
 }

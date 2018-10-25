@@ -5,7 +5,7 @@
  */
 package Persistence;
 
-import ChainOfResponsability_TemplateMethod.Cliente;
+import ChainOfResponsability_TemplateMethod.UsuarioCliente;
 import Memento.*;
 import State.StatePedido;
 import java.sql.Connection;
@@ -31,21 +31,21 @@ public class UsuarioDao {
         return instance;
     }
 
-    public Cliente getClienteByID(int id) {
+    public UsuarioCliente getClienteByID(int id) {
         Connection conn = null;
         Statement st = null;
 
         return null;
     }
 
-    public void save(Cliente c) {
+    public void save(UsuarioCliente c) {
         Connection conn = null;
         Statement st = null;
 
     }
 
 
-    public ArrayList<Cliente> getClientesBanco() throws ClassNotFoundException {
+    public ArrayList<UsuarioCliente> getClientesBanco() throws ClassNotFoundException {
         ArrayList clientes = new ArrayList<>();
         Connection conn = null;
         Statement st = null;
@@ -55,7 +55,7 @@ public class UsuarioDao {
             st = conn.createStatement();
             resultado = st.executeQuery("select * from USUARIO where id_tipo_usuario = 1");
             while (resultado.next()) {
-                Cliente c = new Cliente();
+                UsuarioCliente c = new UsuarioCliente();
                 c.setId(resultado.getInt("ID")).
                         setEmail(resultado.getString("EMAIL")).
                         setSenha(resultado.getString("SENHA"));
