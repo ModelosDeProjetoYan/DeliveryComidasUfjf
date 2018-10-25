@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Persistence;
 
 import Memento.HistoricoDeMementos;
@@ -17,10 +12,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author yan
- */
 public class PedidoDao {
 
     private ArrayList<HistoricoDeMementos> mementos = new ArrayList<>();
@@ -88,7 +79,7 @@ public class PedidoDao {
     public HistoricoDeMementos getMementos(int id_pedido) {
         return mementos.get(testaSePossuiHistorico(id_pedido));
     }
-    
+
     public int testaSePossuiHistorico(int id) {
         int i = 0;
         while (i < mementos.size() && mementos.get(i).getId() != id) {
@@ -96,7 +87,7 @@ public class PedidoDao {
         }
         return i;
     }
-    
+
     public void atualizaEstatus(Integer id_pedido, int i) throws ClassNotFoundException, SQLException {
         PedidoMemento p;
         Integer elemento = mementos.get(testaSePossuiHistorico(id_pedido)).getPosicaoEstadosSalvos();

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ChainOfResponsability_TemplateMethod;
 
 import State.Pedido;
@@ -10,10 +5,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- *
- * @author yan
- */
 public abstract class Usuario implements Observer {
 
     protected Pedido pedido;
@@ -80,11 +71,12 @@ public abstract class Usuario implements Observer {
         this.senha = senha;
         return this;
     }
-    
-    public Usuario setObservable(Pedido p){
+
+    public Usuario setObservable(Pedido p) {
         p.addObserver(this);
         return this;
     }
+
     //abstract do template
     abstract String getTipo();
 
@@ -96,10 +88,10 @@ public abstract class Usuario implements Observer {
         if (acaoFeita && proxUsuario != null) {
             proxUsuario.setObservable(p);
             return proxUsuario.delegarPedido(p);
-        } else if(this instanceof  UsuarioCliente && !acaoFeita){
+        } else if (this instanceof UsuarioCliente && !acaoFeita) {
             p.deleteObservers();
             return acompanhaPedido();
-        }else{
+        } else {
             return acompanhaPedido();
         }
     }

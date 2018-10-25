@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -15,12 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author yan
- */
 public class MainServlet extends HttpServlet {
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -31,23 +21,11 @@ public class MainServlet extends HttpServlet {
                 RequestDispatcher dispachante = request.getRequestDispatcher("WEB-INF/Cadastrojsp.jsp");
                 dispachante.forward(request, response);
             } else {
-                try {
-                    Action comando;
-                    comando = (Action) Class.forName("controller.IndexCommand").newInstance();
-                    comando.execute(request, response);
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(MainServlet.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(MainServlet.class.getName()).log(Level.SEVERE, null, ex);
-
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(MainServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                action = "Index";
             }
         }
         actionObject = ActionFactory.create(action);
-        if (actionObject
-                != null) {
+        if (actionObject != null) {
             actionObject.execute(request, response);
         }
     }

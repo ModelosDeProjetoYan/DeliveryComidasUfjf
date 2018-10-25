@@ -1,19 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
-
-/**
- *
- * @author YanNotebook
- */
 public class ActionFactory {
-    public static Action create(String action){
+
+    public static Action create(String action) {
         Action actionObject = null;
-        String nomeClasse = "action."+action+"Action";
+        String nomeClasse = "Action." + action + "Action";
         Class classe = null;
         Object objeto = null;
         try {
@@ -22,9 +13,11 @@ public class ActionFactory {
         } catch (Exception e) {
             return null;
         }
-        if(!(objeto instanceof Action)) return null;
+        if (!(objeto instanceof Action)) {
+            return null;
+        }
         actionObject = (Action) objeto;
         return actionObject;
     }
-    
+
 }

@@ -1,25 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Persistence;
 
 import ChainOfResponsability_TemplateMethod.UsuarioCliente;
-import Memento.*;
-import State.StatePedido;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author yan
- */
 public class UsuarioDao {
 
     private static UsuarioDao instance = new UsuarioDao();
@@ -44,7 +31,6 @@ public class UsuarioDao {
 
     }
 
-
     public ArrayList<UsuarioCliente> getClientesBanco() throws ClassNotFoundException {
         ArrayList clientes = new ArrayList<>();
         Connection conn = null;
@@ -67,7 +53,6 @@ public class UsuarioDao {
         }
         return clientes;
     }
-
 
     private void closeResoucers(Connection conn, Statement st) {
         try {
