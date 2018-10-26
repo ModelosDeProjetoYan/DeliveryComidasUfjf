@@ -3,7 +3,6 @@ package Model;
 public abstract class Item {
 
     protected Restaurante restaurante;
-    protected String tipo;
     protected double valor;
     protected String descricao;
 
@@ -16,9 +15,6 @@ public abstract class Item {
         return this;
     }
 
-    protected void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
 
     public double getValor() {
         return valor;
