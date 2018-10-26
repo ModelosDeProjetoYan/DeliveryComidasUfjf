@@ -14,9 +14,6 @@ public class IndexAction implements Action {
         RequestDispatcher dispacher = request.getRequestDispatcher("/WEB-INF/index.jsp");
         request.setAttribute("titulo", "Página inicial");
 
-//        ArrayList<Restaurante>restaurantes = RestauranteDao.getInstance().getRestaurantesBanco();
-//        request.setAttribute("Restaurantes", restaurantes);
-
         dispacher.forward(request, response);
     }
 }
