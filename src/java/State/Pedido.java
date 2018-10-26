@@ -57,10 +57,12 @@ public class Pedido extends Observable {
         notifyObservers();
     }
 
-    public void removeItemCarrinho(int i) {
+    public void removeItemCarrinho(Item i) {
         carrinho.remove(i);
     }
-
+    public void removeAllItensCarrinho(){
+        carrinho.removeAll(carrinho);
+    }
     public void addItemCarrinho(Item i) {
         carrinho.add(i);
     }
