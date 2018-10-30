@@ -1,5 +1,4 @@
 package Model;
-
 import ChainOfResponsability_TemplateMethod.UsuarioCliente;
 import State.*;
 import Strategy.Conta;
@@ -11,7 +10,6 @@ public class Carrinho extends Conta {
     private Pedido carrinho;
     public Carrinho() {
     }
-    
     public void addCarrinho(Item i){
         if(carrinho == null)
             carrinho = new Pedido(new StatePedidoAberto());
@@ -34,5 +32,4 @@ public class Carrinho extends Conta {
         this.pagamento = pagamento;
         return this;
     }
-
 }
