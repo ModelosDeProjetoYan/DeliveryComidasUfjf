@@ -39,7 +39,7 @@ public class MainServlet extends HttpServlet {
         if (request.getSession().isNew() 
                 || request.getSession().getAttribute("id_usuario") == null
                 || "".equals(request.getSession().getAttribute("id_usuario"))) {
-            if ("".equals(actionPath) || "/".equals(actionPath) || "/Index.html".equals(actionPath) || "/UsuarioNovo.html".equals(actionPath) || "/Login.html".equals(actionPath)) {
+            if ("".equals(actionPath) || "/".equals(actionPath) || "/Index.html".equals(actionPath) || "/CadastrarUsuario.html".equals(actionPath) || "/Login.html".equals(actionPath)) {
                 if ("".equals(actionPath) || "/".equals(actionPath)) {
                     action = "Index";
                 }
@@ -49,7 +49,7 @@ public class MainServlet extends HttpServlet {
             }
         // Se estiver logado
         } else {
-            if ("/UsuarioNovo.html".equals(actionPath) || "/Login.html".equals(actionPath)) {
+            if ("/CadastrarUsuario.html".equals(actionPath) || "/Login.html".equals(actionPath)) {
                 action = "VisaoGeralDoUsuario";
                 request.setAttribute("erro", "É necessário fazer LOGOUT para acessar " + actionPath);
             }
