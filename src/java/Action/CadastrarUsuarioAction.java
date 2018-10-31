@@ -14,6 +14,7 @@ public class CadastrarUsuarioAction implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dispacher = request.getRequestDispatcher("/WEB-INF/usuario/CadastrarUsuario.jsp");
         request.setAttribute("titulo", "Cadastrar Usuário");
+        request.setAttribute("erro", "TESTEEEEEEEEEE !!!");
 
         dispacher.forward(request, response);
     }
