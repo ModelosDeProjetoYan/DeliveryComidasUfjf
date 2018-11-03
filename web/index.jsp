@@ -14,9 +14,9 @@
 <%@include file="/jspf/cabecalho.jspf" %>
 
 <h5>Grupo: </h5>
-<h6>Aline</h6>
+<h6>Aline de Paula Sotte - </h6>
 <h6>Victor Crisóstomo Cruz Reis - 201176037</h6>
-<h6>Yan</h6>
+<h6>Yan de Paiva Andrade Pinto - 201476038</h6>
 
 <br />
 
