@@ -11,7 +11,7 @@
 <!--The JSTL formatting tags are used to format and display text, the date, the time, and numbers for internationalized Websites.-->
 <%@ taglib  uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<%@include file="/WEB-INF/jspf/cabecalho.jspf" %>
+<%@include file="/jspf/cabecalho.jspf" %>
 
 <form method="POST" action="login.html">
     <div class="form-group">
@@ -26,4 +26,4 @@
     <button type="submit" class="btn btn-primary">Entrar</button>
 </form>
 
-<%@include file="/WEB-INF/jspf/rodape.jspf" %>
+<%@include file="/jspf/rodape.jspf" %>

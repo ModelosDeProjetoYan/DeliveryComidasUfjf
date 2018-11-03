@@ -12,7 +12,7 @@ public class CadastrarUsuarioAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher dispacher = request.getRequestDispatcher("/WEB-INF/usuario/CadastrarUsuario.jsp");
+        RequestDispatcher dispacher = request.getRequestDispatcher("/usuario/CadastrarUsuario.jsp");
         request.setAttribute("titulo", "Cadastrar Usuário");
         request.setAttribute("erro", "TESTEEEEEEEEEE !!!");
 

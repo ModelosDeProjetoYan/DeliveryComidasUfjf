@@ -26,23 +26,23 @@
                     <ul class="navbar-nav mr-auto">
                         <c:if test="${sessionScope.login != null}">
                             <li class="nav-item">
-                                <a class="nav-link" href="ranking.html">Ranking de Itens</a>
+                                <a class="nav-link" href="MainServlet?parametro=ranking">Ranking de Itens</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="trolls.html">Usuários Trolls</a>
+                                <a class="nav-link" href="MainServlet?parametro=trolls">Usuários Trolls</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="curadores.html">Usuários Curadores</a>
+                                <a class="nav-link" href="MainServlet?parametro=curadores">Usuários Curadores</a>
                             </li>
                         </c:if>
                     </ul>
                     <ul class="navbar-nav">
                         <c:if test="${sessionScope.login == null}">
                             <li class="nav-item">
-                                <a class="nav-link" href="CadastrarUsuario.html">Cadastro</a>
+                                <a class="nav-link" href="MainServlet?parametro=CadastrarUsuario">Cadastro</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="Login.html">Login</a>
+                                <a class="nav-link" href="MainServlet?parametro=Login">Login</a>
                             </li>
                         </c:if>
                         <c:if test="${sessionScope.login != null}">
@@ -60,7 +60,7 @@
                                     <a class="dropdown-item" href="meus-comentarios.html">Meus Comentários</a>
                                     <a class="dropdown-item" href="a-avaliar.html">Avaliações Pendentes</a>-->
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="Logout.html">Logout</a>
+                                    <a class="dropdown-item" href="MainServlet?parametro=Logout">Logout</a>
                                 </div>
                             </li>
                         </c:if>

@@ -14,48 +14,9 @@ public class MainServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        String action = request.getParameter("action");
-        Action actionObject = null;
-        
-//        if (action == null || action.equals("")) {
-//            if ("/Cadastrar.html".equals(request.getServletPath())) {
-//                RequestDispatcher dispachante = request.getRequestDispatcher("WEB-INF/Cadastrojsp.jsp");
-//                dispachante.forward(request, response);
-//            } else {
-//                action = "Index";
-//            }
-//        }
-        
-        String actionPath = request.getServletPath();
-        String action = "";
-        if (actionPath.length() > 5) {
-            action = actionPath.substring(1, actionPath.length() - 5);
-        }
-        
-        System.out.println("actionPath:" + actionPath);
-        System.out.println("action: " + action);
-        
-        // Se não estiver logado
-        if (request.getSession().isNew() 
-                || request.getSession().getAttribute("id_usuario") == null
-                || "".equals(request.getSession().getAttribute("id_usuario"))) {
-            if ("".equals(actionPath) || "/".equals(actionPath) || "/Index.html".equals(actionPath) || "/CadastrarUsuario.html".equals(actionPath) || "/Login.html".equals(actionPath)) {
-                if ("".equals(actionPath) || "/".equals(actionPath)) {
-                    action = "Index";
-                }
-            } else {
-                action = "Login";
-                request.setAttribute("erro", "É necessário fazer LOGIN para acessar " + actionPath);
-            }
-        // Se estiver logado
-        } else {
-            if ("/CadastrarUsuario.html".equals(actionPath) || "/Login.html".equals(actionPath)) {
-                action = "VisaoGeralDoUsuario";
-                request.setAttribute("erro", "É necessário fazer LOGOUT para acessar " + actionPath);
-            }
-        }
-        
-        actionObject = ActionFactory.create(action);
+        Action actionObject = null;        
+        String actionPath = request.getParameter("parametro");
+        actionObject = ActionFactory.create(actionPath);
         if (actionObject != null) {
             actionObject.execute(request, response);
         }
