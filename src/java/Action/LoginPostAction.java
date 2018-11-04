@@ -27,6 +27,7 @@ public class LoginPostAction implements Action {
             sessionScope.setAttribute("user", u);
             dispacher = request.getRequestDispatcher("/usuario/Interface" + u.getTipo() + ".jsp");
 
+            
         } else {
             dispacher = request.getRequestDispatcher("/usuario/UsuarioLogin.jsp");
         }
