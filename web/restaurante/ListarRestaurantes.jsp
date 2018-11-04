@@ -35,6 +35,11 @@
                     <li>${restaurante.getBairro()}   ${restaurante.getCidade()}</li>
                 </ul>
             </td>
+            <td>
+                <form method="POST" action="MainServlet?parametro=ListarCardapio & id=${restaurante.getId()}">
+                    <input type="submit" value="Ver Cardapio" name="btnVerCardapio" />
+                </form>
+            </td>
         </c:forEach>    
         </tr>
     </tbody>

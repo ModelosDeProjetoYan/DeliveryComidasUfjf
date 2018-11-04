@@ -5,7 +5,18 @@ public abstract class Item {
     protected Restaurante restaurante;
     protected double valor;
     protected String descricao;
+    protected String nome;
 
+    public String getNome() {
+        return nome;
+    }
+
+    public Item setNome(String nome) {
+        this.nome = nome;
+        return this;
+    }
+    
+    
     public Restaurante getRestaurante() {
         return restaurante;
     }

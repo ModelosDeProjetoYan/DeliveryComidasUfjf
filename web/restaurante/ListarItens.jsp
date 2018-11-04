@@ -13,20 +13,31 @@
 
 <%@include file="/jspf/cabecalho.jspf" %>
 
-<h5>Grupo: </h5>
-<h1>GERENTE</h1>
-<br />
-
-<!--<div class="alert alert-warning" role="alert">
-    <h4>Sobre a estrutura do código</h4>
-    <ul>
-        <li>
-            
-        </li>
-        <li>
-            
-        </li>
-    </ul>
-</div>-->
+<table border="1">
+    <thead>
+        <tr>
+            <th>Cardapio</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <c:forEach var="item" items="${Cardapio}">
+            <td>
+                <ul type="circle">
+                    <li>${item.getNome()}</li>
+                    <li>${item.getDescricao()}</li>
+                    <li>${item.getPreco()}</li>
+                </ul>
+            </td>
+            <td>
+                <form method="POST" action="MainServlet?parametro=AddCarrinho & id=${restaurante.getId()} & idR=${param.idRestaurante}">
+                    <input type="number" name="Quantidade" value="0" />
+                    <input type="submit" value="Adicionar ao Carrinho" name="btnAddCarrinho" />
+                </form>
+            </td>
+        </c:forEach>    
+        </tr>
+    </tbody>
+</table>
 
 <%@include file="/jspf/rodape.jspf" %>
