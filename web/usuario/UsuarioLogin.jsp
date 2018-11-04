@@ -13,7 +13,8 @@
 
 <%@include file="/jspf/cabecalho.jspf" %>
 
-<form method="POST" action="login.html">
+<form method="POST" action="MainServlet?parametro=LoginPost">
+    <input type="hidden" name="parametro" value="LoginPost">
     <div class="form-group">
         <label for="login">Login</label>
         <input type="text" class="form-control" id="login" name="login" placeholder="Digite seu login">

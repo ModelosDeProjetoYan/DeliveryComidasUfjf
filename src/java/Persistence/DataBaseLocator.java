@@ -19,7 +19,7 @@ public class DataBaseLocator {
     public Connection getConnection() throws ClassNotFoundException, SQLException {
 
         conn
-                = DriverManager.getConnection("jdbc:derby://localhost:1527/todosProjetosMarco", "root", "senha");
+                = DriverManager.getConnection("jdbc:derby://localhost:1527/bancoIfood", "usuario", "usuario");
         return conn;
     }
 

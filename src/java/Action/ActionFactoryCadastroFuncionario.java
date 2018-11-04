@@ -7,7 +7,7 @@ public class ActionFactoryCadastroFuncionario {
 
     public static Usuario create(String action) {
         Usuario actionObject = null;
-        String nomeClasse = "ChainOfResponsability_TemplateMethod." + action;
+        String nomeClasse = "ChainOfResponsability_TemplateMethod.Usuario" + action;
         Class classe = null;
         Object objeto = null;
         try {

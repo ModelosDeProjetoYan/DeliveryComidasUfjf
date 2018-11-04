@@ -93,8 +93,9 @@ public abstract class Usuario implements Observer {
     }
 
     //abstract do template
-    abstract String getTipo();
-
+    public abstract String getTipo();
+    
+    
     //abstract do chain
     abstract String acompanhaPedido();
 

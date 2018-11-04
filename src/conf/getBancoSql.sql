@@ -67,3 +67,8 @@ CREATE TABLE ITEM_PEDIDO(
     FOREIGN KEY (ID_ITEM) REFERENCES ITEM(ID)
 );
 
+
+INSERT INTO usuario(nome,email,senha, tipo_user) values('yan', 'yan@yan.com', 'yan','Gerente');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('yan', 'yan2@yan.com', 'yan','Cliente');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('yan', 'yan3@yan.com', 'yan','ChefeDeCozinha');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('yan', 'yan4@yan.com', 'yan','Entregador');

@@ -6,8 +6,8 @@ public class UsuarioChefeDeCozinha extends Usuario {
     }
 
     @Override
-    String getTipo() {
-        return "Chefe de Cozinha";
+    public String getTipo() {
+        return "ChefeDeCozinha";
     }
 
     @Override
