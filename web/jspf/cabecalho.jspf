@@ -74,7 +74,7 @@
             <hr />
             <c:if test="${requestScope.erro != null}">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>ERRO:</strong> ${"requestScope.erro"}.
+                    <strong>ERRO:</strong> ${requestScope.erro}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

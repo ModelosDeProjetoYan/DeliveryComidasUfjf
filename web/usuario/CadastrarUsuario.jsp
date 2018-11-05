@@ -13,18 +13,14 @@
 
 <%@include file="/jspf/cabecalho.jspf" %>
 
-<form method="POST">
+<form method="POST" action="MainServlet?parametro=CadastrarUsuarioPost">
     <div class="form-group">
-        <label for="nomeCompleto">Nome Completo</label>
-        <input type="text" class="form-control" maxlength="100" id="nomeCompleto" name="nomeCompleto" placeholder="Digite seu nome completo">
+        <label for="nome">Nome Completo</label>
+        <input type="text" class="form-control" maxlength="100" id="nome" name="nome" placeholder="Digite seu nome completo">
     </div>
     <div class="form-group">
-        <label for="login">E-mail</label>
+        <label for="email">E-mail</label>
         <input type="email" class="form-control" maxlength="100" id="email" name="email" placeholder="Digite seu email">
-    </div>
-    <div class="form-group">
-        <label for="login">Login</label>
-        <input type="text" class="form-control" maxlength="20" id="login" name="login" placeholder="Digite seu login">
     </div>
     <div class="form-group">
         <label for="senha">Senha</label>
