@@ -18,8 +18,9 @@ public abstract class Usuario implements Observer {
     private Usuario proxUsuario;
 
     public String mensagemUsuario(){
-        return "seja bem vindo "+getTipo()+" "+getNome();
+        return "Seja bem vindo " + getTipo() + " " + getNome();
     }
+    
     public Pedido getPedido() {
         return pedido;
     }

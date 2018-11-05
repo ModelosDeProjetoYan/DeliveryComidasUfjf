@@ -17,7 +17,7 @@
     <body>
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="Index.html">UFJFood</a>
+                <a class="navbar-brand" href="MainServlet?parametro=Index">UFJFood</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -26,13 +26,10 @@
                     <ul class="navbar-nav mr-auto">
                         <c:if test="${sessionScope.login != null}">
                             <li class="nav-item">
-                                <a class="nav-link" href="MainServlet?parametro=ranking">Ranking de Itens</a>
+                                <a class="nav-link" href="MainServlet?parametro=ListarRestaurantes">Listar Restaurantes</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="MainServlet?parametro=trolls">Usuários Trolls</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="MainServlet?parametro=curadores">Usuários Curadores</a>
+                                <a class="nav-link" href="MainServlet?parametro=ListarOfertas">Listar Ofertas</a>
                             </li>
                         </c:if>
                     </ul>
@@ -46,6 +43,9 @@
                             </li>
                         </c:if>
                         <c:if test="${sessionScope.login != null}">
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainServlet?parametro=Login">Carrinho</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Minha Conta
@@ -53,12 +53,12 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <div class="dropdown-header bold">Logado como ${sessionScope.login}</div>
                                     <div class="dropdown-divider"></div>
-<!--                                    <a class="dropdown-item" href="visao-geral-do-usuario.html">Visão Geral do Usuário</a>
-                                    <a class="dropdown-item" href="usuario-dados.html">Meus Dados</a>
+                                    <a class="dropdown-item" href="MainServlet?parametro=CadastrarRestaurante">Cadastrar Restaurante</a>
+                                    <a class="dropdown-item" href="MainServlet?parametro=CadastrarFuncionario">Cadastrar Funcionário</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="item-listar.html">Meus Itens</a>
-                                    <a class="dropdown-item" href="meus-comentarios.html">Meus Comentários</a>
-                                    <a class="dropdown-item" href="a-avaliar.html">Avaliações Pendentes</a>-->
+                                    <a class="dropdown-item" href="MainServlet?parametro=ListarMeusRestaurantes">Meus Restaurantes</a>
+                                    <a class="dropdown-item" href="MainServlet?parametro=ListarMeusFuncionarios">Meus Funcionários</a>
+                                    <a class="dropdown-item" href="MainServlet?parametro=ListarMeusPedidos">Meus Pedidos</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="MainServlet?parametro=Logout">Logout</a>
                                 </div>
@@ -72,9 +72,9 @@
             <br />
             <h2>${requestScope.titulo}</h2>
             <hr />
-            <c:if test="${requestScope.erro != null}">
+            <c:if test="${sessionScope.erro != null}">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>ERRO:</strong> ${requestScope.erro}
+                    <strong>ERRO:</strong> ${sessionScope.erro}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

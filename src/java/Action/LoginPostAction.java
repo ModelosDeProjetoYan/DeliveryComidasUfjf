@@ -14,24 +14,23 @@ public class LoginPostAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispacher;
         request.setAttribute("titulo", "Página inicial");
-        String email = request.getParameter("login");
+        String email = request.getParameter("email");
         String senha = request.getParameter("senha");
         Usuario u = UsuarioDao.getInstance().getUsuario(email, senha);
+        HttpSession sessionScope = request.getSession();
+        
         if (u != null) {
-            HttpSession sessionScope = request.getSession();
             sessionScope.setAttribute("id", u.getId());
             sessionScope.setAttribute("nome", u.getNome());
             sessionScope.setAttribute("login", u.getEmail());
             sessionScope.setAttribute("user", u);
-            dispacher = request.getRequestDispatcher("/usuario/Interface" + u.getTipo() + ".jsp");
-
             
+            sessionScope.setAttribute("erro", u.mensagemUsuario());
+            response.sendRedirect("MainServlet?parametro=Interface" + u.getTipo());
         } else {
-            dispacher = request.getRequestDispatcher("/usuario/UsuarioLogin.jsp");
+            sessionScope.setAttribute("erro", "Usuário ou senha inválidos.");
+            response.sendRedirect("MainServlet?parametro=UsuarioLogin");
         }
-
-        dispacher.forward(request, response);
     }
 }

@@ -14,23 +14,17 @@ public class CadastrarUsuarioPostAction implements Action  {
     
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispacher;
-        
-        
         String nome = request.getParameter("nome");
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
         Usuario u = UsuarioDao.getInstance().insertUsuarioCliente(nome, email, senha);
         
         if (u != null) {
-            request.setAttribute("titulo", "Usuário Login");
-            dispacher = request.getRequestDispatcher("/usuario/UsuarioLogin.jsp");
+            response.sendRedirect("MainServlet?parametro=Login");
         } else {
-            request.setAttribute("titulo", "Cadastrar Usuário");
-            request.setAttribute("erro", "Erro ao cadastrar usuário.");
-            dispacher = request.getRequestDispatcher("/usuario/CadastrarUsuario.jsp");
+            HttpSession sessionScope = request.getSession();
+            sessionScope.setAttribute("erro", "Erro ao cadastrar usuário.");
+            response.sendRedirect("MainServlet?parametro=CadastrarUsuario");
         }
-
-        dispacher.forward(request, response);
     }
 }

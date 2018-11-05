@@ -13,17 +13,7 @@
 
 <%@include file="/jspf/cabecalho.jspf" %>
 
-<form method="POST" action="MainServlet?parametro=LoginPost">
-    <div class="form-group">
-        <label for="login">E-mail</label>
-        <input type="text" class="form-control" id="email" name="email" placeholder="Digite seu e-mail">
-    </div>
-    <div class="form-group">
-        <label for="senha">Senha</label>
-        <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha">
-    </div>
-
-    <button type="submit" class="btn btn-primary">Entrar</button>
-</form>
+ListarMeusRestaurantes!!!
 
 <%@include file="/jspf/rodape.jspf" %>
+

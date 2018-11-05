@@ -18,4 +18,8 @@ public class RestauranteDao {
 
         return null;
     }
+    
+    public Restaurante insertRestaurante() {
+        return new Restaurante();
+    }
 }
