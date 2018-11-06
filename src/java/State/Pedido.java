@@ -4,6 +4,7 @@ import Memento.PedidoMemento;
 import Model.Endereco;
 import Model.Item;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 
 public class Pedido extends Observable {
@@ -13,6 +14,7 @@ public class Pedido extends Observable {
     private ArrayList<Item> carrinho;
     private String statusPedido;
     private Endereco enderecoEntrega;
+    private Date dataPedido;
 
     public Pedido() {
     }
@@ -28,6 +30,15 @@ public class Pedido extends Observable {
 
     public Pedido setId(int id) {
         this.id = id;
+        return this;
+    }
+
+    public Date getDataPedido() {
+        return dataPedido;
+    }
+
+    public Pedido setDataPedido(Date dataPedido) {
+        this.dataPedido = dataPedido;
         return this;
     }
     

@@ -2,6 +2,9 @@ package Persistence;
 
 import Memento.HistoricoDeMementos;
 import Memento.PedidoMemento;
+import Model.ActionFactoryItem;
+import Model.Item;
+import State.ActionFactoryState;
 import State.Pedido;
 import State.StatePedido;
 import java.sql.Connection;
@@ -40,24 +43,28 @@ public class PedidoDao {
 
     }
 
-    public ArrayList<Pedido> getPedido(int id_Usuario) {
-        ArrayList alunos = new ArrayList<>();
+    public ArrayList<Pedido> getAllPedidosUsuario(int id_Usuario) {
+        ArrayList<Pedido> pedidos = new ArrayList<>();
         Connection conn = null;
         Statement st = null;
         ResultSet resultado;
+        ResultSet resultado2;
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             st = conn.createStatement();
-            resultado = st.executeQuery("");
+            resultado = st.executeQuery("select * from PEDIDO AS P, ITEM_PEDIDO AS IP, ITEM AS i where p.ID = IP.id_pedido and i.id = ip.id_item and id_usuario="+id_Usuario+"");
             while (resultado.next()) {
-                Pedido p = new Pedido();
-
+                Pedido p = new Pedido(ActionFactoryState.create(resultado.getString("ESTADO")));
+                Item i = ActionFactoryItem.create(resultado.getString("TIPO"));
+                p.setId(resultado.getInt("ID"));
+                p.addItemCarrinho(i);
+                p.setDataPedido(resultado.getDate("DATA_PEDIDO"));
                 if (testaSePossuiHistorico(resultado.getInt("ID")) == mementos.size()) {
                     HistoricoDeMementos h = new HistoricoDeMementos(resultado.getInt("ID"));
                     h.setEstadosSalvos(p.saveToMemento());
                     mementos.add(h);
                 }
-                return null;
+                pedidos.add(p);
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(PedidoDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,7 +72,7 @@ public class PedidoDao {
         } finally {
             closeResoucers(conn, st);
         }
-        return null;
+        return pedidos;
     }
         public Pedido getPedidoById(int id_Pedido) {
         Connection conn = null;
