@@ -71,27 +71,27 @@ CREATE TABLE ITEM_PEDIDO(
 );
 
 
-INSERT INTO usuario(nome,email,senha, tipo_user) values('yan', 'yan@yan.com', 'yan','Gerente');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('yan Gerente', 'gerente', 'gerente','Gerente');
 INSERT INTO usuario(nome,email,senha, tipo_user) values('aaa', 'aaa', 'aaa','Cliente');
-INSERT INTO usuario(nome,email,senha, tipo_user) values('yan', 'yan2@yan.com', 'yan','Cliente');
-INSERT INTO usuario(nome,email,senha, tipo_user) values('yan', 'yan3@yan.com', 'yan','ChefeDeCozinha');
-INSERT INTO usuario(nome,email,senha, tipo_user) values('yan', 'yan4@yan.com', 'yan','Entregador');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('yan Cliente', 'cliente', 'cliente','Cliente');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('yan ChefeDeCozinha', 'chefe', 'chefe','ChefeDeCozinha');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('yan Entregador', 'entregador', 'entregador','Entregador');
 
-INSERT INTO restaurante(logradouro,numero,complemento, bairro, cidade, tipo_comida, id_usuario) values('rua a', 3, 'cs 2','ufjf', 'jf', 'japonesa', 2);
-INSERT INTO restaurante(logradouro,numero,complemento, bairro, cidade, tipo_comida, id_usuario) values('rua a', 3, 'cs 2','ufjf', 'jf', 'japonesa', 1);
+INSERT INTO restaurante(nome,logradouro,numero,complemento, bairro, cidade, tipo_comida, id_usuario) values('AAAA','rua a', 3, 'cs 2','ufjf', 'jf', 'japonesa', 2);
+INSERT INTO restaurante(nome,logradouro,numero,complemento, bairro, cidade, tipo_comida, id_usuario) values('BBBB','rua a', 3, 'cs 2','ufjf', 'jf', 'japonesa', 1);
 
 
 
-INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurante) values('item 1', 1, 'coca-cola', 2.5, true, true, 1);
-INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurante) values('item 2', 1, 'coca-cola 2',2.5, true, true, 1);
-INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurante) values('item 3', 1, 'coca-cola 3',2.5, true, true, 1);
+INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurante) values('item 1', 'Bebida', 'coca-cola', 2.5, true, true, 1);
+INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurante) values('item 2', 'Bebida', 'coca-cola 2',2.5, true, true, 1);
+INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurante) values('item 3', 'Bebida', 'coca-cola 3',2.5, true, true, 1);
 
 INSERT INTO PEDIDO(ESTADO, DATA_PEDIDO, ID_USUARIO) values ('ABERTO','2018-11-10',1);
 INSERT INTO PEDIDO(ESTADO, DATA_PEDIDO, ID_USUARIO) values ('ABERTO','2018-10-11',1);
 
-INSERT INTO ITEM_PEDIDO(ID_PEDIDO, ID_ITEM, QUANTIDADE) values (5,5,10);
-INSERT INTO ITEM_PEDIDO(ID_PEDIDO, ID_ITEM, QUANTIDADE) values (5,5,10);
-INSERT INTO ITEM_PEDIDO(ID_PEDIDO, ID_ITEM, QUANTIDADE) values (5,5,10);
+INSERT INTO ITEM_PEDIDO(ID_PEDIDO, ID_ITEM, QUANTIDADE) values (1,1,10);
+INSERT INTO ITEM_PEDIDO(ID_PEDIDO, ID_ITEM, QUANTIDADE) values (1,2,10);
+INSERT INTO ITEM_PEDIDO(ID_PEDIDO, ID_ITEM, QUANTIDADE) values (2,3,10);
 
 
 

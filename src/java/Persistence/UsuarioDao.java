@@ -126,42 +126,37 @@ public class UsuarioDao {
         Connection conn = null;
         PreparedStatement ps = null;
 
-//        try {
-//            conn = DataBaseLocator.getInstance().getConnection();
-//            
-//            ps = conn.prepareStatement("SELECT * FROM usuario ", Statement.RETURN_GENERATED_KEYS);
-//            ResultSet resultado = ps.executeQuery();
-//
-//            while (resultado.next()) {
-//                Usuario usuario = new UsuarioCliente();
-//                usuario.setId(resultado.getInt("id"))
-//                        .setNome(resultado.getString("nome"))
-//                        .setEmail(resultado.getString("email"))
-//                        .setNumero(resultado.getInt("numero"))
-//                        .setComplemento(resultado.getString("complemento"))
-//                        .setBairro(resultado.getString("bairro"))
-//                        .setCidade(resultado.getString("cidade"))
-//                        .setTipoDeComida(resultado.getString("tipo_comida"))
-//                        .setGerente(gerente);
-//                usuarios.add(restaurante);
-//            }
-//        } catch (SQLException | ClassNotFoundException ex) {
-//            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
-//        } finally {
-//            closeResoucers(conn, ps);
-//        }
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            
+            ps = conn.prepareStatement("SELECT * FROM usuario", Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultado = ps.executeQuery();
+
+            while (resultado.next()) {
+                Usuario usuario = new UsuarioCliente();
+                usuario.setId(resultado.getInt("id"))
+                        .setNome(resultado.getString("nome"))
+                        .setEmail(resultado.getString("email"))
+                        .setSenha("");
+                usuarios.add(usuario);
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeResoucers(conn, ps);
+        }
+        
         return usuarios;
     }
 
     public Boolean updateTipoUsuario(int idUsuario, String tipoUsuario) {
-        Usuario usuario = null;
         Connection conn = null;
         PreparedStatement ps = null;
 
         try {
             conn = DataBaseLocator.getInstance().getConnection();
 
-            ps = conn.prepareStatement("UPDATE USUARIO SET tipo_usuario = ? "
+            ps = conn.prepareStatement("UPDATE usuario SET tipo_user = ? "
                     + "WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, tipoUsuario);
             ps.setInt(2, idUsuario);
@@ -175,34 +170,26 @@ public class UsuarioDao {
         return true;
     }
 
-    public Usuario insertFuncionario(int idRestaurante, int idUsuario, String tipoUsuario) {
+    public Boolean insertFuncionario(int idRestaurante, int idUsuario, String tipoUsuario) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet resultado;
-        Usuario u = null;
 
-//        try {
-//            conn = DataBaseLocator.getInstance().getConnection();
-//
-//            ps = conn.prepareStatement("INSERT INTO funcionario (id_restaurante, id_usuario, quantidade) VALUES(?, ?, ?, 'Cliente')", Statement.RETURN_GENERATED_KEYS);
-//            ps.setString(1, nome);
-//            ps.setString(2, email);
-//            ps.setString(3, senha);
-//
-//            ps.executeUpdate();
-//            ResultSet rs = ps.getGeneratedKeys();
-//
-//            u = new UsuarioCliente();
-//            u.setNome(nome).setEmail(email).setSenha(senha);
-//            if (rs.next()) {
-//                u.setId(rs.getInt(1));
-//            }
-//        } catch (SQLException | ClassNotFoundException e) {
-//            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
-//        } finally {
-//            closeResoucers(conn, ps);
-//        }
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
 
-        return u;
+            ps = conn.prepareStatement("INSERT INTO funcionario (id_restaurante, id_usuario) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, idRestaurante);
+            ps.setInt(2, idUsuario);
+
+            ps.executeUpdate();
+            resultado = ps.getGeneratedKeys();
+        } catch (SQLException | ClassNotFoundException e) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            closeResoucers(conn, ps);
+        }
+
+        return true;
     }
 }

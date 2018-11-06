@@ -64,7 +64,7 @@ public class RestauranteDao {
                 ps.setInt(8, idGerente);
 
                 ps.executeUpdate();
-                ResultSet rs = ps.getGeneratedKeys();
+                resultado = ps.getGeneratedKeys();
 
                 restaurante = new Restaurante();
                 restaurante.setNome(nome)
@@ -74,11 +74,11 @@ public class RestauranteDao {
                         .setBairro(bairro)
                         .setCidade(cidade)
                         .setTipoDeComida(tipoComida);
-                if (rs.next()) {
-                    restaurante.setId(rs.getInt(1));
+                if (resultado.next()) {
+                    restaurante.setId(resultado.getInt(1));
                 }
                 
-                UsuarioDao.getInstance().updateTipoUsuario(idGerente, "gerente");
+                UsuarioDao.getInstance().updateTipoUsuario(idGerente, "Gerente");
                 UsuarioDao.getInstance().insertFuncionario(restaurante.getId(), idGerente, "gerente");
             } catch (SQLException | ClassNotFoundException e) {
                 Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
@@ -123,6 +123,4 @@ public class RestauranteDao {
         
         return restaurantes;
     }
-    
-    
 }

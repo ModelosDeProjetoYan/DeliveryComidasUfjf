@@ -26,8 +26,8 @@
         <div class="form-group col-4">
             <label for="nome">Selecionar um usuário</label>
             <select class="custom-select">
-                <c:forEach var="restaurante" items="${restaurantes}">
-                    <option value="${restaurante.getId()}">${restaurante.getNome()}</option>
+                <c:forEach var="usuario" items="${usuarios}">
+                    <option value="${usuario.getId()}">${usuario.getNome()}</option>
                 </c:forEach>
             </select>
         </div>
