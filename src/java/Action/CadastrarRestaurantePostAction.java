@@ -4,9 +4,7 @@ import ChainOfResponsability_TemplateMethod.Usuario;
 import Controller.Action;
 import Model.Restaurante;
 import Persistence.RestauranteDao;
-import Persistence.UsuarioDao;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,16 +21,16 @@ public class CadastrarRestaurantePostAction implements Action {
         String bairro = request.getParameter("bairro");
         String cidade = request.getParameter("cidade");
         String tipoComida = request.getParameter("tipo_comida");
-//        Restaurante r = RestauranteDao.getInstance().insertRestaurante();
         
-//        if (r != null) {
-//            request.setAttribute("titulo", "Usuário Login");
-//            response.sendRedirect("MainServlet?parametro=UsuarioLogin");
-//        } else {
-//            request.setAttribute("titulo", "Cadastrar Usuário");
-//            HttpSession sessionScope = request.getSession();
-//            sessionScope.setAttribute("id", r.getId());
-//            response.sendRedirect("MainServlet?parametro=CadastrarUsuario");
-//        }
+        HttpSession sessionScope = request.getSession();
+        Restaurante restaurante = RestauranteDao.getInstance().insertRestaurante((int) sessionScope.getAttribute("id"), nome, logradouro, numero, complemento, bairro, cidade, tipoComida);
+        
+        if (restaurante != null) {
+            sessionScope.setAttribute("sucesso", "Restaurante cadastrado com sucesso.");
+            response.sendRedirect("MainServlet?parametro=ListarMeusRestaurantes");
+        } else {
+            sessionScope.setAttribute("erro", "Erro ao cadastrar o restaurante.");
+            response.sendRedirect("MainServlet?parametro=CadastrarRestaurante");
+        }
     }
 }

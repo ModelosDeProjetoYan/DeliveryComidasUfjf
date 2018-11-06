@@ -13,7 +13,7 @@ public class ListarCardapioAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispacher = request.getRequestDispatcher("/restaurantes/ListarItens.jsp");
+        RequestDispatcher dispacher = request.getRequestDispatcher("/restaurante/ListarItens.jsp");
         int idRestaurante= Integer.parseInt(request.getParameter("Id"));
         request.setAttribute("titulo", "Restaurantes Disponiveis");
         request.setAttribute("idRestaurante", idRestaurante);

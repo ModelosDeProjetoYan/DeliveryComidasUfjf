@@ -12,7 +12,7 @@ public class ListarMeusFuncionariosAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispacher = request.getRequestDispatcher("/restaurantes/ListarMeusFuncionarios.jsp");
+        RequestDispatcher dispacher = request.getRequestDispatcher("/restaurante/ListarMeusFuncionarios.jsp");
         request.setAttribute("titulo", "Meus Funcionários");
         dispacher.forward(request, response);
     }

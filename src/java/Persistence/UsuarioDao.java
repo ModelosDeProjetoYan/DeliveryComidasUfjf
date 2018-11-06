@@ -12,34 +12,50 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UsuarioDao {
+
     private static UsuarioDao instance = new UsuarioDao();
+
     private UsuarioDao() {
-        
+
     }
+
     public static UsuarioDao getInstance() {
         return instance;
     }
     
-    public Usuario insertUsuarioCliente(String nome, String email, String senha){
+    private void closeResoucers(Connection conn, Statement st) {
+        try {
+            if (st != null) {
+                st.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    public Usuario insertUsuarioCliente(String nome, String email, String senha) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet resultado;
         Usuario u = null;
-        
+
         try {
             conn = DataBaseLocator.getInstance().getConnection();
-            
+
             ps = conn.prepareStatement("INSERT INTO USUARIO (nome, email, senha, tipo_user) VALUES(?, ?, ?, 'Cliente')", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, nome);
             ps.setString(2, email);
             ps.setString(3, senha);
-            
+
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
-            
+
             u = new UsuarioCliente();
             u.setNome(nome).setEmail(email).setSenha(senha);
-            if(rs.next()){
+            if (rs.next()) {
                 u.setId(rs.getInt(1));
             }
         } catch (SQLException | ClassNotFoundException e) {
@@ -49,7 +65,7 @@ public class UsuarioDao {
         }
         return u;
     }
-    
+
     public Usuario getUsuarioByID(int id) {
         Connection conn = null;
         Statement st = null;
@@ -58,7 +74,7 @@ public class UsuarioDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             st = conn.createStatement();
-            resultado = st.executeQuery("select * from USUARIO where ID= "+id+"");
+            resultado = st.executeQuery("select * from USUARIO where ID= " + id + "");
             while (resultado.next()) {
                 u = Action.ActionFactoryCadastroFuncionario.create(resultado.getString("TIPO_USER"));
                 u.setId(resultado.getInt("ID")).
@@ -73,37 +89,14 @@ public class UsuarioDao {
         }
         return u;
     }
+
     public void save(UsuarioCliente c) {
         Connection conn = null;
         Statement st = null;
 
     }
 
-/*    public ArrayList<Usuario> getAllUsuarioBanco() throws ClassNotFoundException {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        Connection conn = null;
-        Statement st = null;
-        ResultSet resultado;
-        try {
-            conn = DataBaseLocator.getInstance().getConnection();
-            st = conn.createStatement();
-            resultado = st.executeQuery("select * from USUARIO where TIPO_USER ='"+getTipo()+"' ");
-            while (resultado.next()) {
-                Usuario u = Action.ActionFactoryCadastroFuncionario.create(getTipo());
-                u.setId(resultado.getInt("ID")).
-                        setEmail(resultado.getString("EMAIL")).
-                        setSenha(resultado.getString("SENHA")).
-                        setNome(resultado.getString("NOME"));
-                usuarios.add(u);
-            }
-        } catch (SQLException e) {
-        } finally {
-            closeResoucers(conn, st);
-        }
-        return usuarios;
-    }
-  */  
-    public Usuario getUsuario(String email, String senha){
+    public Usuario getUsuario(String email, String senha) {
         Connection conn = null;
         Statement st = null;
         ResultSet resultado;
@@ -111,7 +104,7 @@ public class UsuarioDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             st = conn.createStatement();
-            resultado = st.executeQuery("select * from USUARIO where EMAIL='"+email+"' and SENHA='"+senha+"'");
+            resultado = st.executeQuery("select * from USUARIO where EMAIL='" + email + "' and SENHA='" + senha + "'");
             if (resultado.next()) {
                 u = Action.ActionFactoryCadastroFuncionario.create(resultado.getString("TIPO_USER"));
                 u.setId(resultado.getInt("ID")).
@@ -127,19 +120,89 @@ public class UsuarioDao {
         }
         return u;
     }
-    
-    private void closeResoucers(Connection conn, Statement st) {
+
+    public ArrayList<Usuario> selectAllUsuarios() {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+//        try {
+//            conn = DataBaseLocator.getInstance().getConnection();
+//            
+//            ps = conn.prepareStatement("SELECT * FROM usuario ", Statement.RETURN_GENERATED_KEYS);
+//            ResultSet resultado = ps.executeQuery();
+//
+//            while (resultado.next()) {
+//                Usuario usuario = new UsuarioCliente();
+//                usuario.setId(resultado.getInt("id"))
+//                        .setNome(resultado.getString("nome"))
+//                        .setEmail(resultado.getString("email"))
+//                        .setNumero(resultado.getInt("numero"))
+//                        .setComplemento(resultado.getString("complemento"))
+//                        .setBairro(resultado.getString("bairro"))
+//                        .setCidade(resultado.getString("cidade"))
+//                        .setTipoDeComida(resultado.getString("tipo_comida"))
+//                        .setGerente(gerente);
+//                usuarios.add(restaurante);
+//            }
+//        } catch (SQLException | ClassNotFoundException ex) {
+//            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            closeResoucers(conn, ps);
+//        }
+        return usuarios;
+    }
+
+    public Boolean updateTipoUsuario(int idUsuario, String tipoUsuario) {
+        Usuario usuario = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+
         try {
-            if (st != null) {
-                st.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
+            conn = DataBaseLocator.getInstance().getConnection();
 
-        } catch (SQLException e) {
-
+            ps = conn.prepareStatement("UPDATE USUARIO SET tipo_usuario = ? "
+                    + "WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, tipoUsuario);
+            ps.setInt(2, idUsuario);
+            ps.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            closeResoucers(conn, ps);
         }
 
+        return true;
+    }
+
+    public Usuario insertFuncionario(int idRestaurante, int idUsuario, String tipoUsuario) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet resultado;
+        Usuario u = null;
+
+//        try {
+//            conn = DataBaseLocator.getInstance().getConnection();
+//
+//            ps = conn.prepareStatement("INSERT INTO funcionario (id_restaurante, id_usuario, quantidade) VALUES(?, ?, ?, 'Cliente')", Statement.RETURN_GENERATED_KEYS);
+//            ps.setString(1, nome);
+//            ps.setString(2, email);
+//            ps.setString(3, senha);
+//
+//            ps.executeUpdate();
+//            ResultSet rs = ps.getGeneratedKeys();
+//
+//            u = new UsuarioCliente();
+//            u.setNome(nome).setEmail(email).setSenha(senha);
+//            if (rs.next()) {
+//                u.setId(rs.getInt(1));
+//            }
+//        } catch (SQLException | ClassNotFoundException e) {
+//            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
+//        } finally {
+//            closeResoucers(conn, ps);
+//        }
+
+        return u;
     }
 }

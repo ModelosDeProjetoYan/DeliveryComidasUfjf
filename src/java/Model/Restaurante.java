@@ -1,7 +1,10 @@
 package Model;
 
+import ChainOfResponsability_TemplateMethod.Usuario;
+
 public class Restaurante {
     private int id;
+    private String nome;
     private String endereco;
     private String logradouro;
     private int numero;
@@ -9,6 +12,7 @@ public class Restaurante {
     private String bairro;
     private String cidade;
     private String tipoDeComida;
+    private Usuario gerente;
 
     public Restaurante() {
     }
@@ -19,6 +23,15 @@ public class Restaurante {
 
     public Restaurante setId(int id) {
         this.id = id;
+        return this;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Restaurante setNome(String nome) {
+        this.nome = nome;
         return this;
     }
 
@@ -84,5 +97,12 @@ public class Restaurante {
         this.tipoDeComida = tipoDeComida;
         return this;
     }
-    
+
+    public Usuario getGerente() {
+        return gerente;
+    }
+
+    public void setGerente(Usuario gerente) {
+        this.gerente = gerente;
+    }
 }

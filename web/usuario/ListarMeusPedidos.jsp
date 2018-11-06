@@ -14,6 +14,7 @@
 <%@include file="/jspf/cabecalho.jspf" %>
 
 ListarMeusRestaurantes!!!
+${1/0}
 
 <%@include file="/jspf/rodape.jspf" %>
 
