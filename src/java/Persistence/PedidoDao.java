@@ -48,7 +48,6 @@ public class PedidoDao {
         Connection conn = null;
         Statement st = null;
         ResultSet resultado;
-        ResultSet resultado2;
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             st = conn.createStatement();
