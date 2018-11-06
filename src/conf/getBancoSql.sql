@@ -32,7 +32,7 @@ CREATE TABLE RESTAURANTE(
 CREATE TABLE ITEM(
     ID INTEGER  PRIMARY KEY GENERATED ALWAYS AS IDENTITY, 
     NOME VARCHAR (150)  NOT NULL, 
-    TIPO INTEGER NOT NULL, 
+    TIPO VARCHAR (150) NOT NULL, 
     DESCRICAO VARCHAR (150),
     PRECO DOUBLE NOT NULL,
     DISPONIVEL BOOLEAN NOT NULL,
@@ -64,12 +64,34 @@ CREATE TABLE ITEM_PEDIDO(
     ID INTEGER  PRIMARY KEY GENERATED ALWAYS AS IDENTITY, 
     ID_PEDIDO INTEGER NOT NULL,
     ID_ITEM INTEGER NOT NULL,
+    QUANTIDADE INTEGER NOT NULL,
     FOREIGN KEY (ID_PEDIDO) REFERENCES PEDIDO(ID),
     FOREIGN KEY (ID_ITEM) REFERENCES ITEM(ID)
 );
 
 
 INSERT INTO usuario(nome,email,senha, tipo_user) values('yan', 'yan@yan.com', 'yan','Gerente');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('aaa', 'aaa', 'aaa','Cliente');
 INSERT INTO usuario(nome,email,senha, tipo_user) values('yan', 'yan2@yan.com', 'yan','Cliente');
 INSERT INTO usuario(nome,email,senha, tipo_user) values('yan', 'yan3@yan.com', 'yan','ChefeDeCozinha');
 INSERT INTO usuario(nome,email,senha, tipo_user) values('yan', 'yan4@yan.com', 'yan','Entregador');
+
+INSERT INTO restaurante(logradouro,numero,complemento, bairro, cidade, tipo_comida, id_usuario) values('rua a', 3, 'cs 2','ufjf', 'jf', 'japonesa', 2);
+INSERT INTO restaurante(logradouro,numero,complemento, bairro, cidade, tipo_comida, id_usuario) values('rua a', 3, 'cs 2','ufjf', 'jf', 'japonesa', 1);
+
+
+
+INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurante) values('item 1', 1, 'coca-cola', 2.5, true, true, 1);
+INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurante) values('item 2', 1, 'coca-cola 2',2.5, true, true, 1);
+INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurante) values('item 3', 1, 'coca-cola 3',2.5, true, true, 1);
+
+INSERT INTO PEDIDO(ESTADO, DATA_PEDIDO, ID_USUARIO) values ('ABERTO','2018-11-10',1);
+INSERT INTO PEDIDO(ESTADO, DATA_PEDIDO, ID_USUARIO) values ('ABERTO','2018-10-11',1);
+
+INSERT INTO ITEM_PEDIDO(ID_PEDIDO, ID_ITEM, QUANTIDADE) values (5,5,10);
+INSERT INTO ITEM_PEDIDO(ID_PEDIDO, ID_ITEM, QUANTIDADE) values (5,5,10);
+INSERT INTO ITEM_PEDIDO(ID_PEDIDO, ID_ITEM, QUANTIDADE) values (5,5,10);
+
+
+
+select * from PEDIDO AS P, ITEM_PEDIDO AS IP, ITEM AS i where p.ID = IP.id_pedido and i.id = ip.id_item and id_usuario=1;
