@@ -17,13 +17,13 @@
     <div class="row">
         <div class="form-group col-12">
             <label for="nome">Nome do Restaurante</label>
-            <input type="text" class="form-control" maxlength="100" id="nome" name="nome" placeholder="Digite seu nome completo">
+            <input type="text" class="form-control" maxlength="100" id="nome" name="nome" placeholder="Digite o nome de seu restaurante">
         </div>
     </div>
     <div class="row">
         <div class="form-group col-6">
             <label for="logradouro">Logradouro</label>
-            <input type="text" class="form-control" maxlength="100" id="logradouro" name="logradouro" placeholder="Digite seu logradouro">
+            <input type="text" class="form-control" maxlength="100" id="logradouro" name="logradouro" placeholder="Digite o logradouro">
         </div>
         <div class="form-group col-2">
             <label for="numero">Número</label>
@@ -31,17 +31,17 @@
         </div>
         <div class="form-group col-4">
             <label for="complemento">Complemento</label>
-            <input type="text" class="form-control" maxlength="100" id="complemento" name="complemento" placeholder="Digite seu complemento">
+            <input type="text" class="form-control" maxlength="100" id="complemento" name="complemento" placeholder="Digite o complemento">
         </div>
     </div>
     <div class="row">
         <div class="form-group col-6">
             <label for="bairro">Bairro</label>
-            <input type="text" class="form-control" maxlength="100" id="bairro" name="bairro" placeholder="Digite seu bairro">
+            <input type="text" class="form-control" maxlength="100" id="bairro" name="bairro" placeholder="Digite o bairro">
         </div>
         <div class="form-group col-6">
             <label for="cidade">Cidade</label>
-            <input type="text" class="form-control" maxlength="100" id="cidade" name="cidade" placeholder="Digite sua cidade">
+            <input type="text" class="form-control" maxlength="100" id="cidade" name="cidade" placeholder="Digite a cidade">
         </div>
     </div>
     <div class="row">

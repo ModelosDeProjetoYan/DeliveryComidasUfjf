@@ -23,16 +23,14 @@ public class CadastrarRestaurantePostAction implements Action {
         String tipoComida = request.getParameter("tipo_comida");
         
         HttpSession sessionScope = request.getSession();
-        Restaurante r = RestauranteDao.getInstance().insertRestaurante((Usuario) sessionScope.getAttribute("usuario"), nome, logradouro, numero, complemento, bairro, cidade, tipoComida);
+        Restaurante restaurante = RestauranteDao.getInstance().insertRestaurante((int) sessionScope.getAttribute("id"), nome, logradouro, numero, complemento, bairro, cidade, tipoComida);
         
-//        if (r != null) {
-//            request.setAttribute("titulo", "Usuário Login");
-//            response.sendRedirect("MainServlet?parametro=UsuarioLogin");
-//        } else {
-//            request.setAttribute("titulo", "Cadastrar Usuário");
-//            HttpSession sessionScope = request.getSession();
-//            sessionScope.setAttribute("id", r.getId());
-//            response.sendRedirect("MainServlet?parametro=CadastrarUsuario");
-//        }
+        if (restaurante != null) {
+            sessionScope.setAttribute("sucesso", "Restaurante cadastrado com sucesso.");
+            response.sendRedirect("MainServlet?parametro=ListarMeusRestaurantes");
+        } else {
+            sessionScope.setAttribute("erro", "Erro ao cadastrar o restaurante.");
+            response.sendRedirect("MainServlet?parametro=CadastrarRestaurante");
+        }
     }
 }

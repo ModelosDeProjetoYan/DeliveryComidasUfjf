@@ -24,13 +24,21 @@ public class RestauranteDao {
     public static RestauranteDao getInstance() {
         return instance;
     }
-
-    public ArrayList<Restaurante> getRestaurantesBanco() {
-
-        return null;
+    
+    private void closeResoucers(Connection conn, Statement st) {
+        try {
+            if (st != null) {
+                st.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 
-    public Restaurante insertRestaurante(Usuario gerente, String nome, String logradouro, String numero, String complemento, String bairro, String cidade, String tipoComida) {
+    public Restaurante insertRestaurante(int idGerente, String nome, String logradouro, String numero, String complemento, String bairro, String cidade, String tipoComida) {
         Restaurante restaurante = null;
         Connection conn = null;
         PreparedStatement ps = null;
@@ -53,7 +61,7 @@ public class RestauranteDao {
                 ps.setString(5, bairro);
                 ps.setString(6, cidade);
                 ps.setString(7, tipoComida);
-                ps.setInt(8, gerente.getId());
+                ps.setInt(8, idGerente);
 
                 ps.executeUpdate();
                 ResultSet rs = ps.getGeneratedKeys();
@@ -69,6 +77,9 @@ public class RestauranteDao {
                 if (rs.next()) {
                     restaurante.setId(rs.getInt(1));
                 }
+                
+                UsuarioDao.getInstance().updateTipoUsuario(idGerente, "gerente");
+                UsuarioDao.getInstance().insertFuncionario(restaurante.getId(), idGerente, "gerente");
             } catch (SQLException | ClassNotFoundException e) {
                 Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
             } finally {
@@ -77,17 +88,41 @@ public class RestauranteDao {
         }
         return restaurante;
     }
+    
+    public ArrayList<Restaurante> selectAllRestaurantesFromUsuarioByIdUsuario(Usuario gerente) {
+        ArrayList<Restaurante> restaurantes = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
 
-    private void closeResoucers(Connection conn, Statement st) {
         try {
-            if (st != null) {
-                st.close();
+            conn = DataBaseLocator.getInstance().getConnection();
+            
+            ps = conn.prepareStatement("SELECT * FROM restaurante "
+                        + "WHERE id_usuario = ?", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, gerente.getId());
+            ResultSet resultado = ps.executeQuery();
+
+            while (resultado.next()) {
+                Restaurante restaurante = new Restaurante();
+                restaurante.setId(resultado.getInt("id"))
+                        .setNome(resultado.getString("nome"))
+                        .setLogradouro(resultado.getString("logradouro"))
+                        .setNumero(resultado.getInt("numero"))
+                        .setComplemento(resultado.getString("complemento"))
+                        .setBairro(resultado.getString("bairro"))
+                        .setCidade(resultado.getString("cidade"))
+                        .setTipoDeComida(resultado.getString("tipo_comida"))
+                        .setGerente(gerente);
+                restaurantes.add(restaurante);
             }
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeResoucers(conn, ps);
         }
+        
+        return restaurantes;
     }
+    
+    
 }

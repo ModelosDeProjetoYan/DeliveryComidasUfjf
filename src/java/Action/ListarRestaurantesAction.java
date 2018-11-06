@@ -14,7 +14,6 @@ public class ListarRestaurantesAction implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispacher = request.getRequestDispatcher("/restaurante/ListarRestaurantes.jsp");
         request.setAttribute("titulo", "Restaurantes Disponiveis");
-        request.setAttribute("Restaurantes", RestauranteDao.getInstance().getRestaurantesBanco());
         dispacher.forward(request, response);
     }
 }
