@@ -29,28 +29,6 @@ public class CadastrarFuncionarioAction implements Action{
         ArrayList<Usuario> usuarios = UsuarioDao.getInstance().selectAllUsuarios();
         request.setAttribute("usuarios", usuarios);
         
-        
-//        Restaurante r = null;
-//        Usuario u = null;      
-//        switch(Integer.parseInt(request.getParameter("comboBox"))){
-//            case 0: u = ActionFactoryCadastroFuncionario.create("UsuarioGerente");
-//                //falta setar as informações od usuario e criar ele no banco
-//            break;
-//            case 1: u = ActionFactoryCadastroFuncionario.create("UsuarioEntregador");
-//                //falta setar as informações od usuario e criar ele no banco
-//            break;
-//            case 2: u = ActionFactoryCadastroFuncionario.create("UsuarioChefeDeCozinha");
-//                //falta setar as informações od usuario e criar ele no banco
-//            break;
-//            case 3: r = new Restaurante();
-//                //falta setar as informações od usuario e criar ele no banco
-//            break;
-////            default: dispacher = request.getRequestDispatcher("/pagina-de-erro.jsp");
-//        }
-//        if(u != null) {
-//            u.setRestaurante(r);
-//        }
-
         dispacher.forward(request, response);
     }
     
