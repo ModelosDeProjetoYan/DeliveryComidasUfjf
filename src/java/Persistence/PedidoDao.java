@@ -3,6 +3,7 @@ package Persistence;
 import Memento.HistoricoDeMementos;
 import Memento.PedidoMemento;
 import Model.ActionFactoryItem;
+import Model.Endereco;
 import Model.Item;
 import State.ActionFactoryState;
 import State.Pedido;
@@ -56,13 +57,21 @@ public class PedidoDao {
 " INNER JOIN ITEM_PEDIDO IT ON IT.ID_PEDIDO=P.ID\n" +
 " INNER JOIN ITEM I ON I.ID=IT.ID_ITEM\n" +
 " INNER JOIN ENDERECO_DE_ENTREGA EE ON EE.ID_USUARIO=P.ID_USUARIO\n" +
-" WHERE P.ID_USUARIO="+id_Usuario+" AND P.ID=E.ID");
+" WHERE P.ID_USUARIO="+id_Usuario+" AND EE.ID = P.ID_END");
             while (resultado.next()) {
                 Pedido p = new Pedido(ActionFactoryState.create(resultado.getString("ESTADO")));
                 Item i = ActionFactoryItem.create(resultado.getString("TIPO"));
+                Endereco e = new Endereco();
+                e.setBairro(resultado.getString("BAIRRO")).
+                        setCidade(resultado.getString("CIDADE")).
+                        setComplemento(resultado.getString("COMPLEMENTO")).
+                        setId(resultado.getInt("id")).
+                        setId_usuario(id_Usuario).setNumero(resultado.getInt("NUMERO"));
+                        
                 p.setId(resultado.getInt("ID"));
                 p.addItemCarrinho(i);
-                p.setDataPedido(resultado.getDate("DATA_PEDIDO"));
+                p.setDataPedido(resultado.getDate("DATA_PEDIDO")).
+                        setEnderecoEntrega(e);
                 if (testaSePossuiHistorico(resultado.getInt("ID")) == mementos.size()) {
                     HistoricoDeMementos h = new HistoricoDeMementos(resultado.getInt("ID"));
                     h.setEstadosSalvos(p.saveToMemento());
