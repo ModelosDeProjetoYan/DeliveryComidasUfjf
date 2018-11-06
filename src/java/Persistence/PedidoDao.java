@@ -51,7 +51,12 @@ public class PedidoDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             st = conn.createStatement();
-            resultado = st.executeQuery("select * from PEDIDO AS P, ITEM_PEDIDO AS IP, ITEM AS i where p.ID = IP.id_pedido and i.id = ip.id_item and id_usuario="+id_Usuario+"");
+            resultado = st.executeQuery(
+              "SELECT *FROM PEDIDO P\n" +
+" INNER JOIN ITEM_PEDIDO IT ON IT.ID_PEDIDO=P.ID\n" +
+" INNER JOIN ITEM I ON I.ID=IT.ID_ITEM\n" +
+" INNER JOIN ENDERECO_DE_ENTREGA EE ON EE.ID_USUARIO=P.ID_USUARIO\n" +
+" WHERE P.ID_USUARIO="+id_Usuario+" AND P.ID=E.ID");
             while (resultado.next()) {
                 Pedido p = new Pedido(ActionFactoryState.create(resultado.getString("ESTADO")));
                 Item i = ActionFactoryItem.create(resultado.getString("TIPO"));

@@ -58,6 +58,8 @@ CREATE TABLE PEDIDO(
     ESTADO VARCHAR (150)  NOT NULL, 
     DATA_PEDIDO DATE NOT NULL,
     ID_USUARIO INTEGER NOT NULL,
+    ID_END INTEGER NOT NULL,
+    FOREIGN KEY (ID_END) REFERENCES ENDERECO_DE_ENTREGA(ID),
     FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID)
 );
 
@@ -86,8 +88,12 @@ INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurant
 INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurante) values('item 2', 'Bebida', 'coca-cola 2',2.5, true, true, 1);
 INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurante) values('item 3', 'Bebida', 'coca-cola 3',2.5, true, true, 1);
 
-INSERT INTO PEDIDO(ESTADO, DATA_PEDIDO, ID_USUARIO) values ('ABERTO','2018-11-10',1);
-INSERT INTO PEDIDO(ESTADO, DATA_PEDIDO, ID_USUARIO) values ('ABERTO','2018-10-11',1);
+
+INSERT INTO ENDERECO_DE_ENTREGA(logradouro,numero,complemento, bairro, cidade,id_usuario) values('minha casa', 1, 'asd','doideira', 'jf', 1);
+
+
+INSERT INTO PEDIDO(ESTADO, DATA_PEDIDO, ID_END ,ID_USUARIO) values ('ABERTO','2018-11-10',1, 1);
+INSERT INTO PEDIDO(ESTADO, DATA_PEDIDO, ID_END,ID_USUARIO) values ('ABERTO','2018-10-11',1 , 1);
 
 INSERT INTO ITEM_PEDIDO(ID_PEDIDO, ID_ITEM, QUANTIDADE) values (1,1,10);
 INSERT INTO ITEM_PEDIDO(ID_PEDIDO, ID_ITEM, QUANTIDADE) values (1,2,10);
@@ -95,4 +101,3 @@ INSERT INTO ITEM_PEDIDO(ID_PEDIDO, ID_ITEM, QUANTIDADE) values (2,3,10);
 
 
 
-select * from PEDIDO AS P, ITEM_PEDIDO AS IP, ITEM AS i where p.ID = IP.id_pedido and i.id = ip.id_item and id_usuario=1;
