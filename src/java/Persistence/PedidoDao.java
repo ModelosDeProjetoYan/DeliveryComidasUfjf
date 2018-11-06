@@ -16,7 +16,14 @@ public class PedidoDao {
 
     private ArrayList<HistoricoDeMementos> mementos = new ArrayList<>();
     private StatePedido action = null;
+    private static PedidoDao instance = new PedidoDao();
 
+    private PedidoDao() {
+    }
+    public static PedidoDao getInstance(){
+        return instance;
+    }
+    
     public void saveEstado(int id, String estado) {
 
         /* mementos.get(testaSePossuiHistorico(id))
@@ -60,6 +67,32 @@ public class PedidoDao {
         }
         return null;
     }
+        public Pedido getPedidoById(int id_Pedido) {
+        Connection conn = null;
+        Statement st = null;
+        ResultSet resultado;
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            st = conn.createStatement();
+            resultado = st.executeQuery("");
+            while (resultado.next()) {
+                Pedido p = new Pedido();
+                if (testaSePossuiHistorico(resultado.getInt("ID")) == mementos.size()) {
+                    HistoricoDeMementos h = new HistoricoDeMementos(resultado.getInt("ID"));
+                    h.setEstadosSalvos(p.saveToMemento());
+                    mementos.add(h);
+                }
+                return null;
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PedidoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+        } finally {
+            closeResoucers(conn, st);
+        }
+        return null;
+    }
+
 
     private void closeResoucers(Connection conn, Statement st) {
         try {

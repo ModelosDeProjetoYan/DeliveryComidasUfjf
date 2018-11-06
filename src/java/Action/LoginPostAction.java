@@ -27,7 +27,7 @@ public class LoginPostAction implements Action {
             sessionScope.setAttribute("user", u);
             
             sessionScope.setAttribute("erro", u.mensagemUsuario());
-            response.sendRedirect("MainServlet?parametro=Interface" + u.getTipo());
+            response.sendRedirect("MainServlet?parametro=usuario/Interface" + u.getTipo());
         } else {
             sessionScope.setAttribute("erro", "Usuário ou senha inválidos.");
             response.sendRedirect("MainServlet?parametro=UsuarioLogin");

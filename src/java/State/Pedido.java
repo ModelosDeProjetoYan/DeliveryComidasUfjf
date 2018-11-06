@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 public class Pedido extends Observable {
-
+    
+    private int id;
     private StatePedido pedido;
     private ArrayList<Item> carrinho;
     private String statusPedido;
@@ -21,6 +22,15 @@ public class Pedido extends Observable {
         pedido = p;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public Pedido setId(int id) {
+        this.id = id;
+        return this;
+    }
+    
     public void setAberto() {
         pedido.setAberto(this);
         setStatusPedido();

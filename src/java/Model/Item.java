@@ -6,6 +6,16 @@ public abstract class Item {
     protected double valor;
     protected String descricao;
     protected String nome;
+    protected int quantidade;
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+    
 
     public String getNome() {
         return nome;

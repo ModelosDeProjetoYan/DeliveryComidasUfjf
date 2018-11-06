@@ -19,6 +19,8 @@ public class MainServlet extends HttpServlet {
         actionObject = ActionFactory.create(actionPath);
         if (actionObject != null) {
             actionObject.execute(request, response);
+        }else{
+            response.sendRedirect(actionPath + ".jsp");
         }
     }
 
