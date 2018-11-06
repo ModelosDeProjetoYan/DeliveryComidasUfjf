@@ -2,6 +2,7 @@ package Model;
 
 public class Restaurante {
     private int id;
+    private String nome;
     private String endereco;
     private String logradouro;
     private int numero;
@@ -19,6 +20,15 @@ public class Restaurante {
 
     public Restaurante setId(int id) {
         this.id = id;
+        return this;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Restaurante setNome(String nome) {
+        this.nome = nome;
         return this;
     }
 

@@ -13,20 +13,7 @@
 
 <%@include file="/jspf/cabecalho.jspf" %>
 
-<h5>Grupo: </h5>
-<h1>ENTREGADOR</h1>
-<br />
-
-<!--<div class="alert alert-warning" role="alert">
-    <h4>Sobre a estrutura do código</h4>
-    <ul>
-        <li>
-            
-        </li>
-        <li>
-            
-        </li>
-    </ul>
-</div>-->
+Cadastrar Funcionário!!!
 
 <%@include file="/jspf/rodape.jspf" %>
+

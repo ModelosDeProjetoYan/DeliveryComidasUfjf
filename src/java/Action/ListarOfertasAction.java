@@ -12,7 +12,7 @@ public class ListarOfertasAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispacher = request.getRequestDispatcher("/restaurantes/ListarOfertas.jsp");
+        RequestDispatcher dispacher = request.getRequestDispatcher("/restaurante/ListarOfertas.jsp");
         request.setAttribute("titulo", "Ofertas Disponiveis");
         dispacher.forward(request, response);
     }

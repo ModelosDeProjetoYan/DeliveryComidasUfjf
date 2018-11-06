@@ -24,13 +24,13 @@ public class LoginPostAction implements Action {
             sessionScope.setAttribute("id", u.getId());
             sessionScope.setAttribute("nome", u.getNome());
             sessionScope.setAttribute("login", u.getEmail());
-            sessionScope.setAttribute("user", u);
+            sessionScope.setAttribute("usuario", u);
             
-            sessionScope.setAttribute("erro", u.mensagemUsuario());
-            response.sendRedirect("MainServlet?parametro=usuario/Interface" + u.getTipo());
+            sessionScope.setAttribute("sucesso", u.mensagemUsuario());
+            response.sendRedirect("MainServlet?parametro=Index");
         } else {
             sessionScope.setAttribute("erro", "Usuário ou senha inválidos.");
-            response.sendRedirect("MainServlet?parametro=UsuarioLogin");
+            response.sendRedirect("MainServlet?parametro=Login");
         }
     }
 }

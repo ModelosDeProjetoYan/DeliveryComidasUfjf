@@ -12,7 +12,7 @@ public class ListarMeusRestaurantesAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispacher = request.getRequestDispatcher("/restaurantes/ListarMeusRestaurantes.jsp");
+        RequestDispatcher dispacher = request.getRequestDispatcher("/restaurante/ListarMeusRestaurantes.jsp");
         request.setAttribute("titulo", "Meus Restaurantes");
         dispacher.forward(request, response);
     }

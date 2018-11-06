@@ -136,9 +136,8 @@ public class UsuarioDao {
             if (conn != null) {
                 conn.close();
             }
-
         } catch (SQLException e) {
-
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
         }
 
     }

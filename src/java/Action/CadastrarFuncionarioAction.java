@@ -13,27 +13,29 @@ public class CadastrarFuncionarioAction implements Action{
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher dispacher = request.getRequestDispatcher("/Index.jsp");
-        request.setAttribute("titulo", "Cadastrasr Funcionario");
+        RequestDispatcher dispacher = request.getRequestDispatcher("/restaurante/CadastrarFuncionario.jsp");
+        request.setAttribute("titulo", "Cadastrar Funcionário");
         Restaurante r = null;
         Usuario u = null;
-        switch(Integer.parseInt(request.getParameter("comboBox"))){
-            case 0: u = ActionFactoryCadastroFuncionario.create("UsuarioGerente");
-                //falta setar as informações od usuario e criar ele no banco
-            break;
-            case 1: u = ActionFactoryCadastroFuncionario.create("UsuarioEntregador");
-                //falta setar as informações od usuario e criar ele no banco
-            break;
-            case 2: u = ActionFactoryCadastroFuncionario.create("UsuarioChefeDeCozinha");
-                //falta setar as informações od usuario e criar ele no banco
-            break;
-            case 3: r = new Restaurante();
-                //falta setar as informações od usuario e criar ele no banco
-            break;
-            default: dispacher = request.getRequestDispatcher("/pagina-de-erro.jsp");
-        }
-        if(u != null)
-            u.setRestaurante(r);
+        
+//        switch(Integer.parseInt(request.getParameter("comboBox"))){
+//            case 0: u = ActionFactoryCadastroFuncionario.create("UsuarioGerente");
+//                //falta setar as informações od usuario e criar ele no banco
+//            break;
+//            case 1: u = ActionFactoryCadastroFuncionario.create("UsuarioEntregador");
+//                //falta setar as informações od usuario e criar ele no banco
+//            break;
+//            case 2: u = ActionFactoryCadastroFuncionario.create("UsuarioChefeDeCozinha");
+//                //falta setar as informações od usuario e criar ele no banco
+//            break;
+//            case 3: r = new Restaurante();
+//                //falta setar as informações od usuario e criar ele no banco
+//            break;
+////            default: dispacher = request.getRequestDispatcher("/pagina-de-erro.jsp");
+//        }
+//        if(u != null) {
+//            u.setRestaurante(r);
+//        }
 
         dispacher.forward(request, response);
     }

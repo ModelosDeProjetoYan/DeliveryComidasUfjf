@@ -4,9 +4,7 @@ import ChainOfResponsability_TemplateMethod.Usuario;
 import Controller.Action;
 import Model.Restaurante;
 import Persistence.RestauranteDao;
-import Persistence.UsuarioDao;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +21,9 @@ public class CadastrarRestaurantePostAction implements Action {
         String bairro = request.getParameter("bairro");
         String cidade = request.getParameter("cidade");
         String tipoComida = request.getParameter("tipo_comida");
-//        Restaurante r = RestauranteDao.getInstance().insertRestaurante();
+        
+        HttpSession sessionScope = request.getSession();
+        Restaurante r = RestauranteDao.getInstance().insertRestaurante((Usuario) sessionScope.getAttribute("usuario"), nome, logradouro, numero, complemento, bairro, cidade, tipoComida);
         
 //        if (r != null) {
 //            request.setAttribute("titulo", "Usuário Login");

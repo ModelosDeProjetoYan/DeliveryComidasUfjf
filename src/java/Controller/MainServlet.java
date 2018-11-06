@@ -1,26 +1,29 @@
 package Controller;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class MainServlet extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
         Action actionObject = null;        
         String actionPath = request.getParameter("parametro");
         actionObject = ActionFactory.create(actionPath);
+        
         if (actionObject != null) {
             actionObject.execute(request, response);
-        }else{
-            response.sendRedirect(actionPath + ".jsp");
+        }
+        if (!"Logout".equals(actionPath)) {
+            HttpSession sessionScope = request.getSession();
+            sessionScope.setAttribute("erro", null);
+            sessionScope.setAttribute("sucesso", null);
         }
     }
 
