@@ -78,7 +78,7 @@ public class RestauranteDao {
                     restaurante.setId(resultado.getInt(1));
                 }
                 
-                UsuarioDao.getInstance().updateTipoUsuario(idGerente, "Gerente");
+                UsuarioDao.getInstance().updateTipoUsuario(idGerente, "Gerente", null);
                 UsuarioDao.getInstance().insertFuncionario(restaurante.getId(), idGerente, "gerente");
             } catch (SQLException | ClassNotFoundException e) {
                 Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
@@ -122,5 +122,29 @@ public class RestauranteDao {
         }
         
         return restaurantes;
+    }
+    public int getIdGerente(int idRestaurante){
+        int idGerente = -1;
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            
+            ps = conn.prepareStatement("SELECT * FROM restaurante "
+                        + "WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, idRestaurante);
+            ResultSet resultado = ps.executeQuery();
+
+            if (resultado.next()) {
+               idGerente = resultado.getInt("id_usuario");
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeResoucers(conn, ps);
+        }
+        
+        return idGerente;
     }
 }

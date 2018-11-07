@@ -25,16 +25,19 @@
         </thead>
         <tbody>
             <tr>
-        <c:forEach var="item" items="${pedido.getCarrinho()}">
-            <form  method="POST" action="MainServlet?parametro=AttCarrinho & indexItem=${pedido.getCarrinho().indexof(item)} & idPedido=${param.idPedido}">
-                <td>${item.getNome()}</td>
-                <td><input type="number" name="Quantidade" value="${item.getQuantidade()}"/></td>
-                <td>${item.getValor() * item.getQuantidade()}</td>
-                <td><input type="submit" value="Atualizar Item" name="btnAtualizarCarrinho" /></td>
-            </form>
-        </c:forEach>
+        <form  method="POST" action="MainServlet?parametro=FinalizarCarrinho & idPedido=${param.idPedido} & idRestaurante=${pedido.getCarrinho().get(0).getRestaurante().getId()}">
+
+            <c:forEach var="item" items="${pedido.getCarrinho()}">
+                <form  method="POST" action="MainServlet?parametro=AttCarrinho & indexItem=${pedido.getCarrinho().indexof(item)} & idPedido=${param.idPedido}">
+                    <td>${item.getNome()}</td>
+                    <td><input type="number" name="Quantidade" value="${item.getQuantidade()}"/></td>
+                    <td>${item.getValor() * item.getQuantidade()}</td>
+                    <td><input type="submit" value="Atualizar Item" name="btnAtualizarCarrinho" /></td>
+                </form>
+            </c:forEach>
             </tr>
-        </tbody>
+            </tbody>
+        </form>        
     </table>
 
 </div>

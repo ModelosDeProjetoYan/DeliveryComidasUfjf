@@ -149,14 +149,14 @@ public class UsuarioDao {
         return usuarios;
     }
 
-    public Boolean updateTipoUsuario(int idUsuario, String tipoUsuario) {
+    public Boolean updateTipoUsuario(int idUsuario, String tipoUsuario, Integer idNextFuncionario) {
         Connection conn = null;
         PreparedStatement ps = null;
 
         try {
             conn = DataBaseLocator.getInstance().getConnection();
 
-            ps = conn.prepareStatement("UPDATE usuario SET tipo_user = ? "
+            ps = conn.prepareStatement("UPDATE usuario SET tipo_user = ? and ID_PROX= "+idNextFuncionario+""
                     + "WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, tipoUsuario);
             ps.setInt(2, idUsuario);
