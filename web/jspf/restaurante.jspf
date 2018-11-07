@@ -1,0 +1,20 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="Model.Restaurante" %>
+
+<div class="card p-2">
+    <div class="card-body">
+        <p class="card-text">${restaurante.getDescricao()}</p>
+        
+        <strong>Tipo da comida:</strong><br />
+        <p class="card-text">${restaurante.getTipoDeComida()}</p>
+
+        <hr />
+        <div class="row">
+            <small class="col-4 text-muted">Logradouro: <br />${restaurante.getLogradouro()}</small>
+            <small class="col-2 text-muted">Número: <br />${restaurante.getNumero()}</small>
+            <small class="col-2 text-muted">Complemento: <br />${restaurante.getComplemento()}</small>
+            <small class="col-2 text-muted">Bairro: <br />${restaurante.getBairro()}</small>
+            <small class="col-2 text-muted">Cidade: <br />${restaurante.getBairro()}</small>
+        </div>
+    </div>
+</div>

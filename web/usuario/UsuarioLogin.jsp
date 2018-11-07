@@ -15,7 +15,7 @@
 
 <form method="POST" action="MainServlet?parametro=LoginPost">
     <div class="form-group">
-        <label for="login">E-mail</label>
+        <label for="email">E-mail</label>
         <input type="text" class="form-control" id="email" name="email" placeholder="Digite seu e-mail">
     </div>
     <div class="form-group">

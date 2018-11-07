@@ -23,7 +23,7 @@ public class LoginPostAction implements Action {
         if (u != null) {
             sessionScope.setAttribute("id", u.getId());
             sessionScope.setAttribute("nome", u.getNome());
-            sessionScope.setAttribute("login", u.getEmail());
+            sessionScope.setAttribute("email", u.getEmail());
             sessionScope.setAttribute("usuario", u);
             
             sessionScope.setAttribute("sucesso", u.mensagemUsuario());

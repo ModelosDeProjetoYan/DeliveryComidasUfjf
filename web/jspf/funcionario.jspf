@@ -1,0 +1,25 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="ChainOfResponsability_TemplateMethod.Usuario" %>
+
+<div class="row">
+    <div class="col-2 text-right pr-0">
+        <!--<img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="170" height="170">-->
+            <img class="rounded-circle" src="./imagens/usuario.png" alt="Imagem do funcionário ${funcionario.getNome()}" width="90" height="90">
+    </div>
+    <div class="col-10">
+        <div class="card p-2">
+            <div class="card-body">
+                <h4 class="card-title">${funcionario.getNome()}</h4>
+                <div class="row">
+                    <div class="col-6">
+                        <strong>E-mail: </strong><span class="card-text">${funcionario.getEmail()}</span>
+                    </div>
+                    <div class="col-6">
+                        <strong>Cargo: </strong><span class="card-text">${funcionario.getTipoUsuario()}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />

@@ -15,6 +15,7 @@ public class CadastrarRestaurantePostAction implements Action {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String nome = request.getParameter("nome");
+        String descricao = request.getParameter("descricao");
         String logradouro = request.getParameter("logradouro");
         String numero = request.getParameter("numero");
         String complemento = request.getParameter("complemento");
@@ -23,7 +24,7 @@ public class CadastrarRestaurantePostAction implements Action {
         String tipoComida = request.getParameter("tipo_comida");
         
         HttpSession sessionScope = request.getSession();
-        Restaurante restaurante = RestauranteDao.getInstance().insertRestaurante((int) sessionScope.getAttribute("id"), nome, logradouro, numero, complemento, bairro, cidade, tipoComida);
+        Restaurante restaurante = RestauranteDao.getInstance().insertRestaurante((int) sessionScope.getAttribute("id"), nome, descricao, logradouro, numero, complemento, bairro, cidade, tipoComida);
         
         if (restaurante != null) {
             sessionScope.setAttribute("sucesso", "Restaurante cadastrado com sucesso.");

@@ -1,21 +1,31 @@
 package Model;
 
 public abstract class Item {
-
+    
+    protected int id;
     protected Restaurante restaurante;
-    protected double valor;
+    protected double preco;
     protected String descricao;
     protected String nome;
     protected int quantidade;
+    
+    public int getId() {
+        return id;
+    }
 
+    public Item setId(int id) {
+        this.id = id;
+        return this;
+    }
+    
     public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public Item setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+        return this;
     }
-    
 
     public String getNome() {
         return nome;
@@ -26,7 +36,6 @@ public abstract class Item {
         return this;
     }
     
-    
     public Restaurante getRestaurante() {
         return restaurante;
     }
@@ -36,13 +45,12 @@ public abstract class Item {
         return this;
     }
 
-
-    public double getValor() {
-        return valor;
+    public double getPreco() {
+        return preco;
     }
 
-    public Item setValor(double valor) {
-        this.valor = valor;
+    public Item setPreco(double preco) {
+        this.preco = preco;
         return this;
     }
 
@@ -56,5 +64,4 @@ public abstract class Item {
     }
 
     abstract String getTipo();
-
 }

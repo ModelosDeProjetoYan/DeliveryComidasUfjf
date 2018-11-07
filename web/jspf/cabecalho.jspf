@@ -24,7 +24,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <c:if test="${sessionScope.login != null}">
+                        <c:if test="${sessionScope.email != null}">
                             <li class="nav-item">
                                 <a class="nav-link" href="MainServlet?parametro=ListarRestaurantes">Restaurantes</a>
                             </li>
@@ -34,7 +34,7 @@
                         </c:if>
                     </ul>
                     <ul class="navbar-nav">
-                        <c:if test="${sessionScope.login == null}">
+                        <c:if test="${sessionScope.email == null}">
                             <li class="nav-item">
                                 <a class="nav-link" href="MainServlet?parametro=CadastrarUsuario">Cadastro</a>
                             </li>
@@ -42,7 +42,7 @@
                                 <a class="nav-link" href="MainServlet?parametro=Login">Login</a>
                             </li>
                         </c:if>
-                        <c:if test="${sessionScope.login != null}">
+                        <c:if test="${sessionScope.email != null}">
                             <li class="nav-item">
                                 <a class="nav-link" href="MainServlet?parametro=Carrinho">Carrinho</a>
                             </li>
@@ -51,7 +51,7 @@
                                     Minha Conta
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <div class="dropdown-header bold">Logado como ${sessionScope.login}</div>
+                                    <div class="dropdown-header bold">Logado como ${sessionScope.nome}</div>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="MainServlet?parametro=CadastrarRestaurante">Cadastrar Restaurante</a>
                                     <a class="dropdown-item" href="MainServlet?parametro=CadastrarFuncionario">Cadastrar Funcionário</a>

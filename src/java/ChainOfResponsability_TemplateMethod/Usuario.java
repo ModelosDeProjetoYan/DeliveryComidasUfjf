@@ -2,7 +2,6 @@ package ChainOfResponsability_TemplateMethod;
 
 import Model.Restaurante;
 import State.Pedido;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -12,6 +11,7 @@ public abstract class Usuario implements Observer {
     protected String nome;
     protected String email;
     protected String senha;
+    protected String tipoUsuario;
     protected Integer id;
     protected Restaurante restaurante;
     protected Boolean acaoFeita;
@@ -121,4 +121,12 @@ public abstract class Usuario implements Observer {
         }
     }
 
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public Usuario setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+        return this;
+    }
 }

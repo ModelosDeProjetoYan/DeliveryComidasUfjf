@@ -1,10 +1,12 @@
 package Model;
 
 import ChainOfResponsability_TemplateMethod.Usuario;
+import java.util.ArrayList;
 
 public class Restaurante {
     private int id;
     private String nome;
+    private String descricao;
     private String endereco;
     private String logradouro;
     private int numero;
@@ -13,6 +15,8 @@ public class Restaurante {
     private String cidade;
     private String tipoDeComida;
     private Usuario gerente;
+    private ArrayList<Item> itens;
+    private ArrayList<Usuario> funcionarios;
 
     public Restaurante() {
     }
@@ -32,6 +36,15 @@ public class Restaurante {
 
     public Restaurante setNome(String nome) {
         this.nome = nome;
+        return this;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Restaurante setDescricao(String descricao) {
+        this.descricao = descricao;
         return this;
     }
 
@@ -102,7 +115,26 @@ public class Restaurante {
         return gerente;
     }
 
-    public void setGerente(Usuario gerente) {
+    public Restaurante setGerente(Usuario gerente) {
         this.gerente = gerente;
+        return this;
+    }
+
+    public ArrayList<Item> getItens() {
+        return itens;
+    }
+
+    public Restaurante setItens(ArrayList<Item> itens) {
+        this.itens = itens;
+        return this;
+    }
+
+    public ArrayList<Usuario> getFuncionarios() {
+        return funcionarios;
+    }
+
+    public Restaurante setFuncionarios(ArrayList<Usuario> funcionarios) {
+        this.funcionarios = funcionarios;
+        return this;
     }
 }

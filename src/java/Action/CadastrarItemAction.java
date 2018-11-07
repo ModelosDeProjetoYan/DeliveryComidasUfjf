@@ -4,7 +4,6 @@ import ChainOfResponsability_TemplateMethod.Usuario;
 import Controller.Action;
 import Model.Restaurante;
 import Persistence.RestauranteDao;
-import Persistence.UsuarioDao;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
