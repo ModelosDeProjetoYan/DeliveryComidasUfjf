@@ -55,6 +55,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="MainServlet?parametro=CadastrarRestaurante">Cadastrar Restaurante</a>
                                     <a class="dropdown-item" href="MainServlet?parametro=CadastrarFuncionario">Cadastrar Funcionário</a>
+                                    <a class="dropdown-item" href="MainServlet?parametro=CadastrarItem">Cadastrar Item</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="MainServlet?parametro=ListarMeusRestaurantes">Meus Restaurantes</a>
                                     <a class="dropdown-item" href="MainServlet?parametro=ListarMeusFuncionarios">Meus Funcionários</a>
