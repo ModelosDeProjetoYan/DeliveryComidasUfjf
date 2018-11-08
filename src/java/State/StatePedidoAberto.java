@@ -9,6 +9,7 @@ public class StatePedidoAberto implements StatePedido {
 
     @Override
     public void setFeito(Pedido p) {
+        p.setPedido(new StatePedidoFeito());
     }
 
     @Override

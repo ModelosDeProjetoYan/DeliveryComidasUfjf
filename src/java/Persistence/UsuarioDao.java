@@ -145,20 +145,23 @@ public class UsuarioDao {
         } finally {
             closeResoucers(conn, ps);
         }
-
         return usuarios;
     }
 
     public Boolean updateTipoUsuario(int idUsuario, String tipoUsuario, Integer idNextFuncionario) {
         Connection conn = null;
         PreparedStatement ps = null;
-
+        String sql;
+        if (idNextFuncionario != null) {
+            sql = "UPDATE usuario SET ID_PROX= ?"
+                    + "WHERE id = ?";
+        } else {
+            return false;
+        }
         try {
             conn = DataBaseLocator.getInstance().getConnection();
-
-            ps = conn.prepareStatement("UPDATE usuario SET tipo_user = ? and ID_PROX= " + idNextFuncionario + ""
-                    + "WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, tipoUsuario);
+            ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, idNextFuncionario);
             ps.setInt(2, idUsuario);
             ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
@@ -166,7 +169,6 @@ public class UsuarioDao {
         } finally {
             closeResoucers(conn, ps);
         }
-
         return true;
     }
 
@@ -178,9 +180,11 @@ public class UsuarioDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
 
-            ps = conn.prepareStatement("INSERT INTO funcionario (id_restaurante, id_usuario) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps = conn.prepareStatement("INSERT INTO funcionario (id_restaurante,"
+                    + " id_usuario, tipo_user_restaurante) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, idRestaurante);
             ps.setInt(2, idUsuario);
+            ps.setString(3, tipoUsuario);
 
             ps.executeUpdate();
             resultado = ps.getGeneratedKeys();
@@ -201,18 +205,18 @@ public class UsuarioDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
 
-            ps = conn.prepareStatement("SELECT * FROM usuario AS u\n" +
-                    "INNER JOIN funcionario AS f ON u.id = f.id_usuario AND f.id_restaurante = ?", Statement.RETURN_GENERATED_KEYS);
+            ps = conn.prepareStatement("SELECT * FROM usuario AS u\n"
+                    + "INNER JOIN funcionario AS f ON u.id = f.id_usuario AND f.id_restaurante = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, idRestaurante);
             ResultSet resultado = ps.executeQuery();
 
             while (resultado.next()) {
-                Usuario usuario = new UsuarioCliente();
+                Usuario usuario = Action.ActionFactoryCadastroFuncionario.create(resultado.getString("TIPO_USER_RESTAURANTE"));
                 usuario.setId(resultado.getInt("id"))
                         .setNome(resultado.getString("nome"))
                         .setEmail(resultado.getString("email"))
-                        .setTipoUsuario(resultado.getString("tipo_user"))
-                        .setSenha("");
+                        .setTipoUsuario(resultado.getString("tipo_user_restauranate"))
+                        .setSenha(resultado.getString("senha"));
                 usuarios.add(usuario);
             }
         } catch (SQLException | ClassNotFoundException ex) {

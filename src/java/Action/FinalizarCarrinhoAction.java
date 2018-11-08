@@ -21,20 +21,18 @@ public class FinalizarCarrinhoAction implements Action {
         int idPedido= Integer.parseInt(request.getParameter("idPedido"));
         HttpSession sessionScope = request.getSession();
         int idUsuario = (int) sessionScope.getAttribute("id");
-        int idGerenteRestaurante = Integer.parseInt(request.getParameter("idRestaurante"));
+        int idRestaurante = Integer.parseInt(request.getParameter("idRestaurante"));
+        int idGerenteRestaurante = RestauranteDao.getInstance().getIdGerente(idRestaurante);
         Usuario u = UsuarioDao.getInstance().getUsuarioByID(idUsuario);
         u.setAcaoFeita(true);
         Pedido p = PedidoDao.getInstance().getPedidoById(idPedido);
         u.setObservable(p);
-        if(RestauranteDao.getInstance().getIdGerente(idUsuario) >= 0){
+        if(idGerenteRestaurante >= 0){
             u.setProxUsuario(UsuarioDao.getInstance().getUsuarioByID(idGerenteRestaurante));
             UsuarioDao.getInstance().updateTipoUsuario(idUsuario, "Cliente", idGerenteRestaurante);
         }
         p.setFeito();
         if (u != null) {
-            sessionScope.setAttribute("id", u.getId());
-            sessionScope.setAttribute("nome", u.getNome());
-            sessionScope.setAttribute("email", u.getEmail());
             sessionScope.setAttribute("usuario", u);            
             sessionScope.setAttribute("sucesso", u.mensagemUsuario());
             response.sendRedirect("MainServlet?parametro=Index");
