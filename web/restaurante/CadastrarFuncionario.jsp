@@ -16,7 +16,7 @@
 <form method="POST" action="MainServlet?parametro=CadastrarFuncionarioPost">
     <div class="row">
         <div class="form-group col-4">
-            <label for="nome">Selecionar um restaurante</label>
+            <label for="id_restaurante">Selecionar um restaurante</label>
             <select id="id_restaurante" name="id_restaurante" class="custom-select">
                 <c:forEach var="restaurante" items="${restaurantes}">
                     <option value="${restaurante.getId()}">${restaurante.getNome()}</option>
@@ -24,19 +24,19 @@
             </select>
         </div>
         <div class="form-group col-4">
-            <label for="nome">Selecionar um usuário</label>
-            <select id="id_usuario" name="id_usuario" class="custom-select">
+            <label for="id_usuario_chefe">Escolher um Chefe de Cozinha</label>
+            <select id="id_usuario_chefe" name="id_usuario_chefe" class="custom-select">
                 <c:forEach var="usuario" items="${usuarios}">
                     <option value="${usuario.getId()}">${usuario.getNome()}</option>
                 </c:forEach>
             </select>
         </div>
         <div class="form-group col-4">
-            <label for="nome">Selecionar um cargo</label>
-            <select id="tipo_usuario" name="tipo_usuario" class="custom-select">
-                <option value="Cliente">Entregador</option>
-                <option value="ChefeDeCozinha">Chefe de Cozinha</option>
-                <option value="Gerente">Gerente</option>
+            <label for="id_usuario_entregador">Escolher um </label>
+            <select id="id_usuario_entregador" name="id_usuario_entregador" class="custom-select">
+                <c:forEach var="usuario" items="${usuarios}">
+                    <option value="${usuario.getId()}">${usuario.getNome()}</option>
+                </c:forEach>
             </select>
         </div>
     </div>
