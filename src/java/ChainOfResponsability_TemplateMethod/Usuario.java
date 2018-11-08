@@ -116,6 +116,8 @@ public abstract class Usuario implements Observer {
     @Override
     public void update(Observable pedido, Object arg) {
         if (pedido instanceof Pedido) {
+            this.pedido = (Pedido) pedido;
+            System.out.println(acompanhaPedido());
             Pedido p = (Pedido) pedido;
             delegarPedido(p);
         }
