@@ -17,7 +17,7 @@
     <%@include file="/jspf/item.jspf" %>
 </c:forEach>
 
-<a href="MainServlet?parametro=FinalizarPedido" class="btn btn-success" title="Finalizar Pedido"><i class="fas fa-star"></i> Finalizar Pedido</a>
-<a href="MainServlet?parametro=CancelarPedido" class="btn btn-danger" title="Cancelar Pedido"><i class="fas fa-star"></i> Cancelar Pedido</a>
+<a href="MainServlet?parametro=FinalizarCarrinho" class="btn btn-success" title="Finalizar Pedido"><i class="fas fa-star"></i> Finalizar Pedido</a>
+<a href="MainServlet?parametro=CancelarCarrinho" class="btn btn-danger" title="Cancelar Pedido"><i class="fas fa-star"></i> Cancelar Pedido</a>
 
 <%@include file="/jspf/rodape.jspf" %>
