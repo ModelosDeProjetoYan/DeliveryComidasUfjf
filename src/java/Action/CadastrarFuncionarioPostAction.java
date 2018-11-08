@@ -30,6 +30,6 @@ public class CadastrarFuncionarioPostAction implements Action{
         } else {
             sessionScope.setAttribute("erro", "Funcionário não foi cadastrado.");
         }
-        response.sendRedirect("MainServlet?parametro=CadastrarFuncionario");
+        response.sendRedirect("MainServlet?parametro=CadastrarItem");
     }
 }

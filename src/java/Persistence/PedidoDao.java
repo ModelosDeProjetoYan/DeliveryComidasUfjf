@@ -25,11 +25,11 @@ public class PedidoDao {
 
     private PedidoDao() {
     }
-    
-    public static PedidoDao getInstance(){
+
+    public static PedidoDao getInstance() {
         return instance;
     }
-    
+
     private void closeResoucers(Connection conn, Statement st) {
         try {
             if (st != null) {
@@ -44,7 +44,7 @@ public class PedidoDao {
         }
 
     }
-    
+
     public Boolean insertItemNoPedido(String nome, String tipo, String descricao, Double preco, Integer disponivel, Integer promocao, Integer idRestaurante) {
 //        Connection conn = null;
 //        PreparedStatement ps = null;
@@ -78,22 +78,7 @@ public class PedidoDao {
 //        }
         return true;
     }
-    
-    public void saveEstado(int id, String estado) {
 
-        /* mementos.get(testaSePossuiHistorico(id))
-                    .setEstadosSalvos(
-                            new PedidoMemento(action = ActionFactoryState.create(estado)));
-         */
-        mementos.get(testaSePossuiHistorico(id)).setPosicaoEstadosSalvos(
-                mementos.get(testaSePossuiHistorico(id)).getPosicaoEstadosSalvos() + 1);
-        for (int i = mementos.get(testaSePossuiHistorico(id)).getEstadosSalvos().size() - 1;
-                i > mementos.get(testaSePossuiHistorico(id)).getPosicaoEstadosSalvos();
-                i--) {
-            mementos.get(testaSePossuiHistorico(id)).removeHistoricoAntigo(i);
-        }
-
-    }
 
     public ArrayList<Pedido> getAllPedidosUsuario(int id_Usuario) {
         ArrayList<Pedido> pedidos = new ArrayList<>();
@@ -104,11 +89,11 @@ public class PedidoDao {
             conn = DataBaseLocator.getInstance().getConnection();
             st = conn.createStatement();
             resultado = st.executeQuery(
-              "SELECT *FROM PEDIDO P\n" +
-" INNER JOIN ITEM_PEDIDO IT ON IT.ID_PEDIDO=P.ID\n" +
-" INNER JOIN ITEM I ON I.ID=IT.ID_ITEM\n" +
-" INNER JOIN ENDERECO_DE_ENTREGA EE ON EE.ID_USUARIO=P.ID_USUARIO\n" +
-" WHERE P.ID_USUARIO="+id_Usuario+" AND EE.ID = P.ID_END");
+                    "SELECT *FROM PEDIDO P\n"
+                    + " INNER JOIN ITEM_PEDIDO IT ON IT.ID_PEDIDO=P.ID\n"
+                    + " INNER JOIN ITEM I ON I.ID=IT.ID_ITEM\n"
+                    + " INNER JOIN ENDERECO_DE_ENTREGA EE ON EE.ID_USUARIO=P.ID_USUARIO\n"
+                    + " WHERE P.ID_USUARIO=" + id_Usuario + " AND EE.ID = P.ID_END");
             while (resultado.next()) {
                 Pedido p = new Pedido(ActionFactoryState.create(resultado.getString("ESTADO")));
                 Item i = ActionFactoryItem.create(resultado.getString("TIPO"));
@@ -118,7 +103,7 @@ public class PedidoDao {
                         setComplemento(resultado.getString("COMPLEMENTO")).
                         setId(resultado.getInt("id")).
                         setId_usuario(id_Usuario).setNumero(resultado.getInt("NUMERO"));
-                        
+
                 p.setId(resultado.getInt("ID"));
                 p.addItemCarrinho(i);
                 p.setDataPedido(resultado.getDate("DATA_PEDIDO")).
@@ -138,32 +123,117 @@ public class PedidoDao {
         }
         return pedidos;
     }
-        public Pedido getPedidoById(int id_Pedido) {
+
+    public ArrayList<Pedido> getAllPedidosRestaurante(int idRestaurante) {
+        ArrayList<Pedido> pedidos = new ArrayList<>();
         Connection conn = null;
         Statement st = null;
+        Connection conn2 = null;
+        Statement st2 = null;
         ResultSet resultado;
+        ResultSet resultado2;
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             st = conn.createStatement();
-            resultado = st.executeQuery("");
+            conn2 = DataBaseLocator.getInstance().getConnection();
+            st2 = conn.createStatement();
+            resultado = st.executeQuery(
+                    "SELECT *FROM PEDIDO P\n"
+                    + " WHERE P.ID_RESTAURANTE=" + idRestaurante + "");
             while (resultado.next()) {
-                Pedido p = new Pedido();
+                Pedido p = new Pedido(ActionFactoryState.create(resultado.getString("ESTADO")));
+                p.setId(resultado.getInt("ID"));
+                resultado2 = st2.executeQuery("SELECT * FROM ITEM I"
+                        + "INNER JOIN ITEM_PEDIDO IT ON IT.ID_ITEM=I.ID"
+                        + "WHERE IT.ID_PEDIDO = " + resultado.getInt("id") + "");
+                while (resultado2.next()) {
+                    Item i = ActionFactoryItem.create(resultado.getString("TIPO"));
+                    i.setId(resultado2.getInt("id")).
+                            setNome(resultado2.getString("nome")).
+                            setDescricao(resultado2.getString("descricao")).
+                            setPreco(resultado2.getDouble("preco")).
+                            setQuantidade(resultado2.getInt("QUANTIDADE"));
+                    p.addItemCarrinho(i);
+                }
+                p.setDataPedido(resultado.getDate("DATA_PEDIDO"));
                 if (testaSePossuiHistorico(resultado.getInt("ID")) == mementos.size()) {
                     HistoricoDeMementos h = new HistoricoDeMementos(resultado.getInt("ID"));
                     h.setEstadosSalvos(p.saveToMemento());
                     mementos.add(h);
                 }
-                return null;
+                pedidos.add(p);
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(PedidoDao.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException e) {
         } finally {
             closeResoucers(conn, st);
+            closeResoucers(conn2, st2);
         }
-        return null;
+        return pedidos;
     }
 
+    public Pedido getPedidoById(int id_Pedido) {
+        Connection conn = null;
+        Statement st = null;
+        Connection conn2 = null;
+        Statement st2 = null;
+        ResultSet resultado;
+        ResultSet resultado2;
+        Pedido p = null;
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            st = conn.createStatement();
+            conn2 = DataBaseLocator.getInstance().getConnection();
+            st2 = conn.createStatement();
+            resultado = st.executeQuery(
+                    "SELECT *FROM PEDIDO P\n"
+                    + " WHERE ID=" + id_Pedido + "");
+            if (resultado.next()) {
+                p = new Pedido(ActionFactoryState.create(resultado.getString("ESTADO")));
+                p.setId(resultado.getInt("ID"));
+                resultado2 = st2.executeQuery("SELECT * FROM ITEM I"
+                        + "INNER JOIN ITEM_PEDIDO IT ON IT.ID_ITEM=I.ID"
+                        + "WHERE IT.ID_PEDIDO = " + resultado.getInt("id") + "");
+                while (resultado2.next()) {
+                    Item i = ActionFactoryItem.create(resultado.getString("TIPO"));
+                    i.setId(resultado2.getInt("id")).
+                            setNome(resultado2.getString("nome")).
+                            setDescricao(resultado2.getString("descricao")).
+                            setPreco(resultado2.getDouble("preco")).
+                            setQuantidade(resultado2.getInt("QUANTIDADE"));
+                    p.addItemCarrinho(i);
+                }
+                p.setDataPedido(resultado.getDate("DATA_PEDIDO"));
+                if (testaSePossuiHistorico(resultado.getInt("ID")) == mementos.size()) {
+                    HistoricoDeMementos h = new HistoricoDeMementos(resultado.getInt("ID"));
+                    h.setEstadosSalvos(p.saveToMemento());
+                    mementos.add(h);
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PedidoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+        } finally {
+            closeResoucers(conn, st);
+            closeResoucers(conn2, st2);
+        }return p;
+    }
+
+    public void saveEstado(int id, String estado) {
+
+         mementos.get(testaSePossuiHistorico(id))
+                    .setEstadosSalvos(
+                            new PedidoMemento(action = ActionFactoryState.create(estado)));
+        mementos.get(testaSePossuiHistorico(id)).setPosicaoEstadosSalvos(
+                mementos.get(testaSePossuiHistorico(id)).getPosicaoEstadosSalvos() + 1);
+        for (int i = mementos.get(testaSePossuiHistorico(id)).getEstadosSalvos().size() - 1;
+                i > mementos.get(testaSePossuiHistorico(id)).getPosicaoEstadosSalvos();
+                i--) {
+            mementos.get(testaSePossuiHistorico(id)).removeHistoricoAntigo(i);
+        }
+
+    }
     public HistoricoDeMementos getMementos(int id_pedido) {
         return mementos.get(testaSePossuiHistorico(id_pedido));
     }

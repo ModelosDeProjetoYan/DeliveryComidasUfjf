@@ -32,7 +32,7 @@
             </select>
         </div>
         <div class="form-group col-4">
-            <label for="id_usuario_entregador">Escolher um </label>
+            <label for="id_usuario_entregador">Escolher um entregador</label>
             <select id="id_usuario_entregador" name="id_usuario_entregador" class="custom-select">
                 <c:forEach var="usuario" items="${usuarios}">
                     <option value="${usuario.getId()}">${usuario.getNome()}</option>
