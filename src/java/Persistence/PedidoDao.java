@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -244,6 +245,7 @@ public class PedidoDao {
             i++;
         }
         return i;
+        
     }
 
     public void atualizaEstatus(Integer id_pedido, int i) throws ClassNotFoundException, SQLException {
