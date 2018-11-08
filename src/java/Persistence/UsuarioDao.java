@@ -215,7 +215,7 @@ public class UsuarioDao {
                 usuario.setId(resultado.getInt("id"))
                         .setNome(resultado.getString("nome"))
                         .setEmail(resultado.getString("email"))
-                        .setTipoUsuario(resultado.getString("tipo_user_restauranate"))
+                        .setTipoUsuario(resultado.getString("TIPO_USER_RESTAURANTE"))
                         .setSenha(resultado.getString("senha"));
                 usuarios.add(usuario);
             }

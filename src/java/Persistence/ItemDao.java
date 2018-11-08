@@ -115,4 +115,41 @@ public class ItemDao {
         
         return itens;
     }
+    
+    public Item selectItemById(Integer idItem) {
+        Item item = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            
+            ps = conn.prepareStatement("SELECT * FROM item WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, idItem);
+            ResultSet resultado = ps.executeQuery();
+
+            while (resultado.next()) {
+                if ("Bebida".equals(resultado.getString("tipo"))) {
+                    item = new Bebida();
+                } else if ("Prato".equals(resultado.getString("tipo"))) {
+                    item = new Prato();
+                } else if ("Combo".equals(resultado.getString("tipo"))) {
+                    item = new ItemCombo();
+                } else {
+                    return null;
+                }
+                
+                item.setId(resultado.getInt("id"))
+                        .setNome(resultado.getString("nome"))
+                        .setDescricao(resultado.getString("descricao"))
+                        .setPreco(resultado.getDouble("preco"));
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeResoucers(conn, ps);
+        }
+        
+        return item;
+    }
 }

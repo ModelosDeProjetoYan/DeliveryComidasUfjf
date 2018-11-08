@@ -1,4 +1,5 @@
 package Model;
+
 import ChainOfResponsability_TemplateMethod.UsuarioCliente;
 import State.*;
 import Strategy.Conta;
@@ -6,28 +7,39 @@ import Strategy.StrategyPagamento;
 import java.util.ArrayList;
 
 public class Carrinho extends Conta {
+
     private UsuarioCliente cliente;
-    private Pedido carrinho;
+    private Pedido pedido;
+
     public Carrinho() {
+        pedido = new Pedido(new StatePedidoAberto());
     }
-    public void addCarrinho(Item i){
-        if(carrinho == null)
-            carrinho = new Pedido(new StatePedidoAberto());
-        carrinho.addItemCarrinho(i);
+    
+    public Pedido getPedido() {
+        return this.pedido;
     }
-    public void removeItemCarrinho(Item i){
-        carrinho.removeItemCarrinho(i);
+
+    public void addCarrinho(Item i) {
+        pedido.addItemCarrinho(i);
     }
-    public void limparCarrinho(){
-        carrinho.removeAllItensCarrinho();
+
+    public void removeItemCarrinho(Item i) {
+        pedido.removeItemCarrinho(i);
     }
-    public void fecharPedido(){
-        carrinho.setFeito();
+
+    public void limparCarrinho() {
+        pedido.removeAllItensCarrinho();
     }
+
+    public void fecharPedido() {
+        pedido.setFeito();
+    }
+
     public Carrinho setValor(Double valor) {
         this.valor = valor;
         return this;
     }
+
     public Carrinho setPagamento(StrategyPagamento pagamento) {
         this.pagamento = pagamento;
         return this;

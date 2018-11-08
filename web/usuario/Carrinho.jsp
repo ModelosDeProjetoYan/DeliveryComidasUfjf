@@ -13,33 +13,11 @@
 
 <%@include file="/jspf/cabecalho.jspf" %>
 
-<div class="alert alert-warning" role="alert">
-    <h4>Carrinho: </h4><table border="0">
-        <thead>
-            <tr>
-                <th>Produto: </th>
-                <th>Quantidade: </th>
-                <th>Valor: </th>
-                <th>Atualizar quantidade item:</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-        <form  method="POST" action="MainServlet?parametro=FinalizarCarrinho & idPedido=${param.idPedido} & idRestaurante=${pedido.getCarrinho().get(0).getRestaurante().getId()}">
+<c:forEach var="item" items="${sessionScope.carrinho.getPedido().getCarrinho()}">
+    <%@include file="/jspf/item.jspf" %>
+</c:forEach>
 
-            <c:forEach var="item" items="${pedido.getCarrinho()}">
-                <form  method="POST" action="MainServlet?parametro=AttCarrinho & indexItem=${pedido.getCarrinho().indexof(item)} & idPedido=${param.idPedido}">
-                    <td>${item.getNome()}</td>
-                    <td><input type="number" name="Quantidade" value="${item.getQuantidade()}"/></td>
-                    <td>${item.getValor() * item.getQuantidade()}</td>
-                    <td><input type="submit" value="Atualizar Item" name="btnAtualizarCarrinho" /></td>
-                </form>
-            </c:forEach>
-            </tr>
-            </tbody>
-        </form>        
-    </table>
-
-</div>
+<a href="MainServlet?parametro=FinalizarPedido" class="btn btn-success" title="Finalizar Pedido"><i class="fas fa-star"></i> Finalizar Pedido</a>
+<a href="MainServlet?parametro=CancelarPedido" class="btn btn-danger" title="Cancelar Pedido"><i class="fas fa-star"></i> Cancelar Pedido</a>
 
 <%@include file="/jspf/rodape.jspf" %>

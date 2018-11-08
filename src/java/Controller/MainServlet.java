@@ -1,6 +1,8 @@
 package Controller;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ public class MainServlet extends HttpServlet {
         if (actionObject != null) {
             actionObject.execute(request, response);
         }
+        
         if (!"Logout".equals(actionPath)) {
             HttpSession sessionScope = request.getSession();
             sessionScope.setAttribute("erro", null);

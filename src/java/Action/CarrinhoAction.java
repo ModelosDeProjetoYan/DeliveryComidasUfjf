@@ -1,7 +1,6 @@
 package Action;
 
 import Controller.Action;
-import Persistence.RestauranteDao;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

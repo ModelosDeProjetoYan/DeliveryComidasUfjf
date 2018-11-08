@@ -7,7 +7,7 @@ public abstract class Item {
     protected double preco;
     protected String descricao;
     protected String nome;
-    protected int quantidade;
+    protected Integer quantidade;
     
     public int getId() {
         return id;
@@ -18,11 +18,11 @@ public abstract class Item {
         return this;
     }
     
-    public int getQuantidade() {
+    public Integer getQuantidade() {
         return quantidade;
     }
 
-    public Item setQuantidade(int quantidade) {
+    public Item setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
         return this;
     }
