@@ -94,7 +94,7 @@ public class PedidoDao {
                     + " INNER JOIN ITEM_PEDIDO IT ON IT.ID_PEDIDO=P.ID\n"
                     + " INNER JOIN ITEM I ON I.ID=IT.ID_ITEM\n"
                     + " INNER JOIN ENDERECO_DE_ENTREGA EE ON EE.ID_USUARIO=P.ID_USUARIO\n"
-                    + " WHERE P.ID_USUARIO=" + id_Usuario + " AND EE.ID = P.ID_END");
+                    + " WHERE P.ID_USUARIO=" + id_Usuario + " AND EE.ID = P.ID_END ORDER BY DATA_PEDIDO DESC");
             while (resultado.next()) {
                 Pedido p = new Pedido(ActionFactoryState.create(resultado.getString("ESTADO")));
                 Item i = ActionFactoryItem.create(resultado.getString("TIPO"));
