@@ -236,7 +236,9 @@ public class PedidoDao {
 
     }
     public HistoricoDeMementos getMementos(int id_pedido) {
-        return mementos.get(testaSePossuiHistorico(id_pedido));
+        if(mementos.size() > 0)
+            return mementos.get(testaSePossuiHistorico(id_pedido));
+        return null;
     }
 
     public int testaSePossuiHistorico(int id) {
