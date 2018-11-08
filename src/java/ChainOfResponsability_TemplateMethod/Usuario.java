@@ -1,9 +1,13 @@
 package ChainOfResponsability_TemplateMethod;
 
 import Model.Restaurante;
+import Persistence.PedidoDao;
 import State.Pedido;
+import java.sql.SQLException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public abstract class Usuario implements Observer {
 
@@ -119,6 +123,11 @@ public abstract class Usuario implements Observer {
             this.pedido = (Pedido) pedido;
             System.out.println(acompanhaPedido());
             Pedido p = (Pedido) pedido;
+            try {
+                PedidoDao.getInstance().saveEstado(p.getId(), p.getStatusPedido());
+            } catch (SQLException ex) {
+                Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
             delegarPedido(p);
         }
     }
