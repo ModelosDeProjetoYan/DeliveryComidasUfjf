@@ -80,7 +80,6 @@ public class PedidoDao {
         return true;
     }
 
-
     public ArrayList<Pedido> getAllPedidosUsuario(int id_Usuario) {
         ArrayList<Pedido> pedidos = new ArrayList<>();
         Connection conn = null;
@@ -218,26 +217,42 @@ public class PedidoDao {
         } finally {
             closeResoucers(conn, st);
             closeResoucers(conn2, st2);
-        }return p;
+        }
+        return p;
     }
 
-    public void saveEstado(int id, String estado) {
+    public void saveEstado(int id, String estado) throws SQLException {
+        Connection conn = null;
+        Statement st = null;
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            st = conn.createStatement();
+            st.executeUpdate("update PEDIDO set ESTADO = '" + estado
+                    + "' where(id = " + id + ")");
 
-         mementos.get(testaSePossuiHistorico(id))
+            mementos.get(testaSePossuiHistorico(id))
                     .setEstadosSalvos(
                             new PedidoMemento(action = ActionFactoryState.create(estado)));
-        mementos.get(testaSePossuiHistorico(id)).setPosicaoEstadosSalvos(
-                mementos.get(testaSePossuiHistorico(id)).getPosicaoEstadosSalvos() + 1);
-        for (int i = mementos.get(testaSePossuiHistorico(id)).getEstadosSalvos().size() - 1;
-                i > mementos.get(testaSePossuiHistorico(id)).getPosicaoEstadosSalvos();
-                i--) {
-            mementos.get(testaSePossuiHistorico(id)).removeHistoricoAntigo(i);
+            mementos.get(testaSePossuiHistorico(id)).setPosicaoEstadosSalvos(
+                    mementos.get(testaSePossuiHistorico(id)).getPosicaoEstadosSalvos() + 1);
+            for (int i = mementos.get(testaSePossuiHistorico(id)).getEstadosSalvos().size() - 1;
+                    i > mementos.get(testaSePossuiHistorico(id)).getPosicaoEstadosSalvos();
+                    i--) {
+                mementos.get(testaSePossuiHistorico(id)).removeHistoricoAntigo(i);
+            }
+        } catch (SQLException e) {
+            throw e;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PedidoDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeResoucers(conn, st);
         }
-
     }
+
     public HistoricoDeMementos getMementos(int id_pedido) {
-        if(mementos.size() > 0)
+        if (mementos.size() > 0) {
             return mementos.get(testaSePossuiHistorico(id_pedido));
+        }
         return null;
     }
 
@@ -247,7 +262,7 @@ public class PedidoDao {
             i++;
         }
         return i;
-        
+
     }
 
     public void atualizaEstatus(Integer id_pedido, int i) throws ClassNotFoundException, SQLException {
