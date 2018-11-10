@@ -80,11 +80,11 @@ CREATE TABLE ITEM_PEDIDO(
 );
 
 
-INSERT INTO usuario(nome,email,senha, tipo_user) values('Aline de Paula Sotte', 'aline', 'aline', 'Gerente');
-INSERT INTO usuario(nome,email,senha, tipo_user) values('Yan de Paiva Andrade Pinto', 'yan', 'yan', 'Gerente');
-INSERT INTO usuario(nome,email,senha, tipo_user) values('Victor Reis', 'victor', 'victor', 'Gerente');
-INSERT INTO usuario(nome,email,senha, tipo_user) values('Fulano', 'fulano', 'fulano', 'ChefeDeCozinha');
-INSERT INTO usuario(nome,email,senha, tipo_user) values('Beltrano', 'beltrano', 'beltrano', 'Entregador');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('Aline de Paula Sotte', 'aline', 'aline', 'Cliente');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('Yan de Paiva Andrade Pinto', 'yan', 'yan', 'Cliente');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('Victor Reis', 'victor', 'victor', 'Cliente');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('Fulano', 'fulano', 'fulano', 'Cliente');
+INSERT INTO usuario(nome,email,senha, tipo_user) values('Beltrano', 'beltrano', 'beltrano', 'Cliente');
 
 
 INSERT INTO restaurante(nome,descricao,logradouro,numero,complemento, bairro, cidade, tipo_comida, id_usuario) values('Assunta Forneria', 'O Assunta é um dos restaurantes mais belos do Brasil. Projetado por Hélio Pelegrino, foi concebido para criar um ambiente único e, ao mesmo tempo, sofisticado e informal. Grandioso e aconchegante. A interação com a natureza completa essa experiência única composta ainda por belos mosaicos do piso e lustres exclusivos - feitos à mão pelo arquiteto. Estar aqui é um prazer. Aliado a toda essa beleza, uma gastronomia única para os mais sofisticados gostos. São pizzas gourmet de vários sabores e, agora, uma nova e poderosa cozinha, com exclusiva parrilla, para preparar as melhores carnes do país. Juiz de Fora é um polo gastronômico. E o Assunta tem o maior orgulho de contribuir para isso. Agora, ainda mais.','Ladeira Alexandre Leonel', 201, '', 'São Mateus', 'Juiz de Fora', 'Italiana, Europeia, Opções vegetarianas', 1);

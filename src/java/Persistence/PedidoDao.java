@@ -1,5 +1,7 @@
 package Persistence;
 
+import ChainOfResponsability_TemplateMethod.Usuario;
+import ChainOfResponsability_TemplateMethod.UsuarioCliente;
 import Memento.HistoricoDeMementos;
 import Memento.PedidoMemento;
 import Model.ActionFactoryItem;
@@ -13,7 +15,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,41 +49,42 @@ public class PedidoDao {
         }
 
     }
-
-    public Boolean insertItemNoPedido(String nome, String tipo, String descricao, Double preco, Integer disponivel, Integer promocao, Integer idRestaurante) {
-//        Connection conn = null;
-//        PreparedStatement ps = null;
-//        ResultSet resultado;
-//
-//        if (idRestaurante != null
-//                && nome != null && tipo != null
-//                && descricao != null && preco != null
-//                && disponivel != null && promocao != null) {
-//            try {
-//                conn = DataBaseLocator.getInstance().getConnection();
-//
-//                ps = conn.prepareStatement("INSERT INTO item "
-//                        + "(nome, tipo, descricao, preco, disponivel, promocao, id_restaurante) "
-//                        + "VALUES(?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-//                ps.setString(1, nome);
-//                ps.setString(2, tipo);
-//                ps.setString(3, descricao);
-//                ps.setDouble(4, preco);
-//                ps.setInt(5, disponivel);
-//                ps.setInt(6, promocao);
-//                ps.setInt(7, idRestaurante);
-//
-//                ps.executeUpdate();
-//                resultado = ps.getGeneratedKeys();
-//            } catch (SQLException | ClassNotFoundException e) {
-//                Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
-//            } finally {
-//                closeResoucers(conn, ps);
-//            }
-//        }
-        return true;
+    
+   //instanciar pedido no banco
+    public Pedido setPedido(Pedido p, int idUsuario, int idEnd){
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet resultado;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            ps = conn.prepareStatement("INSERT INTO PEDIDO (ESTADO, DATA_PEDIDO, ID_USUARIO,ID_END) VALUES(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, p.getStatusPedido());
+            ps.setString(2, sdf.format(new Date()));
+            ps.setInt(3, idUsuario);
+            ps.setInt(4, idEnd);
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                p.setId(rs.getInt(1));
+            }
+            if(testaSePossuiHistorico(p.getId())==0){
+                HistoricoDeMementos h = new HistoricoDeMementos(p.getId());
+                h.setEstadosSalvos(p.saveToMemento());
+                mementos.add(h);            
+            }else{
+                mementos.
+                        get(testaSePossuiHistorico(p.getId())).
+                        setEstadosSalvos(p.saveToMemento());
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            closeResoucers(conn, ps);
+        }
+        return p;
     }
-
     public ArrayList<Pedido> getAllPedidosUsuario(int id_Usuario) {
         ArrayList<Pedido> pedidos = new ArrayList<>();
         Connection conn = null;
@@ -102,7 +107,8 @@ public class PedidoDao {
                         setCidade(resultado.getString("CIDADE")).
                         setComplemento(resultado.getString("COMPLEMENTO")).
                         setId(resultado.getInt("id")).
-                        setId_usuario(id_Usuario).setNumero(resultado.getInt("NUMERO"));
+                        setId_usuario(id_Usuario).
+                        setNumero(resultado.getInt("NUMERO"));
 
                 p.setId(resultado.getInt("ID"));
                 p.addItemCarrinho(i);
@@ -132,6 +138,7 @@ public class PedidoDao {
         Statement st2 = null;
         ResultSet resultado;
         ResultSet resultado2;
+        
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             st = conn.createStatement();
@@ -152,7 +159,8 @@ public class PedidoDao {
                             setNome(resultado2.getString("nome")).
                             setDescricao(resultado2.getString("descricao")).
                             setPreco(resultado2.getDouble("preco")).
-                            setQuantidade(resultado2.getInt("QUANTIDADE"));
+                            setQuantidade(resultado2.getInt("QUANTIDADE")).
+                            setRestaurante(idRestaurante);
                     p.addItemCarrinho(i);
                 }
                 p.setDataPedido(resultado.getDate("DATA_PEDIDO"));
@@ -201,7 +209,8 @@ public class PedidoDao {
                             setNome(resultado2.getString("nome")).
                             setDescricao(resultado2.getString("descricao")).
                             setPreco(resultado2.getDouble("preco")).
-                            setQuantidade(resultado2.getInt("QUANTIDADE"));
+                            setQuantidade(resultado2.getInt("QUANTIDADE")).
+                            setRestaurante(resultado2.getInt("id_restaurante"));
                     p.addItemCarrinho(i);
                 }
                 p.setDataPedido(resultado.getDate("DATA_PEDIDO"));

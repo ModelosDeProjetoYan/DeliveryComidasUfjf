@@ -9,7 +9,7 @@ import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class Usuario implements Observer {
+public abstract class Usuario{
 
     protected Pedido pedido;
     protected String nome;
@@ -18,7 +18,7 @@ public abstract class Usuario implements Observer {
     protected String tipoUsuario;
     protected Integer id;
     protected Restaurante restaurante;
-    protected Boolean acaoFeita;
+    protected Boolean acaoFeita = false;
     private Usuario proxUsuario;
 
     public String mensagemUsuario(){
@@ -92,11 +92,6 @@ public abstract class Usuario implements Observer {
         return this;
     }
 
-    public Usuario setObservable(Pedido p) {
-        p.addObserver(this);
-        return this;
-    }
-
     //abstract do template
     public abstract String getTipo();
     
@@ -107,7 +102,6 @@ public abstract class Usuario implements Observer {
     //implementar observer para chamar delegar pedido assim que trocar valor de ação feita
     public String delegarPedido(Pedido p) {
         if (acaoFeita && proxUsuario != null) {
-            proxUsuario.setObservable(p);
             return proxUsuario.delegarPedido(p);
         } else if (this instanceof UsuarioCliente && !acaoFeita) {
             p.deleteObservers();
@@ -117,21 +111,7 @@ public abstract class Usuario implements Observer {
         }
     }
 
-    @Override
-    public void update(Observable pedido, Object arg) {
-        if (pedido instanceof Pedido) {
-            this.pedido = (Pedido) pedido;
-            System.out.println(acompanhaPedido());
-            Pedido p = (Pedido) pedido;
-            try {
-                PedidoDao.getInstance().saveEstado(p.getId(), p.getStatusPedido());
-            } catch (SQLException ex) {
-                Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            delegarPedido(p);
-        }
-    }
-
+    
     public String getTipoUsuario() {
         return tipoUsuario;
     }

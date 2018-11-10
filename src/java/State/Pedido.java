@@ -10,11 +10,11 @@ import java.util.Observable;
 public class Pedido extends Observable {
 
     private int id;
-    private StatePedido pedido;
     private ArrayList<Item> carrinho;
     private String statusPedido;
     private Endereco enderecoEntrega;
     private Date dataPedido;
+    private StatePedido pedido;
     private StatePedido estadoAntigo;
 
     public Pedido() {

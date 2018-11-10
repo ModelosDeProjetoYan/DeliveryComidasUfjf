@@ -1,5 +1,8 @@
 package ChainOfResponsability_TemplateMethod;
 
+import State.Pedido;
+import java.util.Observer;
+
 public class UsuarioGerente extends Usuario {
 
     public UsuarioGerente() {

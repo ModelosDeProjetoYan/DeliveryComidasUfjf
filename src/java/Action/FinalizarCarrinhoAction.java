@@ -1,7 +1,9 @@
 package Action;
 
 import ChainOfResponsability_TemplateMethod.Usuario;
+import ChainOfResponsability_TemplateMethod.UsuarioCliente;
 import Controller.Action;
+import Model.Carrinho;
 import Persistence.ItemDao;
 import Persistence.PedidoDao;
 import Persistence.RestauranteDao;
@@ -18,20 +20,22 @@ public class FinalizarCarrinhoAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int idPedido= Integer.parseInt(request.getParameter("idPedido"));
         HttpSession sessionScope = request.getSession();
+        Carrinho c = (Carrinho) sessionScope.getAttribute("carrinho");
+        int idPedido= c.getPedido().getId();
+        int idRestaurante = c.getPedido().getCarrinho().get(0).getRestaurante();
         int idUsuario = (int) sessionScope.getAttribute("id");
-        int idRestaurante = Integer.parseInt(request.getParameter("idRestaurante"));
         int idGerenteRestaurante = RestauranteDao.getInstance().getIdGerente(idRestaurante);
-        Usuario u = UsuarioDao.getInstance().getUsuarioByID(idUsuario);
+        UsuarioCliente u = (UsuarioCliente) sessionScope.getAttribute("usuario");
         u.setAcaoFeita(true);
-        Pedido p = PedidoDao.getInstance().getPedidoById(idPedido);
-        u.setObservable(p);
+        u.setObservable(c.getPedido());
         if(idGerenteRestaurante >= 0){
             u.setProxUsuario(UsuarioDao.getInstance().getUsuarioByID(idGerenteRestaurante));
             UsuarioDao.getInstance().updateTipoUsuario(idUsuario, "Cliente", idGerenteRestaurante);
         }
-        p.setFeito();
+        //instanciar pedido no banco
+        PedidoDao.getInstance().setPedido(c.getPedido(), idUsuario, );
+        c.getPedido().setFeito();
         if (u != null) {
             sessionScope.setAttribute("usuario", u);            
             sessionScope.setAttribute("sucesso", u.mensagemUsuario());

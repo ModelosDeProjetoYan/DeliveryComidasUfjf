@@ -142,7 +142,8 @@ public class ItemDao {
                 item.setId(resultado.getInt("id"))
                         .setNome(resultado.getString("nome"))
                         .setDescricao(resultado.getString("descricao"))
-                        .setPreco(resultado.getDouble("preco"));
+                        .setPreco(resultado.getDouble("preco")).
+                        setRestaurante(resultado.getInt("id_restaurante"));
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);

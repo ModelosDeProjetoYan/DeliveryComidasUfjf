@@ -3,7 +3,7 @@ package Model;
 public abstract class Item {
     
     protected int id;
-    protected Restaurante restaurante;
+    protected int idRestaurante;
     protected double preco;
     protected String descricao;
     protected String nome;
@@ -36,12 +36,12 @@ public abstract class Item {
         return this;
     }
     
-    public Restaurante getRestaurante() {
-        return restaurante;
+    public int getRestaurante() {
+        return idRestaurante;
     }
 
-    public Item setRestaurante(Restaurante restaurante) {
-        this.restaurante = restaurante;
+    public Item setRestaurante(int restaurante) {
+        this.idRestaurante = restaurante;
         return this;
     }
 

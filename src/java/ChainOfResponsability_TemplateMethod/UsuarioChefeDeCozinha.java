@@ -1,5 +1,7 @@
 package ChainOfResponsability_TemplateMethod;
 
+import State.Pedido;
+
 public class UsuarioChefeDeCozinha extends Usuario {
 
     public UsuarioChefeDeCozinha() {

@@ -1,5 +1,7 @@
 package ChainOfResponsability_TemplateMethod;
 
+import State.Pedido;
+
 public class UsuarioEntregador extends Usuario {
 
     public UsuarioEntregador() {

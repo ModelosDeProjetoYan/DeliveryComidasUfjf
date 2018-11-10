@@ -24,7 +24,8 @@ public class ListarMeusPedidosAction implements Action {
         HttpSession sessionScope = request.getSession();
         int idUsuario = (int) sessionScope.getAttribute("id");
         ArrayList<String> estadosDoPedido = new ArrayList<>();
-        ArrayList<Pedido> p = PedidoDao.getInstance().getAllPedidosUsuario(idUsuario);
+        ArrayList<Pedido> p = PedidoDao.getInstance().
+                getAllPedidosUsuario(idUsuario);
         if (PedidoDao.getInstance().getMementos(0) != null) {
             for (Iterator i = PedidoDao.getInstance().getMementos(0).getEstadosSalvos().iterator(); i.hasNext();) {
                 PedidoMemento pedidoMemento = (PedidoMemento) i.next();

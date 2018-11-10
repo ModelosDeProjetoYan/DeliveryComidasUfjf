@@ -1,6 +1,7 @@
 package Action;
 
 import Controller.Action;
+import Model.Carrinho;
 import Persistence.PedidoDao;
 import Persistence.RestauranteDao;
 import State.Pedido;
@@ -10,6 +11,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class ListarPedidosRestauranteAction implements Action {
 
@@ -17,7 +19,10 @@ public class ListarPedidosRestauranteAction implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispacher = request.getRequestDispatcher("/restaurante/ListarPedidosRestaurante.jsp");
         request.setAttribute("titulo", "Pedidos do Restaurante");
-        int idRestaurante = 1;
+        HttpSession sessionScope = request.getSession();
+        Carrinho c = (Carrinho) sessionScope.getAttribute("carrinho");
+        int idPedido= c.getPedido().getId();
+        int idRestaurante = c.getPedido().getCarrinho().get(0).getRestaurante();
         ArrayList<Pedido> pedidos = PedidoDao.getInstance().getAllPedidosRestaurante(idRestaurante);
         request.setAttribute("pedidos", pedidos);
         dispacher.forward(request, response);
