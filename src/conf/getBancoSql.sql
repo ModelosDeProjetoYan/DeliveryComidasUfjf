@@ -98,6 +98,10 @@ INSERT INTO item(nome,tipo,descricao, preco, disponivel, promocao, id_restaurant
 
 
 INSERT INTO ENDERECO_DE_ENTREGA(logradouro,numero,complemento, bairro, cidade,id_usuario) values('minha casa', 1, 'asd','doideira', 'jf', 1);
+INSERT INTO ENDERECO_DE_ENTREGA(logradouro,numero,complemento, bairro, cidade,id_usuario) values('minha casa', 1, 'asd','doideira', 'jf', 2);
+INSERT INTO ENDERECO_DE_ENTREGA(logradouro,numero,complemento, bairro, cidade,id_usuario) values('minha casa', 1, 'asd','doideira', 'jf', 3);
+INSERT INTO ENDERECO_DE_ENTREGA(logradouro,numero,complemento, bairro, cidade,id_usuario) values('minha casa', 1, 'asd','doideira', 'jf', 4);
+INSERT INTO ENDERECO_DE_ENTREGA(logradouro,numero,complemento, bairro, cidade,id_usuario) values('minha casa', 1, 'asd','doideira', 'jf', 5);
 
 
 INSERT INTO PEDIDO(ESTADO, DATA_PEDIDO, ID_END ,ID_USUARIO) values ('ABERTO','2018-11-10',1, 1);

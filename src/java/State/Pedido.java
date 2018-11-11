@@ -24,6 +24,7 @@ public class Pedido extends Observable {
         carrinho = new ArrayList<>();
         pedido = p;
         estadoAntigo = p;
+        statusPedido = p.getEstado();
     }
 
     public int getId() {
@@ -117,6 +118,7 @@ public class Pedido extends Observable {
     }
 
     public String getStatusPedido() {
+        statusPedido = pedido.getEstado();
         return statusPedido;
     }
 

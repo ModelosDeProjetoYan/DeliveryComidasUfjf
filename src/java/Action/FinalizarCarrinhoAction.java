@@ -4,12 +4,15 @@ import ChainOfResponsability_TemplateMethod.Usuario;
 import ChainOfResponsability_TemplateMethod.UsuarioCliente;
 import Controller.Action;
 import Model.Carrinho;
+import Model.Endereco;
+import Persistence.EnderecoEntregaDao;
 import Persistence.ItemDao;
 import Persistence.PedidoDao;
 import Persistence.RestauranteDao;
 import Persistence.UsuarioDao;
 import State.Pedido;
 import java.io.IOException;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,15 +29,19 @@ public class FinalizarCarrinhoAction implements Action {
         int idRestaurante = c.getPedido().getCarrinho().get(0).getRestaurante();
         int idUsuario = (int) sessionScope.getAttribute("id");
         int idGerenteRestaurante = RestauranteDao.getInstance().getIdGerente(idRestaurante);
+       
+        Endereco e = EnderecoEntregaDao.getInstance().getEnderecoUsuario(idUsuario).get(0);
+        c.getPedido().setEnderecoEntrega(e).setDataPedido(new Date());
         UsuarioCliente u = (UsuarioCliente) sessionScope.getAttribute("usuario");
         u.setAcaoFeita(true);
         u.setObservable(c.getPedido());
+        PedidoDao.getInstance().setPedido(c.getPedido(), idUsuario, e.getId());
+        
         if(idGerenteRestaurante >= 0){
             u.setProxUsuario(UsuarioDao.getInstance().getUsuarioByID(idGerenteRestaurante));
             UsuarioDao.getInstance().updateTipoUsuario(idUsuario, "Cliente", idGerenteRestaurante);
         }
         //instanciar pedido no banco
-        PedidoDao.getInstance().setPedido(c.getPedido(), idUsuario, );
         c.getPedido().setFeito();
         if (u != null) {
             sessionScope.setAttribute("usuario", u);            

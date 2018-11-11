@@ -34,7 +34,7 @@ public class StatePedidoAberto implements StatePedido {
 
     @Override
     public String getEstado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Aberto";
     }
 
 }
