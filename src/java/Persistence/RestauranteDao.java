@@ -138,7 +138,7 @@ public class RestauranteDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             
-            ps = conn.prepareStatement("SELECT * FROM restaurante ", Statement.RETURN_GENERATED_KEYS);
+            ps = conn.prepareStatement("SELECT * FROM restaurante", Statement.RETURN_GENERATED_KEYS);
             ResultSet resultado = ps.executeQuery();
 
             while (resultado.next()) {
