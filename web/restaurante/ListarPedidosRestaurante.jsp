@@ -31,18 +31,26 @@
                 </tr>
             </c:forEach>
             <tr>
-                <td colspan="2" align='center'>${pedido.getStatusPedido()}</td>
+                <td align='center'>${pedido.getStatusPedido()}</td>
         <div class="row">
             <form method="POST" action="MainServlet?parametro=AtualizarEstadoPedidoPost&idPedido=${pedido.getId()}">
-                <td><div class="form-group col-4">
+                <td><div class="form-group">
                         <select id="state" name="state" class="custom-select">
                             <c:forEach var="state" items="${estados}">
                                 <option value="${state}">${state}</option>
                             </c:forEach>
                         </select>
                         <button type="submit" class="btn btn-primary">Atualizar</button>
-                    </div></td>                
-                </form>
+                    </div></td>
+                <td>
+                    <div class="row mt-2">
+                        <div class="btn-group mt-1 btn-block">
+                            <button type="submit" name="btnVoltar" value="Voltar" class="btn btn-success btn-block" title="Voltar"><i class="fas fa-angle-left"></i> &nbsp; Voltar</a> </button>
+                            <button type="submit" name="btnAvancar" value="Avancar" class="btn btn-success btn-block" title="Avancar"><i class="fas fa-angle-right"></i> &nbsp; Avançar</a> </button>
+                        </div>
+                    </div>
+                </td>
+            </form>
         </div>
     </tr>
 </tbody>

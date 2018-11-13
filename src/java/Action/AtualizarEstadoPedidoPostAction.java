@@ -25,7 +25,7 @@ public class AtualizarEstadoPedidoPostAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        HttpSession sessionScope = request.getSession();
         String estado = request.getParameter("state");
         int idPedido = Integer.parseInt(request.getParameter("idPedido"));
         Pedido p = PedidoDao.getInstance().getPedidoById(idPedido);
@@ -47,7 +47,7 @@ public class AtualizarEstadoPedidoPostAction implements Action {
                 p.setEntregando();
                 break;
             case "Entregue":
-                p.setEntregando();
+                p.setEntregue();
                 break;
         }
         if (!p.getStatusPedido().equals(PedidoDao.getInstance().getPedidoById(idPedido).getStatusPedido())) {
@@ -56,6 +56,17 @@ public class AtualizarEstadoPedidoPostAction implements Action {
             } catch (SQLException ex) {
                 Logger.getLogger(AtualizarEstadoPedidoPostAction.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        try {
+            if ("Voltar".equals(request.getParameter("btnVoltar")) || request.getParameter("btnVoltar") == "Voltar") {
+                PedidoDao.getInstance().atualizaEstatus(idPedido, -1);
+            } else if ("Avancar".equals(request.getParameter("btnAvancar")) || request.getParameter("btnAvancar")== "Avancar") {
+                PedidoDao.getInstance().atualizaEstatus(idPedido, 1);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AtualizarEstadoPedidoPostAction.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(AtualizarEstadoPedidoPostAction.class.getName()).log(Level.SEVERE, null, ex);
         }
         response.sendRedirect("MainServlet?parametro=ListarPedidosRestaurante");
     }
