@@ -31,10 +31,22 @@
                 </tr>
             </c:forEach>
             <tr>
-                <td colspan="3" align='center'>${pedido.getStatusPedido()}</td>
-            </tr>
-        </tbody>
-    </table>
+                <td colspan="2" align='center'>${pedido.getStatusPedido()}</td>
+        <div class="row">
+            <form method="POST" action="MainServlet?parametro=AtualizarEstadoPedidoPost&idPedido=${pedido.getId()}">
+                <td><div class="form-group col-4">
+                        <select id="state" name="state" class="custom-select">
+                            <c:forEach var="state" items="${estados}">
+                                <option value="${state}">${state}</option>
+                            </c:forEach>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Atualizar</button>
+                    </div></td>                
+                </form>
+        </div>
+    </tr>
+</tbody>
+</table>
 </c:forEach>
 
 

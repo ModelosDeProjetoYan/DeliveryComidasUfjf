@@ -13,27 +13,27 @@ public class StatePedidoPronto implements StatePedido {
 
     @Override
     public void setPreparando(Pedido p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public void setPronto(Pedido p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public void setEntregando(Pedido p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         p.setPedido(new StatePedidoEntregando());
     }
 
     @Override
     public void setEntregue(Pedido p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         p.setPedido(new StatePedidoEntregue());
     }
 
     @Override
     public String getEstado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Pronto";
     }
 
 }

@@ -18,10 +18,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PedidoDao {
+public class PedidoDao extends Observable {
 
     private ArrayList<HistoricoDeMementos> mementos = new ArrayList<>();
     private StatePedido action = null;
@@ -48,14 +49,14 @@ public class PedidoDao {
         }
 
     }
-    
-   //instanciar pedido no banco
-    public Pedido setPedido(Pedido p, int idUsuario, int idEnd){
+
+    //instanciar pedido no banco
+    public Pedido setPedido(Pedido p, int idUsuario, int idEnd) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet resultado;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
+
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             ps = conn.prepareStatement("INSERT INTO PEDIDO (ESTADO, DATA_PEDIDO, ID_USUARIO,ID_END) VALUES(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -68,11 +69,11 @@ public class PedidoDao {
             if (rs.next()) {
                 p.setId(rs.getInt(1));
             }
-            if(testaSePossuiHistorico(p.getId())==0 ){
+            if (testaSePossuiHistorico(p.getId()) == 0) {
                 HistoricoDeMementos h = new HistoricoDeMementos(p.getId());
                 h.setEstadosSalvos(p.saveToMemento());
-                mementos.add(h);            
-            }else{
+                mementos.add(h);
+            } else {
                 mementos.
                         get(testaSePossuiHistorico(p.getId())).
                         setEstadosSalvos(p.saveToMemento());
@@ -82,8 +83,11 @@ public class PedidoDao {
         } finally {
             closeResoucers(conn, ps);
         }
+        setChanged();
+        notifyObservers(p.getId());
         return p;
     }
+
     public ArrayList<Pedido> getAllPedidosUsuario(int id_Usuario) {
         ArrayList<Pedido> pedidos = new ArrayList<>();
         Connection conn = null;
@@ -137,7 +141,7 @@ public class PedidoDao {
         Statement st2 = null;
         ResultSet resultado;
         ResultSet resultado2;
-        
+
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             st = conn.createStatement();
@@ -148,7 +152,7 @@ public class PedidoDao {
             while (resultado.next()) {
                 Pedido p = new Pedido(ActionFactoryState.create(resultado.getString("ESTADO")));
                 p.setId(resultado.getInt("ID"));
-                resultado2 = st2.executeQuery("SELECT * FROM ITEM I INNER JOIN ITEM_PEDIDO IT ON IT.ID_ITEM=I.ID WHERE IT.ID_PEDIDO = "+p.getId()+"");
+                resultado2 = st2.executeQuery("SELECT * FROM ITEM I INNER JOIN ITEM_PEDIDO IT ON IT.ID_ITEM=I.ID WHERE IT.ID_PEDIDO = " + p.getId() + "");
                 while (resultado2.next()) {
                     Item i = ActionFactoryItem.create(resultado2.getString("tipo"));
                     i.setId(resultado2.getInt("id_item")).
@@ -238,11 +242,11 @@ public class PedidoDao {
             mementos.get(testaSePossuiHistorico(id))
                     .setEstadosSalvos(
                             new PedidoMemento(action = ActionFactoryState.create(estado)));
-            
+
             mementos.get(testaSePossuiHistorico(id)).setPosicaoEstadosSalvos(
                     mementos.get(testaSePossuiHistorico(id))
                             .getPosicaoEstadosSalvos() + 1);
-            
+
             for (int i = mementos.get(testaSePossuiHistorico(id)).
                     getEstadosSalvos().size() - 1;
                     i > mementos.get(testaSePossuiHistorico(id))
@@ -250,7 +254,8 @@ public class PedidoDao {
                     i--) {
                 mementos.get(testaSePossuiHistorico(id)).removeHistoricoAntigo(i);
             }
-            
+            setChanged();
+            notifyObservers(id);
         } catch (SQLException e) {
             throw e;
         } catch (ClassNotFoundException ex) {
@@ -263,9 +268,9 @@ public class PedidoDao {
     public HistoricoDeMementos getMementos(int idPedido) {
         int indice = testaSePossuiHistorico(idPedido);
         if (mementos.size() > 0) {
-            if(indice==0 && 
-                    mementos.get(indice)
-                    .getId() != idPedido){
+            if (indice == 0
+                    && mementos.get(indice)
+                            .getId() != idPedido) {
                 return null;
             }
             return mementos.get(indice);
@@ -273,13 +278,12 @@ public class PedidoDao {
         return null;
     }
 
-    
     public int testaSePossuiHistorico(int id) {
         int i = 0;
         while (i < mementos.size()) {
-            if(mementos.get(i).getId() != id){
+            if (mementos.get(i).getId() != id) {
                 i++;
-            }else{
+            } else {
                 return i;
             }
         }
@@ -296,7 +300,7 @@ public class PedidoDao {
             if (elemento != null && elemento > 0) {
                 p = mementos.get(testaSePossuiHistorico(id_pedido))
                         .getEstadosSalvos().get(elemento - 1);
-       
+
                 mementos.get(testaSePossuiHistorico(id_pedido))
                         .setPosicaoEstadosSalvos(elemento - 1);
                 try {
@@ -315,10 +319,10 @@ public class PedidoDao {
             if (elemento != null && elemento >= 0
                     && elemento < mementos.get(testaSePossuiHistorico(id_pedido)).
                             getEstadosSalvos().size() - 1) {
-     
+
                 p = mementos.get(testaSePossuiHistorico(id_pedido))
                         .getEstadosSalvos().get(elemento + 1);
-                
+
                 mementos.get(testaSePossuiHistorico(id_pedido)).
                         setPosicaoEstadosSalvos(elemento + 1);
                 try {
@@ -341,7 +345,7 @@ public class PedidoDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             ps = conn.prepareStatement("UPDATE PEDIDO SET ID_RESTAURANTE= ?"
-                    + "WHERE id = ?" , Statement.RETURN_GENERATED_KEYS);
+                    + "WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, idRestaurante);
             ps.setInt(2, idPedido);
             ps.executeUpdate();

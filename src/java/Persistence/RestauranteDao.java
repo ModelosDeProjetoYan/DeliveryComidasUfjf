@@ -190,6 +190,25 @@ public class RestauranteDao {
         return idGerente;
     }
     
-    
+    public String getCargoRestaurante(int idRestaurante, int idUsuario){
+        String cargo = "";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            ps = conn.prepareStatement("SELECT * FROM funcionario where id_restaurante = ? and id_usuario = ? ", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, idRestaurante);
+            ps.setInt(2, idUsuario);
+            ResultSet resultado = ps.executeQuery();
+            if (resultado.next()) {
+                cargo = resultado.getString("tipo_user_restaurante");
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeResoucers(conn, ps);
+        }        
+        return cargo;
+    }
     
 }

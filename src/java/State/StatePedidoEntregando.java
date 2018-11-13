@@ -16,6 +16,7 @@ public class StatePedidoEntregando implements StatePedido {
 
     @Override
     public void setPronto(Pedido p) {
+         p.setPedido(new StatePedidoPronto());
     }
 
     @Override

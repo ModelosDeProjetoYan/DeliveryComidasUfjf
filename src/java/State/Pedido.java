@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
 
-public class Pedido extends Observable {
+public class Pedido {
 
     private int id;
     private ArrayList<Item> carrinho;
@@ -47,42 +47,41 @@ public class Pedido extends Observable {
 
     public void setAberto() {
         pedido.setAberto(this);
-        setStatusPedido();
+     //   setStatusPedido();
     }
 
     public void setFeito() {
         pedido.setFeito(this);
-        setStatusPedido();
+//        setStatusPedido();
     }
 
     public void setPreparando() {
         pedido.setPreparando(this);
-        setStatusPedido();
+  //      setStatusPedido();
     }
 
     public void setPronto() {
         pedido.setPronto(this);
-        setStatusPedido();
+    //    setStatusPedido();
     }
 
     public void setEntregando() {
         pedido.setEntregando(this);
-        setStatusPedido();
+ //       setStatusPedido();
     }
 
     public void setEntregue() {
         pedido.setEntregue(this);
-        setStatusPedido();
+   //     setStatusPedido();
     }
-
+/*
     private void setStatusPedido() {
         if (!estadoAntigo.equals(statusPedido)) {
             this.statusPedido = pedido.getEstado();
-            setChanged();
-            notifyObservers();
+            
         }
     }
-
+*/
     public void removeItemCarrinho(Item i) {
         carrinho.remove(i);
     }

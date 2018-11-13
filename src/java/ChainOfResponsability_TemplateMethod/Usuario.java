@@ -104,7 +104,7 @@ public abstract class Usuario{
         if (acaoFeita && proxUsuario != null) {
             return proxUsuario.delegarPedido(p);
         } else if (this instanceof UsuarioCliente && !acaoFeita) {
-            p.deleteObservers();
+            //rever
             return acompanhaPedido();
         } else {
             return acompanhaPedido();

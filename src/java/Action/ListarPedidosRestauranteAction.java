@@ -26,16 +26,30 @@ public class ListarPedidosRestauranteAction implements Action {
         request.setAttribute("titulo", "Pedidos do Restaurante");
         HttpSession sessionScope = request.getSession();
         int idUsuario = (int) sessionScope.getAttribute("id");
-        
         ArrayList<Restaurante> meusRestaurantes = RestauranteDao
                 .getInstance()
                 .selectAllRestaurantesFromUsuarioByIdUsuario((Usuario) sessionScope.getAttribute("usuario"));
-       
-        
         int idRestaurante = meusRestaurantes.get(0).getId();
         
         ArrayList<Pedido> pedidos = PedidoDao.getInstance().getAllPedidosRestaurante(idRestaurante);
+        ArrayList<String> estados = new ArrayList<>();
+        String cargo = RestauranteDao.getInstance().getCargoRestaurante(idRestaurante, idUsuario);
+        if("Gerente".equals(cargo)){
+            estados.add("Aberto");
+            estados.add("Feito");
+            estados.add("Preparando");
+            estados.add("Pronto");
+            estados.add("Entregando");
+            estados.add("Entregue");
+      
+        }else if("ChefeDeCozinha".equals(cargo)){
+            estados.add("Pronto");
+        }else if("Entregador".equals(cargo)){
+            estados.add("Entregando");
+            estados.add("Entregue");
+        }
         request.setAttribute("pedidos", pedidos);
+        request.setAttribute("estados", estados);
         dispacher.forward(request, response);
     }
 }
