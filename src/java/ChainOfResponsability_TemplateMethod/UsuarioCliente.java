@@ -22,7 +22,7 @@ public class UsuarioCliente extends Usuario implements Observer {
 
     @Override
     String acompanhaPedido() {
-        return pedido.getStatusPedido();
+        return "Seu pedido está "+pedido.getStatusPedido();
     }
 
     public Usuario setObservable(PedidoDao p) {
@@ -34,7 +34,7 @@ public class UsuarioCliente extends Usuario implements Observer {
     public void update(Observable pedido, Object arg) {
         if ((int) arg == this.pedido.getId()) {
             this.pedido = PedidoDao.getInstance().getPedidoById(this.pedido.getId());
-            System.out.println(acompanhaPedido());
+            System.out.println("Olá Cliente "+this.getNome()+" "+acompanhaPedido());
         }
 
     }
