@@ -45,8 +45,8 @@
                 <td>
                     <div class="row mt-2">
                         <div class="btn-group mt-1 btn-block">
-                            <button type="submit" name="btnVoltar" value="Voltar" class="btn btn-success btn-block" title="Voltar"><i class="fas fa-angle-up"></i> &nbsp; Voltar</a> </button>
-                            <button type="submit" name="btnAvancar" value="Avancar" class="btn btn-success btn-block" title="Avancar"><i class="fas fa-angle-down"></i> &nbsp; Avançar</a> </button>
+                            <button type="submit" name="btnVoltar" value="Voltar" class="btn btn-success btn-block" title="Voltar"><i class="fas fa-angle-left"></i> &nbsp; Voltar</a> </button>
+                            <button type="submit" name="btnAvancar" value="Avancar" class="btn btn-success btn-block" title="Avancar"><i class="fas fa-angle-right"></i> &nbsp; Avançar</a> </button>
                         </div>
                     </div>
                 </td>
