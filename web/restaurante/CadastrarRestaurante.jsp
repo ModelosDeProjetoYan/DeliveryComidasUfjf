@@ -50,6 +50,12 @@
             <input type="text" class="form-control" maxlength="100" id="tipo_comida" name="tipo_comida" placeholder="Digite o tipo da comida">
         </div>
     </div>
+    <div class="row">
+        <div class="form-group col-12">
+            <label for="descricao">Descrição</label>
+            <textarea class="form-control" maxlength="100" id="descricao" name="descricao" placeholder="Digite a descrição"></textarea>
+        </div>
+    </div>
 
     <button type="submit" class="btn btn-primary">Cadastrar</button>
 </form>

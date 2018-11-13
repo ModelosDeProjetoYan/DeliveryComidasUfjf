@@ -17,7 +17,7 @@ public class CadastrarRestaurantePostAction implements Action {
         String nome = request.getParameter("nome");
         String descricao = request.getParameter("descricao");
         String logradouro = request.getParameter("logradouro");
-        String numero = request.getParameter("numero");
+        Integer numero = Integer.parseInt(request.getParameter("numero"));
         String complemento = request.getParameter("complemento");
         String bairro = request.getParameter("bairro");
         String cidade = request.getParameter("cidade");

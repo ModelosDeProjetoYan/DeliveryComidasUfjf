@@ -19,11 +19,12 @@ public class ListarMeusRestaurantesAction implements Action {
         RequestDispatcher dispacher = request.getRequestDispatcher("/restaurante/ListarRestaurantes.jsp");
         request.setAttribute("titulo", "Meus Restaurantes");
         HttpSession sessionScope = request.getSession();
-        sessionScope.setAttribute("isProprietario", true);
         
         ArrayList<Restaurante> restaurantes = RestauranteDao
                 .getInstance()
                 .selectAllRestaurantesFromUsuarioByIdUsuario((Usuario) sessionScope.getAttribute("usuario"));
+        sessionScope.setAttribute("isProprietario", true);
+        request.setAttribute("contador", 0);
         request.setAttribute("restaurantes", restaurantes);
         
         dispacher.forward(request, response);

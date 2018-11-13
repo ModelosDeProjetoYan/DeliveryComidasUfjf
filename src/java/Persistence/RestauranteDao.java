@@ -38,7 +38,7 @@ public class RestauranteDao {
         }
     }
 
-    public Restaurante insertRestaurante(int idGerente, String nome, String descricao, String logradouro, String numero, String complemento, String bairro, String cidade, String tipoComida) {
+    public Restaurante insertRestaurante(int idGerente, String nome, String descricao, String logradouro, Integer numero, String complemento, String bairro, String cidade, String tipoComida) {
         Restaurante restaurante = null;
         Connection conn = null;
         PreparedStatement ps = null;
@@ -53,11 +53,11 @@ public class RestauranteDao {
 
                 ps = conn.prepareStatement("INSERT INTO RESTAURANTE "
                         + "(nome, descricao, logradouro, numero, complemento, bairro, cidade, tipo_comida, id_usuario) "
-                        + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                        + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, nome);
                 ps.setString(2, descricao);
                 ps.setString(3, logradouro);
-                ps.setString(4, numero);
+                ps.setInt(4, (int) numero);
                 ps.setString(5, complemento);
                 ps.setString(6, bairro);
                 ps.setString(7, cidade);
@@ -71,7 +71,7 @@ public class RestauranteDao {
                 restaurante.setNome(nome)
                         .setDescricao(descricao)
                         .setLogradouro(logradouro)
-                        .setNumero(Integer.parseInt(numero))
+                        .setNumero((int) numero)
                         .setComplemento(complemento)
                         .setBairro(bairro)
                         .setCidade(cidade)
@@ -81,7 +81,7 @@ public class RestauranteDao {
                 }
                 
                 UsuarioDao.getInstance().updateTipoUsuario(idGerente, "Gerente", null);
-                UsuarioDao.getInstance().insertFuncionario(restaurante.getId(), idGerente, "gerente");
+                UsuarioDao.getInstance().insertFuncionario(restaurante.getId(), idGerente, "Gerente");
             } catch (SQLException | ClassNotFoundException e) {
                 Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
             } finally {
@@ -118,7 +118,7 @@ public class RestauranteDao {
                         .setGerente(gerente);
                 
                 restaurante.setItens(ItemDao.getInstance().selectAllItensByIdRestaurante(restaurante.getId()));
-                restaurante.setFuncionarios(new ArrayList<>());
+                restaurante.setFuncionarios(UsuarioDao.getInstance().selectAllFuncionariosByIdRestaurante(restaurante.getId()));
                 restaurantes.add(restaurante);
             }
         } catch (SQLException | ClassNotFoundException ex) {
