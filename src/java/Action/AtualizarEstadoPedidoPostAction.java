@@ -47,7 +47,7 @@ public class AtualizarEstadoPedidoPostAction implements Action {
                 p.setEntregando();
                 break;
             case "Entregue":
-                p.setEntregando();
+                p.setEntregue();
                 break;
         }
         if (!p.getStatusPedido().equals(PedidoDao.getInstance().getPedidoById(idPedido).getStatusPedido())) {

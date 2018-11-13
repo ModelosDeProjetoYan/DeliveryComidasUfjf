@@ -74,9 +74,15 @@ public class PedidoDao extends Observable {
                 h.setEstadosSalvos(p.saveToMemento());
                 mementos.add(h);
             } else {
-                mementos.
-                        get(testaSePossuiHistorico(p.getId())).
-                        setEstadosSalvos(p.saveToMemento());
+                if (testaSePossuiHistorico(p.getId()) == mementos.size()) {
+                    HistoricoDeMementos h = new HistoricoDeMementos(p.getId());
+                    h.setEstadosSalvos(p.saveToMemento());
+                    mementos.add(h);
+                } else {
+                    mementos.
+                            get(testaSePossuiHistorico(p.getId())).
+                            setEstadosSalvos(p.saveToMemento());
+                }
             }
         } catch (SQLException | ClassNotFoundException e) {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
