@@ -29,7 +29,7 @@ public class ItemDao {
 
         return null;
     }
-    
+
     private void closeResoucers(Connection conn, Statement st) {
         try {
             if (st != null) {
@@ -42,7 +42,7 @@ public class ItemDao {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-    
+
     public Boolean insertItem(String nome, String tipo, String descricao, Double preco, Integer disponivel, Integer promocao, Integer idRestaurante) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -76,7 +76,32 @@ public class ItemDao {
         }
         return true;
     }
-    
+
+    public Boolean insertItemPedido(int idItem, int idPedido, int Quantidade) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet resultado;
+
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+
+            ps = conn.prepareStatement("INSERT INTO item_pedido "
+                    + "(id_pedido, id_item, quantidade) "
+                    + "VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, idPedido);
+            ps.setInt(2, idItem);
+            ps.setInt(3, Quantidade);
+            ps.executeUpdate();
+            resultado = ps.getGeneratedKeys();
+        } catch (SQLException | ClassNotFoundException e) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            closeResoucers(conn, ps);
+        }
+
+        return true;
+    }
+
     public ArrayList<Item> selectAllItensByIdRestaurante(Integer idRestaurante) {
         ArrayList<Item> itens = new ArrayList<>();
         Connection conn = null;
@@ -84,7 +109,7 @@ public class ItemDao {
 
         try {
             conn = DataBaseLocator.getInstance().getConnection();
-            
+
             ps = conn.prepareStatement("SELECT * FROM item WHERE id_restaurante = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, idRestaurante);
             ResultSet resultado = ps.executeQuery();
@@ -100,7 +125,7 @@ public class ItemDao {
                 } else {
                     return null;
                 }
-                
+
                 item.setId(resultado.getInt("id"))
                         .setNome(resultado.getString("nome"))
                         .setDescricao(resultado.getString("descricao"))
@@ -112,10 +137,10 @@ public class ItemDao {
         } finally {
             closeResoucers(conn, ps);
         }
-        
+
         return itens;
     }
-    
+
     public Item selectItemById(Integer idItem) {
         Item item = null;
         Connection conn = null;
@@ -123,7 +148,7 @@ public class ItemDao {
 
         try {
             conn = DataBaseLocator.getInstance().getConnection();
-            
+
             ps = conn.prepareStatement("SELECT * FROM item WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, idItem);
             ResultSet resultado = ps.executeQuery();
@@ -138,7 +163,7 @@ public class ItemDao {
                 } else {
                     return null;
                 }
-                
+
                 item.setId(resultado.getInt("id"))
                         .setNome(resultado.getString("nome"))
                         .setDescricao(resultado.getString("descricao"))
@@ -150,7 +175,7 @@ public class ItemDao {
         } finally {
             closeResoucers(conn, ps);
         }
-        
+
         return item;
     }
 }

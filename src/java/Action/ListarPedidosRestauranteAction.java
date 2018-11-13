@@ -1,9 +1,14 @@
 package Action;
 
+import ChainOfResponsability_TemplateMethod.Usuario;
+import ChainOfResponsability_TemplateMethod.UsuarioCliente;
+import ChainOfResponsability_TemplateMethod.UsuarioGerente;
 import Controller.Action;
 import Model.Carrinho;
+import Model.Restaurante;
 import Persistence.PedidoDao;
 import Persistence.RestauranteDao;
+import Persistence.UsuarioDao;
 import State.Pedido;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,9 +25,15 @@ public class ListarPedidosRestauranteAction implements Action {
         RequestDispatcher dispacher = request.getRequestDispatcher("/restaurante/ListarPedidosRestaurante.jsp");
         request.setAttribute("titulo", "Pedidos do Restaurante");
         HttpSession sessionScope = request.getSession();
-        Carrinho c = (Carrinho) sessionScope.getAttribute("carrinho");
-        int idPedido= c.getPedido().getId();
-        int idRestaurante = c.getPedido().getCarrinho().get(0).getRestaurante();
+        int idUsuario = (int) sessionScope.getAttribute("id");
+        
+        ArrayList<Restaurante> meusRestaurantes = RestauranteDao
+                .getInstance()
+                .selectAllRestaurantesFromUsuarioByIdUsuario((Usuario) sessionScope.getAttribute("usuario"));
+       
+        
+        int idRestaurante = meusRestaurantes.get(0).getId();
+        
         ArrayList<Pedido> pedidos = PedidoDao.getInstance().getAllPedidosRestaurante(idRestaurante);
         request.setAttribute("pedidos", pedidos);
         dispacher.forward(request, response);

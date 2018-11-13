@@ -172,6 +172,31 @@ public class UsuarioDao {
         return true;
     }
 
+    public String getTipoFuncionario(int idRestaurante, int idUsuario) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet resultado;
+        String tipoFuncionario = "";
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            ps = conn.prepareStatement("select tipo_user_restaurante from funcionario"
+                    + " where (id_restaurante = ? and id_usuario = ?", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, idRestaurante);
+            ps.setInt(2, idUsuario);
+            ps.executeUpdate();
+            resultado = ps.getGeneratedKeys();
+            if(resultado.next()){
+                tipoFuncionario = resultado.getString("tipo_user_restaurante");
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            closeResoucers(conn, ps);
+        }
+
+        return tipoFuncionario;
+    }
+
     public Boolean insertFuncionario(int idRestaurante, int idUsuario, String tipoUsuario) {
         Connection conn = null;
         PreparedStatement ps = null;

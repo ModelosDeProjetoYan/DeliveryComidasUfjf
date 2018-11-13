@@ -8,7 +8,7 @@ public class ActionFactoryItem {
 
     public static Item create(String action) {
         Item actionObject = null;
-        String nomeClasse = action;
+        String nomeClasse = "Model."+action;
         Class classe = null;
         Object objeto = null;
         try {

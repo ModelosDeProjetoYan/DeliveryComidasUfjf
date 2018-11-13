@@ -13,8 +13,30 @@
 
 <%@include file="/jspf/cabecalho.jspf" %>
 
-ListarMeusRestaurantes!!!
-${1/0}
+<c:forEach var="pedido" items="${pedidos}">
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nome do item</th>
+                <th>Quantidade do item</th>
+                <th>Preço do item</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="itensDoPedido" items="${pedido.getCarrinho()}">
+                <tr>
+                    <td>${itensDoPedido.getNome()}</td>
+                    <td>${itensDoPedido.getQuantidade()}</td>
+                    <td>R$ ${itensDoPedido.getPreco()}</td>
+                </tr>
+            </c:forEach>
+            <tr>
+                <td colspan="3" align='center'>${pedido.getStatusPedido()}</td>
+            </tr>
+        </tbody>
+    </table>
+</c:forEach>
+
 
 <%@include file="/jspf/rodape.jspf" %>
 

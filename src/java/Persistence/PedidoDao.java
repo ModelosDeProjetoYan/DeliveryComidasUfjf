@@ -143,18 +143,15 @@ public class PedidoDao {
             st = conn.createStatement();
             conn2 = DataBaseLocator.getInstance().getConnection();
             st2 = conn.createStatement();
-            resultado = st.executeQuery(
-                    "SELECT *FROM PEDIDO P\n"
-                    + " WHERE P.ID_RESTAURANTE=" + idRestaurante + "");
+            resultado = st.executeQuery("SELECT *FROM PEDIDO"
+                    + " WHERE ID_RESTAURANTE=" + idRestaurante + "");
             while (resultado.next()) {
                 Pedido p = new Pedido(ActionFactoryState.create(resultado.getString("ESTADO")));
                 p.setId(resultado.getInt("ID"));
-                resultado2 = st2.executeQuery("SELECT * FROM ITEM I"
-                        + "INNER JOIN ITEM_PEDIDO IT ON IT.ID_ITEM=I.ID"
-                        + "WHERE IT.ID_PEDIDO = " + resultado.getInt("id") + "");
+                resultado2 = st2.executeQuery("SELECT * FROM ITEM I INNER JOIN ITEM_PEDIDO IT ON IT.ID_ITEM=I.ID WHERE IT.ID_PEDIDO = "+p.getId()+"");
                 while (resultado2.next()) {
-                    Item i = ActionFactoryItem.create(resultado.getString("TIPO"));
-                    i.setId(resultado2.getInt("id")).
+                    Item i = ActionFactoryItem.create(resultado2.getString("tipo"));
+                    i.setId(resultado2.getInt("id_item")).
                             setNome(resultado2.getString("nome")).
                             setDescricao(resultado2.getString("descricao")).
                             setPreco(resultado2.getDouble("preco")).
@@ -335,6 +332,23 @@ public class PedidoDao {
                     closeResoucers(conn, st);
                 }
             }
+        }
+    }
+
+    public void setRestaurantePedido(int idRestaurante, int idPedido) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            ps = conn.prepareStatement("UPDATE PEDIDO SET ID_RESTAURANTE= ?"
+                    + "WHERE id = ?" , Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, idRestaurante);
+            ps.setInt(2, idPedido);
+            ps.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            closeResoucers(conn, ps);
         }
     }
 }
