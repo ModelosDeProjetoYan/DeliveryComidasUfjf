@@ -7,7 +7,6 @@ import Memento.PedidoMemento;
 import Model.ActionFactoryItem;
 import Model.Endereco;
 import Model.Item;
-import State.ActionFactoryState;
 import State.Pedido;
 import State.StatePedido;
 import java.sql.Connection;
@@ -69,7 +68,7 @@ public class PedidoDao {
             if (rs.next()) {
                 p.setId(rs.getInt(1));
             }
-            if(testaSePossuiHistorico(p.getId())==0){
+            if(testaSePossuiHistorico(p.getId())==0 ){
                 HistoricoDeMementos h = new HistoricoDeMementos(p.getId());
                 h.setEstadosSalvos(p.saveToMemento());
                 mementos.add(h);            
@@ -242,13 +241,19 @@ public class PedidoDao {
             mementos.get(testaSePossuiHistorico(id))
                     .setEstadosSalvos(
                             new PedidoMemento(action = ActionFactoryState.create(estado)));
+            
             mementos.get(testaSePossuiHistorico(id)).setPosicaoEstadosSalvos(
-                    mementos.get(testaSePossuiHistorico(id)).getPosicaoEstadosSalvos() + 1);
-            for (int i = mementos.get(testaSePossuiHistorico(id)).getEstadosSalvos().size() - 1;
-                    i > mementos.get(testaSePossuiHistorico(id)).getPosicaoEstadosSalvos();
+                    mementos.get(testaSePossuiHistorico(id))
+                            .getPosicaoEstadosSalvos() + 1);
+            
+            for (int i = mementos.get(testaSePossuiHistorico(id)).
+                    getEstadosSalvos().size() - 1;
+                    i > mementos.get(testaSePossuiHistorico(id))
+                            .getPosicaoEstadosSalvos();
                     i--) {
                 mementos.get(testaSePossuiHistorico(id)).removeHistoricoAntigo(i);
             }
+            
         } catch (SQLException e) {
             throw e;
         } catch (ClassNotFoundException ex) {
@@ -258,17 +263,28 @@ public class PedidoDao {
         }
     }
 
-    public HistoricoDeMementos getMementos(int id_pedido) {
+    public HistoricoDeMementos getMementos(int idPedido) {
+        int indice = testaSePossuiHistorico(idPedido);
         if (mementos.size() > 0) {
-            return mementos.get(testaSePossuiHistorico(id_pedido));
+            if(indice==0 && 
+                    mementos.get(indice)
+                    .getId() != idPedido){
+                return null;
+            }
+            return mementos.get(indice);
         }
         return null;
     }
 
+    
     public int testaSePossuiHistorico(int id) {
         int i = 0;
-        while (i < mementos.size() && mementos.get(i).getId() != id) {
-            i++;
+        while (i < mementos.size()) {
+            if(mementos.get(i).getId() != id){
+                i++;
+            }else{
+                return i;
+            }
         }
         return i;
 
@@ -281,8 +297,11 @@ public class PedidoDao {
         Statement st = null;
         if (i == -1) {
             if (elemento != null && elemento > 0) {
-                p = mementos.get(testaSePossuiHistorico(id_pedido)).getEstadosSalvos().get(elemento - 1);
-                mementos.get(testaSePossuiHistorico(id_pedido)).setPosicaoEstadosSalvos(elemento - 1);
+                p = mementos.get(testaSePossuiHistorico(id_pedido))
+                        .getEstadosSalvos().get(elemento - 1);
+       
+                mementos.get(testaSePossuiHistorico(id_pedido))
+                        .setPosicaoEstadosSalvos(elemento - 1);
                 try {
                     conn = DataBaseLocator.getInstance().getConnection();
                     st = conn.createStatement();
@@ -297,9 +316,14 @@ public class PedidoDao {
             }
         } else if (i == 1) {
             if (elemento != null && elemento >= 0
-                    && elemento < mementos.get(testaSePossuiHistorico(id_pedido)).getEstadosSalvos().size() - 1) {
-                p = mementos.get(testaSePossuiHistorico(id_pedido)).getEstadosSalvos().get(elemento + 1);
-                mementos.get(testaSePossuiHistorico(id_pedido)).setPosicaoEstadosSalvos(elemento + 1);
+                    && elemento < mementos.get(testaSePossuiHistorico(id_pedido)).
+                            getEstadosSalvos().size() - 1) {
+     
+                p = mementos.get(testaSePossuiHistorico(id_pedido))
+                        .getEstadosSalvos().get(elemento + 1);
+                
+                mementos.get(testaSePossuiHistorico(id_pedido)).
+                        setPosicaoEstadosSalvos(elemento + 1);
                 try {
                     conn = DataBaseLocator.getInstance().getConnection();
                     st = conn.createStatement();

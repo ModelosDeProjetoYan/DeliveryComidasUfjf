@@ -35,6 +35,7 @@ public class UsuarioCliente extends Usuario  implements Observer {
             System.out.println(acompanhaPedido());
             Pedido p = (Pedido) pedido;
             try {
+                
                 PedidoDao.getInstance().saveEstado(p.getId(), p.getStatusPedido());
             } catch (SQLException ex) {
                 Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);

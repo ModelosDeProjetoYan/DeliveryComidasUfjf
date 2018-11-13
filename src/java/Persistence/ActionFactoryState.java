@@ -1,14 +1,15 @@
-package State;
+package Persistence;
 
 import Action.*;
 import ChainOfResponsability_TemplateMethod.Usuario;
 import Controller.*;
+import State.StatePedido;
 
 public class ActionFactoryState {
 
     public static StatePedido create(String action) {
         StatePedido actionObject = null;
-        String nomeClasse = "StatePedido" + action;
+        String nomeClasse = "State.StatePedido" + action;
         Class classe = null;
         Object objeto = null;
         try {

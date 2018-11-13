@@ -43,6 +43,7 @@ public class FinalizarCarrinhoAction implements Action {
         }
         //instanciar pedido no banco
         c.getPedido().setFeito();
+        
         if (u != null) {
             sessionScope.setAttribute("usuario", u);            
             sessionScope.setAttribute("sucesso", u.mensagemUsuario());

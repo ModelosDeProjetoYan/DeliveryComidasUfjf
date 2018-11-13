@@ -6,7 +6,7 @@ public class HistoricoDeMementos {
 
     private ArrayList<PedidoMemento> estadosSalvos = new ArrayList<>();
     private Integer posicaoEstadosSalvos = null;
-    private int id;
+    private Integer id = null;
 
     public HistoricoDeMementos(int id) {
         this.id = id;

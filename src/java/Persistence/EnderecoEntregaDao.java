@@ -4,7 +4,6 @@ import Memento.HistoricoDeMementos;
 import Model.ActionFactoryItem;
 import Model.Endereco;
 import Model.Item;
-import State.ActionFactoryState;
 import State.Pedido;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

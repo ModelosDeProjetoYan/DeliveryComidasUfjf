@@ -2,6 +2,7 @@ package Action;
 
 import Controller.Action;
 import Memento.PedidoMemento;
+import Model.Carrinho;
 import Persistence.PedidoDao;
 import Persistence.RestauranteDao;
 import State.Pedido;
@@ -23,11 +24,13 @@ public class ListarMeusPedidosAction implements Action {
         request.setAttribute("titulo", "Meus Pedidos");
         HttpSession sessionScope = request.getSession();
         int idUsuario = (int) sessionScope.getAttribute("id");
+        Carrinho c = (Carrinho) sessionScope.getAttribute("carrinho");
+        int idPedido= c.getPedido().getId();
         ArrayList<String> estadosDoPedido = new ArrayList<>();
         ArrayList<Pedido> p = PedidoDao.getInstance().
                 getAllPedidosUsuario(idUsuario);
-        if (PedidoDao.getInstance().getMementos(0) != null) {
-            for (Iterator i = PedidoDao.getInstance().getMementos(0).getEstadosSalvos().iterator(); i.hasNext();) {
+        if (PedidoDao.getInstance().getMementos(idPedido) != null) {
+            for (Iterator i = PedidoDao.getInstance().getMementos(idPedido).getEstadosSalvos().iterator(); i.hasNext();) {
                 PedidoMemento pedidoMemento = (PedidoMemento) i.next();
                 estadosDoPedido.add(pedidoMemento.toString());
             }

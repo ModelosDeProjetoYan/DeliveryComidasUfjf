@@ -13,8 +13,31 @@
 
 <%@include file="/jspf/cabecalho.jspf" %>
 
-ListarMeusRestaurantes!!!
-${1/0}
 
+<h3>${sessionScope.carrinho.getPedido().getDataPedido()}</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nome do item</th>
+                <th>Quantidade do item</th>
+                <th>Preço do item</th>
+            </tr>
+        </thead>
+<c:forEach var="itensDoPedido" items="${sessionScope.carrinho.getPedido().getCarrinho()}">
+        <tbody>
+            <tr>
+                <td>${itensDoPedido.getNome()}</td>
+                <td>${itensDoPedido.getQuantidade()}</td>
+                <td>R$ ${itensDoPedido.getPreco()}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+</c:forEach>
+   
+<c:forEach var="pedido" items="${estadosDoPedido}">
+    <li>${pedido}</li>
+</c:forEach>
 <%@include file="/jspf/rodape.jspf" %>
 
