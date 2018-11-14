@@ -29,7 +29,10 @@
         </div>
         <div class="form-group col-4">
             <label for="tipo">Tipo</label>
-            <input type="text" class="form-control" maxlength="100" id="tipo" name="tipo" placeholder="Digite o tipo do item">
+            <select id="tipo" name="tipo" class="custom-select">
+                <option value="Prato">Prato</option>
+                <option value="Bebida">Bebida</option>
+            </select>
         </div>
     </div>
     <div class="row">

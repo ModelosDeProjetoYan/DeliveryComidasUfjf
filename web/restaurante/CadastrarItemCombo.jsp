@@ -20,6 +20,7 @@
             <div class="form-group col-4">
                 <label for="id_item_${contador_restaurante}_${contador}">Selecionar um item</label>
                 <select id="id_item_${contador_restaurante}_${contador}" name="id_item_${contador_restaurante}_${contador}" class="custom-select">
+                    <option value="-">-</option>
                     <c:forEach var="item" items="${restaurante.getItens()}">
                         <option value="${item.getId()}">${item.getNome()} / ${item.getPreco()}</option>
                     </c:forEach>
@@ -29,6 +30,7 @@
             <div class="form-group col-4">
                 <label for="id_item_${contador_restaurante}_${contador}">Selecionar um item</label>
                 <select id="id_item_${contador_restaurante}_${contador}" name="id_item_${contador_restaurante}_${contador}" class="custom-select">
+                    <option value="-">-</option>
                     <c:forEach var="item" items="${restaurante.getItens()}">
                         <option value="${item.getId()}">${item.getNome()} / ${item.getPreco()}</option>
                     </c:forEach>
@@ -38,6 +40,7 @@
             <div class="form-group col-4">
                 <label for="id_item_${contador_restaurante}_${contador}">Selecionar um item</label>
                 <select id="id_item_${contador_restaurante}_${contador}" name="id_item_${contador_restaurante}_${contador}" class="custom-select">
+                    <option value="-">-</option>
                     <c:forEach var="item" items="${restaurante.getItens()}">
                         <option value="${item.getId()}">${item.getNome()} / ${item.getPreco()}</option>
                     </c:forEach>
@@ -49,6 +52,7 @@
             <div class="form-group col-4">
                 <label for="id_item_${contador_restaurante}_${contador}">Selecionar um item</label>
                 <select id="id_item_${contador_restaurante}_${contador}" name="id_item_${contador_restaurante}_${contador}" class="custom-select">
+                    <option value="-">-</option>
                     <c:forEach var="item" items="${restaurante.getItens()}">
                         <option value="${item.getId()}">${item.getNome()} / ${item.getPreco()}</option>
                     </c:forEach>
@@ -58,6 +62,7 @@
             <div class="form-group col-4">
                 <label for="id_item_${contador_restaurante}_${contador}">Selecionar um item</label>
                 <select id="id_item_${contador_restaurante}_${contador}" name="id_item_${contador_restaurante}_${contador}" class="custom-select">
+                    <option value="-">-</option>
                     <c:forEach var="item" items="${restaurante.getItens()}">
                         <option value="${item.getId()}">${item.getNome()} / ${item.getPreco()}</option>
                     </c:forEach>
@@ -67,6 +72,7 @@
             <div class="form-group col-4">
                 <label for="id_item_${contador_restaurante}_${contador}">Selecionar um item</label>
                 <select id="id_item_${contador_restaurante}_${contador}" name="id_item_${contador_restaurante}_${contador}" class="custom-select">
+                    <option value="-">-</option>
                     <c:forEach var="item" items="${restaurante.getItens()}">
                         <option value="${item.getId()}">${item.getNome()} / ${item.getPreco()}</option>
                     </c:forEach>

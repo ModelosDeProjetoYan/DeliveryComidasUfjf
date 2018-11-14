@@ -211,4 +211,25 @@ public class RestauranteDao {
         return cargo;
     }
     
+    public Integer selectCountNumberOfRestaurantes(Integer idUsuario){
+        Connection conn = null;
+        PreparedStatement ps = null;
+        Integer numero = null;
+        
+        try {
+            conn = DataBaseLocator.getInstance().getConnection();
+            ps = conn.prepareStatement("SELECT COUNT(*) AS contador FROM restaurante WHERE id_usuario = ? ", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, (int) idUsuario);
+            ResultSet resultado = ps.executeQuery();
+            if (resultado.next()) {
+                numero = resultado.getInt("contador");
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeResoucers(conn, ps);
+        }        
+        return numero;
+    }
+    
 }

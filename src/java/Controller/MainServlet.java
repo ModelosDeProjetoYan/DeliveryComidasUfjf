@@ -25,8 +25,8 @@ public class MainServlet extends HttpServlet {
         
         if (!"Logout".equals(actionPath)) {
             HttpSession sessionScope = request.getSession();
-            sessionScope.setAttribute("erro", null);
-            sessionScope.setAttribute("sucesso", null);
+////            sessionScope.setAttribute("erro", null);
+//            sessionScope.setAttribute("sucesso", null);
             sessionScope.setAttribute("isProprietario", null);
             sessionScope.setAttribute("contador", null);
         }
