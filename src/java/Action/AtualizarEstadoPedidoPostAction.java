@@ -11,6 +11,8 @@ import Persistence.RestauranteDao;
 import Persistence.UsuarioDao;
 import State.Pedido;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -29,27 +31,9 @@ public class AtualizarEstadoPedidoPostAction implements Action {
         String estado = request.getParameter("state");
         int idPedido = Integer.parseInt(request.getParameter("idPedido"));
         Pedido p = PedidoDao.getInstance().getPedidoById(idPedido);
-        switch (estado) {
-            case "Aberto":
-                p.setAberto();
-                break;
-            case "Feito":
-                p.setFeito();
-                break;
-            case "Preparando":
-                p.setPreparando();
-                break;
-
-            case "Pronto":
-                p.setPronto();
-                break;
-            case "Entregando":
-                p.setEntregando();
-                break;
-            case "Entregue":
-                p.setEntregue();
-                break;
-        }
+        
+        p = ActionFactoryMetodoPedido.create(estado, p);
+        
         if (!p.getStatusPedido().equals(PedidoDao.getInstance().getPedidoById(idPedido).getStatusPedido())) {
             try {
                 PedidoDao.getInstance().saveEstado(idPedido, estado);
