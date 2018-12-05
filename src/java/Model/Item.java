@@ -8,7 +8,29 @@ public abstract class Item {
     protected String descricao;
     protected String nome;
     protected Integer quantidade;
-    
+    protected boolean disponivel, promocao;
+
+    public int getIdRestaurante() {
+        return idRestaurante;
+    }
+    public Item setIdRestaurante(int idRestaurante) {
+        this.idRestaurante = idRestaurante;
+        return this;
+    }
+    public boolean isDisponivel() {
+        return disponivel;
+    }
+    public Item setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
+        return this;
+    }
+    public boolean isPromocao() {
+        return promocao;
+    }
+    public Item setPromocao(boolean promocao) {
+        this.promocao = promocao;
+        return this;
+    }
     public int getId() {
         return id;
     }
@@ -63,5 +85,5 @@ public abstract class Item {
         return this;
     }
 
-    abstract String getTipo();
+    public abstract String getTipo();
 }

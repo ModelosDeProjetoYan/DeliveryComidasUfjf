@@ -44,33 +44,30 @@ public class ItemDao {
         }
     }
 
-    public Boolean insertItem(String nome, String tipo, String descricao, Double preco, Integer disponivel, Integer promocao, Integer idRestaurante) {
+    public Boolean insertItem(Item item) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet resultado;
 
-        if (idRestaurante != null
-                && nome != null && tipo != null
-                && descricao != null && preco != null
-                && disponivel != null && promocao != null) {
+        if (item != null) {
             try {
                 conn = DataBaseLocator.getInstance().getConnection();
 
                 ps = conn.prepareStatement("INSERT INTO item "
                         + "(nome, tipo, descricao, preco, disponivel, promocao, id_restaurante) "
                         + "VALUES(?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, nome);
-                ps.setString(2, tipo);
-                ps.setString(3, descricao);
-                ps.setDouble(4, preco);
-                ps.setInt(5, disponivel);
-                ps.setInt(6, promocao);
-                ps.setInt(7, idRestaurante);
-
+                ps.setString(1, item.getNome());
+                ps.setString(2, item.getTipo());
+                ps.setString(3, item.getDescricao());
+                ps.setDouble(4, item.getPreco());
+                ps.setBoolean(5, item.isDisponivel());
+                ps.setBoolean(6, item.isPromocao());
+                ps.setInt(7, item.getIdRestaurante());
                 ps.executeUpdate();
                 resultado = ps.getGeneratedKeys();
             } catch (SQLException | ClassNotFoundException e) {
                 Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
+                return false;
             } finally {
                 closeResoucers(conn, ps);
             }
