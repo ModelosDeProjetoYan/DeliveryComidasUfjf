@@ -136,24 +136,14 @@ public class ItemDao {
         Item item = null;
         Connection conn = null;
         PreparedStatement ps = null;
-
         try {
             conn = DataBaseLocator.getInstance().getConnection();
-
             ps = conn.prepareStatement("SELECT * FROM item WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, idItem);
             ResultSet resultado = ps.executeQuery();
-
             while (resultado.next()) {
-                if ("Bebida".equals(resultado.getString("tipo"))) {
-                    item = new Bebida();
-                } else if ("Prato".equals(resultado.getString("tipo"))) {
-                    item = new Prato();
-                } else if ("Combo".equals(resultado.getString("tipo"))) {
-                    item = new ItemCombo();
-                } else {
-                    return null;
-                }
+
+                item = ActionFactoryItem.create(resultado.getString("tipo"));
 
                 item.setId(resultado.getInt("id"))
                         .setNome(resultado.getString("nome"))
