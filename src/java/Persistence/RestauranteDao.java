@@ -38,7 +38,9 @@ public class RestauranteDao {
         }
     }
 
-    public Restaurante insertRestaurante(int idGerente, String nome, String descricao, String logradouro, Integer numero, String complemento, String bairro, String cidade, String tipoComida) {
+    public Restaurante insertRestaurante(int idGerente, String nome, 
+            String descricao, String logradouro, Integer numero, 
+            String complemento, String bairro, String cidade, String tipoComida) {
         Restaurante restaurante = null;
         Connection conn = null;
         PreparedStatement ps = null;

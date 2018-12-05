@@ -1,5 +1,6 @@
 package Persistence;
 
+import Model.ActionFactoryItem;
 import Model.Bebida;
 import Model.Item;
 import Model.ItemCombo;
@@ -116,16 +117,9 @@ public class ItemDao {
 
             while (resultado.next()) {
                 Item item;
-                if ("Bebida".equals(resultado.getString("tipo"))) {
-                    item = new Bebida();
-                } else if ("Prato".equals(resultado.getString("tipo"))) {
-                    item = new Prato();
-                } else if ("Combo".equals(resultado.getString("tipo"))) {
-                    item = new ItemCombo();
-                } else {
-                    return null;
-                }
-
+                
+                item = ActionFactoryItem.create(resultado.getString("tipo"));
+                
                 item.setId(resultado.getInt("id"))
                         .setNome(resultado.getString("nome"))
                         .setDescricao(resultado.getString("descricao"))
