@@ -67,6 +67,13 @@ public class UsuarioDao {
     }
 
     public Usuario getUsuarioByID(int id) {
+        return getUsuarioBanco("select * from USUARIO where ID= " + id + "");
+    }
+    public Usuario getUsuario(String email, String senha) {
+        return getUsuarioBanco("select * from USUARIO where EMAIL='"
+                + email + "' and SENHA='" + senha + "'");
+    }
+    private Usuario getUsuarioBanco(String query) {
         Connection conn = null;
         Statement st = null;
         ResultSet resultado;
@@ -74,7 +81,7 @@ public class UsuarioDao {
         try {
             conn = DataBaseLocator.getInstance().getConnection();
             st = conn.createStatement();
-            resultado = st.executeQuery("select * from USUARIO where ID= " + id + "");
+            resultado = st.executeQuery(query);
             while (resultado.next()) {
                 u = Action.ActionFactoryCadastroFuncionario.create(resultado.getString("TIPO_USER"));
                 u.setId(resultado.getInt("ID")).
@@ -90,36 +97,6 @@ public class UsuarioDao {
         return u;
     }
 
-    public void save(UsuarioCliente c) {
-        Connection conn = null;
-        Statement st = null;
-
-    }
-
-    public Usuario getUsuario(String email, String senha) {
-        Connection conn = null;
-        Statement st = null;
-        ResultSet resultado;
-        Usuario u = null;
-        try {
-            conn = DataBaseLocator.getInstance().getConnection();
-            st = conn.createStatement();
-            resultado = st.executeQuery("select * from USUARIO where EMAIL='" + email + "' and SENHA='" + senha + "'");
-            if (resultado.next()) {
-                u = Action.ActionFactoryCadastroFuncionario.create(resultado.getString("TIPO_USER"));
-                u.setId(resultado.getInt("ID")).
-                        setEmail(resultado.getString("EMAIL")).
-                        setSenha(resultado.getString("SENHA")).
-                        setNome(resultado.getString("NOME"));
-            }
-        } catch (SQLException e) {
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            closeResoucers(conn, st);
-        }
-        return u;
-    }
 
     public ArrayList<Usuario> selectAllUsuarios() {
         ArrayList<Usuario> usuarios = new ArrayList<>();
