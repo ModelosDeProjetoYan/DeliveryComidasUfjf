@@ -69,18 +69,18 @@ public class PedidoDao extends Observable {
             if (rs.next()) {
                 p.setId(rs.getInt(1));
             }
-            if (testaSePossuiHistorico(p.getId()) == 0) {
+            if (getPedidoHistoricoId(p.getId()) == 0) {
                 HistoricoDeMementos h = new HistoricoDeMementos(p.getId());
                 h.setEstadosSalvos(p.saveToMemento());
                 mementos.add(h);
             } else {
-                if (testaSePossuiHistorico(p.getId()) == mementos.size()) {
+                if (getPedidoHistoricoId(p.getId()) == mementos.size()) {
                     HistoricoDeMementos h = new HistoricoDeMementos(p.getId());
                     h.setEstadosSalvos(p.saveToMemento());
                     mementos.add(h);
                 } else {
                     mementos.
-                            get(testaSePossuiHistorico(p.getId())).
+                            get(getPedidoHistoricoId(p.getId())).
                             setEstadosSalvos(p.saveToMemento());
                 }
             }
@@ -123,7 +123,7 @@ public class PedidoDao extends Observable {
                 p.addItemCarrinho(i);
                 p.setDataPedido(resultado.getDate("DATA_PEDIDO")).
                         setEnderecoEntrega(e);
-                if (testaSePossuiHistorico(resultado.getInt("ID")) == mementos.size()) {
+                if (getPedidoHistoricoId(resultado.getInt("ID")) == mementos.size()) {
                     HistoricoDeMementos h = new HistoricoDeMementos(resultado.getInt("ID"));
                     h.setEstadosSalvos(p.saveToMemento());
                     mementos.add(h);
@@ -170,7 +170,7 @@ public class PedidoDao extends Observable {
                     p.addItemCarrinho(i);
                 }
                 p.setDataPedido(resultado.getDate("DATA_PEDIDO"));
-                if (testaSePossuiHistorico(resultado.getInt("ID")) == mementos.size()) {
+                if (getPedidoHistoricoId(resultado.getInt("ID")) == mementos.size()) {
                     HistoricoDeMementos h = new HistoricoDeMementos(resultado.getInt("ID"));
                     h.setEstadosSalvos(p.saveToMemento());
                     mementos.add(h);
@@ -220,7 +220,7 @@ public class PedidoDao extends Observable {
                     p.addItemCarrinho(i);
                 }
                 p.setDataPedido(resultado.getDate("DATA_PEDIDO"));
-                if (testaSePossuiHistorico(resultado.getInt("ID")) == mementos.size()) {
+                if (getPedidoHistoricoId(resultado.getInt("ID")) == mementos.size()) {
                     HistoricoDeMementos h = new HistoricoDeMementos(resultado.getInt("ID"));
                     h.setEstadosSalvos(p.saveToMemento());
                     mementos.add(h);
@@ -244,22 +244,28 @@ public class PedidoDao extends Observable {
             st = conn.createStatement();
             st.executeUpdate("update PEDIDO set ESTADO = '" + estado
                     + "' where(id = " + id + ")");
-
-            mementos.get(testaSePossuiHistorico(id))
+            int idPedidoHistorico = getPedidoHistoricoId(id);
+            int ultimoEstadoSalvo = mementos.get(idPedidoHistorico).
+                    getEstadosSalvos().size() - 1;
+            mementos.get(idPedidoHistorico)
                     .setEstadosSalvos(
                             new PedidoMemento(action = ActionFactoryState.create(estado)));
-
-            mementos.get(testaSePossuiHistorico(id)).setPosicaoEstadosSalvos(
-                    mementos.get(testaSePossuiHistorico(id))
+            
+            if(ultimoEstadoSalvo > mementos.get(idPedidoHistorico)
+                            .getPosicaoEstadosSalvos()){
+                while (ultimoEstadoSalvo > mementos.get(idPedidoHistorico)
+                            .getPosicaoEstadosSalvos()){
+                    mementos.get(idPedidoHistorico).
+                            removeHistoricoAntigo(ultimoEstadoSalvo);
+                    ultimoEstadoSalvo--; 
+                }
+                mementos.get(idPedidoHistorico).setPosicaoEstadosSalvos(ultimoEstadoSalvo);            
+            }
+            
+            mementos.get(idPedidoHistorico).setPosicaoEstadosSalvos(
+                    mementos.get(idPedidoHistorico)
                             .getPosicaoEstadosSalvos() + 1);
 
-            for (int i = mementos.get(testaSePossuiHistorico(id)).
-                    getEstadosSalvos().size() - 1;
-                    i > mementos.get(testaSePossuiHistorico(id))
-                            .getPosicaoEstadosSalvos();
-                    i--) {
-                mementos.get(testaSePossuiHistorico(id)).removeHistoricoAntigo(i);
-            }
             setChanged();
             notifyObservers(id);
         } catch (SQLException e) {
@@ -272,7 +278,7 @@ public class PedidoDao extends Observable {
     }
 
     public HistoricoDeMementos getMementos(int idPedido) {
-        int indice = testaSePossuiHistorico(idPedido);
+        int indice = getPedidoHistoricoId(idPedido);
         if (mementos.size() > 0) {
             if (indice == 0
                     && mementos.get(indice)
@@ -284,7 +290,7 @@ public class PedidoDao extends Observable {
         return null;
     }
 
-    public int testaSePossuiHistorico(int id) {
+    public int getPedidoHistoricoId(int id) {
         int i = 0;
         while (i < mementos.size()) {
             if (mementos.get(i).getId() != id) {
@@ -299,15 +305,15 @@ public class PedidoDao extends Observable {
 
     public void atualizaEstatus(Integer id_pedido, int i) throws ClassNotFoundException, SQLException {
         PedidoMemento p;
-        Integer elemento = mementos.get(testaSePossuiHistorico(id_pedido)).getPosicaoEstadosSalvos();
+        Integer elemento = mementos.get(getPedidoHistoricoId(id_pedido)).getPosicaoEstadosSalvos();
         Connection conn = null;
         Statement st = null;
         if (i == -1) {
             if (elemento != null && elemento > 0) {
-                p = mementos.get(testaSePossuiHistorico(id_pedido))
+                p = mementos.get(getPedidoHistoricoId(id_pedido))
                         .getEstadosSalvos().get(elemento - 1);
 
-                mementos.get(testaSePossuiHistorico(id_pedido))
+                mementos.get(getPedidoHistoricoId(id_pedido))
                         .setPosicaoEstadosSalvos(elemento - 1);
                 try {
                     conn = DataBaseLocator.getInstance().getConnection();
@@ -323,13 +329,13 @@ public class PedidoDao extends Observable {
             }
         } else if (i == 1) {
             if (elemento != null && elemento >= 0
-                    && elemento < mementos.get(testaSePossuiHistorico(id_pedido)).
+                    && elemento < mementos.get(getPedidoHistoricoId(id_pedido)).
                             getEstadosSalvos().size() - 1) {
 
-                p = mementos.get(testaSePossuiHistorico(id_pedido))
+                p = mementos.get(getPedidoHistoricoId(id_pedido))
                         .getEstadosSalvos().get(elemento + 1);
 
-                mementos.get(testaSePossuiHistorico(id_pedido)).
+                mementos.get(getPedidoHistoricoId(id_pedido)).
                         setPosicaoEstadosSalvos(elemento + 1);
                 try {
                     conn = DataBaseLocator.getInstance().getConnection();

@@ -24,9 +24,18 @@ public class CadastrarRestaurantePostAction implements Action {
         String tipoComida = request.getParameter("tipo_comida");
         
         HttpSession sessionScope = request.getSession();
-        Restaurante restaurante = RestauranteDao.getInstance().insertRestaurante((int) sessionScope.getAttribute("id"), nome, descricao, logradouro, numero, complemento, bairro, cidade, tipoComida);
         
-        if (restaurante != null) {
+        Restaurante restaurante = new Restaurante();
+        restaurante.setNome(nome)
+                .setDescricao(descricao)
+                .setLogradouro(logradouro)
+                .setNumero(numero)
+                .setComplemento(complemento)
+                .setBairro(bairro)
+                .setCidade(cidade)
+                .setTipoDeComida(tipoComida);
+        
+        if (RestauranteDao.getInstance().insertRestaurante(restaurante)) {
             sessionScope.setAttribute("sucesso", "Restaurante cadastrado com sucesso.");
             response.sendRedirect("MainServlet?parametro=ListarMeusRestaurantes");
         } else {

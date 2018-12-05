@@ -38,59 +38,46 @@ public class RestauranteDao {
         }
     }
 
-    public Restaurante insertRestaurante(int idGerente, String nome, 
-            String descricao, String logradouro, Integer numero, 
-            String complemento, String bairro, String cidade, String tipoComida) {
-        Restaurante restaurante = null;
+    public boolean insertRestaurante(Restaurante restaurante) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet resultado;
 
-        if (nome != null && descricao != null 
-                && logradouro != null && numero != null 
-                && complemento != null && bairro != null 
-                && cidade != null && tipoComida != null) {
+        if (restaurante != null) {
             try {
                 conn = DataBaseLocator.getInstance().getConnection();
 
                 ps = conn.prepareStatement("INSERT INTO RESTAURANTE "
                         + "(nome, descricao, logradouro, numero, complemento, bairro, cidade, tipo_comida, id_usuario) "
                         + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, nome);
-                ps.setString(2, descricao);
-                ps.setString(3, logradouro);
-                ps.setInt(4, (int) numero);
-                ps.setString(5, complemento);
-                ps.setString(6, bairro);
-                ps.setString(7, cidade);
-                ps.setString(8, tipoComida);
-                ps.setInt(9, idGerente);
+                ps.setString(1, restaurante.getNome());
+                ps.setString(2, restaurante.getDescricao());
+                ps.setString(3, restaurante.getLogradouro());
+                ps.setInt(4, restaurante.getNumero());
+                ps.setString(5, restaurante.getComplemento());
+                ps.setString(6, restaurante.getBairro());
+                ps.setString(7, restaurante.getCidade());
+                ps.setString(8, restaurante.getTipoDeComida());
+                ps.setInt(9, restaurante.getGerente().getId());
 
                 ps.executeUpdate();
                 resultado = ps.getGeneratedKeys();
 
-                restaurante = new Restaurante();
-                restaurante.setNome(nome)
-                        .setDescricao(descricao)
-                        .setLogradouro(logradouro)
-                        .setNumero((int) numero)
-                        .setComplemento(complemento)
-                        .setBairro(bairro)
-                        .setCidade(cidade)
-                        .setTipoDeComida(tipoComida);
                 if (resultado.next()) {
                     restaurante.setId(resultado.getInt(1));
                 }
                 
-                UsuarioDao.getInstance().updateTipoUsuario(idGerente, "Gerente", null);
-                UsuarioDao.getInstance().insertFuncionario(restaurante.getId(), idGerente, "Gerente");
+                UsuarioDao.getInstance().updateTipoUsuario(restaurante.getGerente().getId(), "Gerente", null);
+                UsuarioDao.getInstance().insertFuncionario(restaurante.getId(), 
+                        restaurante.getGerente().getId(), "Gerente");
             } catch (SQLException | ClassNotFoundException e) {
                 Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
+                return false;
             } finally {
                 closeResoucers(conn, ps);
             }
         }
-        return restaurante;
+        return true;
     }
     
     public ArrayList<Restaurante> selectAllRestaurantesFromUsuarioByIdUsuario(Usuario gerente) {
