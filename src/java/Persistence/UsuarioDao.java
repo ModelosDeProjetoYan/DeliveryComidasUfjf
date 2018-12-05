@@ -97,24 +97,33 @@ public class UsuarioDao {
         return u;
     }
 
-
+    public ArrayList<Usuario> selectAllFuncionariosByIdRestaurante(Integer idRestaurante) {
+        return getUsuarios("SELECT * FROM usuario AS u "
+                    + " INNER JOIN funcionario AS f ON"
+                + " u.id = f.id_usuario AND f.id_restaurante = ?");
+    }    
     public ArrayList<Usuario> selectAllUsuarios() {
+        return getUsuarios("SELECT * FROM usuario");
+    }
+    private ArrayList<Usuario> getUsuarios(String query) {
         ArrayList<Usuario> usuarios = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
-
         try {
             conn = DataBaseLocator.getInstance().getConnection();
 
-            ps = conn.prepareStatement("SELECT * FROM usuario", Statement.RETURN_GENERATED_KEYS);
+            ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        //    ps.setInt(1, idRestaurante);
             ResultSet resultado = ps.executeQuery();
 
             while (resultado.next()) {
-                Usuario usuario = new UsuarioCliente();
-                usuario.setId(resultado.getInt("id"))
-                        .setNome(resultado.getString("nome"))
-                        .setEmail(resultado.getString("email"))
-                        .setSenha("");
+                String tipoUsuarioRestaurante = resultado.getString("TIPO_USER_RESTAURANTE");
+                Usuario usuario = Action.ActionFactoryCadastroFuncionario.create(tipoUsuarioRestaurante);
+                usuario.setId(resultado.getInt("id"));
+                usuario.setNome(resultado.getString("nome"));
+                usuario.setEmail(resultado.getString("email"));
+                usuario.setTipoUsuario(resultado.getString("TIPO_USER_RESTAURANTE"));
+                usuario.setSenha(resultado.getString("senha"));
                 usuarios.add(usuario);
             }
         } catch (SQLException | ClassNotFoundException ex) {
@@ -122,6 +131,7 @@ public class UsuarioDao {
         } finally {
             closeResoucers(conn, ps);
         }
+
         return usuarios;
     }
 
@@ -199,35 +209,5 @@ public class UsuarioDao {
         return true;
     }
 
-    public ArrayList<Usuario> selectAllFuncionariosByIdRestaurante(Integer idRestaurante) {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
 
-        try {
-            conn = DataBaseLocator.getInstance().getConnection();
-
-            ps = conn.prepareStatement("SELECT * FROM usuario AS u "
-                    + " INNER JOIN funcionario AS f ON u.id = f.id_usuario AND f.id_restaurante = ?", Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, idRestaurante);
-            ResultSet resultado = ps.executeQuery();
-
-            while (resultado.next()) {
-                String tipoUsuarioRestaurante = resultado.getString("TIPO_USER_RESTAURANTE");
-                Usuario usuario = Action.ActionFactoryCadastroFuncionario.create(tipoUsuarioRestaurante);
-                usuario.setId(resultado.getInt("id"));
-                        usuario.setNome(resultado.getString("nome"));
-                        usuario.setEmail(resultado.getString("email"));
-                        usuario.setTipoUsuario(resultado.getString("TIPO_USER_RESTAURANTE"));
-                        usuario.setSenha(resultado.getString("senha"));
-                usuarios.add(usuario);
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            closeResoucers(conn, ps);
-        }
-
-        return usuarios;
-    }
 }
