@@ -3,6 +3,7 @@ package Persistence;
 import ChainOfResponsability_TemplateMethod.Usuario;
 import ChainOfResponsability_TemplateMethod.UsuarioCliente;
 import ChainOfResponsability_TemplateMethod.UsuarioGerente;
+import Memento.PedidoMemento;
 import Model.Restaurante;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -81,55 +83,27 @@ public class RestauranteDao {
     }
     
     public ArrayList<Restaurante> selectAllRestaurantesFromUsuarioByIdUsuario(Usuario gerente) {
-        ArrayList<Restaurante> restaurantes = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-
-        try {
-            conn = DataBaseLocator.getInstance().getConnection();
-            
-            ps = conn.prepareStatement("SELECT * FROM restaurante "
-                        + "WHERE id_usuario = ?", Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, gerente.getId());
-            ResultSet resultado = ps.executeQuery();
-
-            while (resultado.next()) {
-                Restaurante restaurante = new Restaurante();
-                restaurante.setId(resultado.getInt("id"))
-                        .setNome(resultado.getString("nome"))
-                        .setDescricao(resultado.getString("descricao"))
-                        .setLogradouro(resultado.getString("logradouro"))
-                        .setNumero(resultado.getInt("numero"))
-                        .setComplemento(resultado.getString("complemento"))
-                        .setBairro(resultado.getString("bairro"))
-                        .setCidade(resultado.getString("cidade"))
-                        .setTipoDeComida(resultado.getString("tipo_comida"))
-                        .setGerente(gerente);
-                
-                restaurante.setItens(ItemDao.getInstance().selectAllItensByIdRestaurante(restaurante.getId()));
-                restaurante.setFuncionarios(UsuarioDao.getInstance().selectAllFuncionariosByIdRestaurante(restaurante.getId()));
-                restaurantes.add(restaurante);
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            closeResoucers(conn, ps);
+        ArrayList<Restaurante> restaurantes = getRestauranteBanco("SELECT * FROM restaurante "
+                    + "WHERE id_usuario = "+gerente.getId());
+        for (int i = restaurantes.size()-1;i>=0;i--) {
+            restaurantes.get(i).setGerente(gerente);
         }
         
-        return restaurantes;
+        return restaurantes;            
     }
     
     public ArrayList<Restaurante> selectAllRestaurantes() {
+        return getRestauranteBanco("SELECT * FROM restaurante");
+    }
+    
+    private ArrayList<Restaurante> getRestauranteBanco(String query) {
         ArrayList<Restaurante> restaurantes = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
-
         try {
-            conn = DataBaseLocator.getInstance().getConnection();
-            
-            ps = conn.prepareStatement("SELECT * FROM restaurante", Statement.RETURN_GENERATED_KEYS);
+            conn = DataBaseLocator.getInstance().getConnection();          
+            ps = conn.prepareStatement(query);
             ResultSet resultado = ps.executeQuery();
-
             while (resultado.next()) {
                 Restaurante restaurante = new Restaurante();
                 restaurante.setId(resultado.getInt("id"))
@@ -141,7 +115,6 @@ public class RestauranteDao {
                         .setBairro(resultado.getString("bairro"))
                         .setCidade(resultado.getString("cidade"))
                         .setTipoDeComida(resultado.getString("tipo_comida"));
-                
                 restaurante.setItens(ItemDao.getInstance().selectAllItensByIdRestaurante(restaurante.getId()));
                 restaurante.setFuncionarios(UsuarioDao.getInstance().selectAllFuncionariosByIdRestaurante(restaurante.getId()));
                 restaurantes.add(restaurante);
@@ -151,9 +124,9 @@ public class RestauranteDao {
         } finally {
             closeResoucers(conn, ps);
         }
-        
         return restaurantes;
     }
+    
     
     public int getIdGerente(int idRestaurante){
         int idGerente = -1;
