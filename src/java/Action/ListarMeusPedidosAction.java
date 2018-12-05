@@ -27,8 +27,8 @@ public class ListarMeusPedidosAction implements Action {
         Carrinho c = (Carrinho) sessionScope.getAttribute("carrinho");
         int idPedido= c.getPedido().getId();
         ArrayList<String> estadosDoPedido = new ArrayList<>();
-        ArrayList<Pedido> p = PedidoDao.getInstance().
-                getAllPedidosUsuario(idUsuario);
+        
+        
         if (PedidoDao.getInstance().getMementos(idPedido) != null) {
             for (Iterator i = PedidoDao.getInstance().getMementos(idPedido).getEstadosSalvos().iterator(); i.hasNext();) {
                 PedidoMemento pedidoMemento = (PedidoMemento) i.next();

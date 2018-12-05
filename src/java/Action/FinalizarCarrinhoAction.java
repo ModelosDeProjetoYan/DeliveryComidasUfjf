@@ -29,41 +29,41 @@ public class FinalizarCarrinhoAction implements Action {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sessionScope = request.getSession();
-        Carrinho c = (Carrinho) sessionScope.getAttribute("carrinho");
-        int idPedido = c.getPedido().getId();
-        int idRestaurante = c.getPedido().getCarrinho().get(0).getRestaurante();
+        Carrinho carrinho = (Carrinho) sessionScope.getAttribute("carrinho");
+        int idPedido = carrinho.getPedido().getId();
+        int idRestaurante = carrinho.getPedido().getCarrinho().get(0).getRestaurante();
         int idUsuario = (int) sessionScope.getAttribute("id");
         int idGerenteRestaurante = RestauranteDao.getInstance().getIdGerente(idRestaurante);
 
-        Endereco e = EnderecoEntregaDao.getInstance().getEnderecoUsuario(idUsuario).get(0);
-        c.getPedido().setEnderecoEntrega(e).setDataPedido(new Date());
-        UsuarioCliente u = (UsuarioCliente) sessionScope.getAttribute("usuario");
+        Endereco enderecoAux = EnderecoEntregaDao.getInstance().getEnderecoUsuario(idUsuario).get(0);
+        carrinho.getPedido().setEnderecoEntrega(enderecoAux).setDataPedido(new Date());
+        UsuarioCliente cliente = (UsuarioCliente) sessionScope.getAttribute("usuario");
         
-        u.setAcaoFeita(true);
-        u.setObservable(PedidoDao.getInstance());
+        cliente.setAcaoFeita(true);
+        cliente.setObservable(PedidoDao.getInstance());
         
-        u.setPedido(c.getPedido());
-        Pedido p = PedidoDao.getInstance().setPedido(c.getPedido(), idUsuario, e.getId());
+        cliente.setPedido(carrinho.getPedido());
+        Pedido pedido = PedidoDao.getInstance().setPedido(carrinho.getPedido(), idUsuario, enderecoAux.getId());
         
-        for (Iterator i = c.getPedido().getCarrinho().iterator(); i.hasNext();) {
+        for (Iterator i = carrinho.getPedido().getCarrinho().iterator(); i.hasNext();) {
             Item item = (Item) i.next();
-            ItemDao.getInstance().insertItemPedido(item.getId(), p.getId(), item.getQuantidade());
+            ItemDao.getInstance().insertItemPedido(item.getId(), pedido.getId(), item.getQuantidade());
         }
         if (idGerenteRestaurante >= 0) {
-            u.setProxUsuario(UsuarioDao.getInstance().getUsuarioByID(idGerenteRestaurante));
+            cliente.setProxUsuario(UsuarioDao.getInstance().getUsuarioByID(idGerenteRestaurante));
             UsuarioDao.getInstance().updateTipoUsuario(idUsuario, "Cliente", idGerenteRestaurante);
         }
-        //instanciar pedido no banco
-        p.setFeito();
+        //instancia no banco por meio do observer
+        pedido.setFeito();
         try {
-            PedidoDao.getInstance().saveEstado(p.getId(), p.getStatusPedido());
-            PedidoDao.getInstance().setRestaurantePedido(idRestaurante, p.getId());
+            PedidoDao.getInstance().saveEstado(pedido.getId(), pedido.getStatusPedido());
+            PedidoDao.getInstance().setRestaurantePedido(idRestaurante, pedido.getId());
         } catch (SQLException ex) {
             Logger.getLogger(FinalizarCarrinhoAction.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (u != null) {
-            sessionScope.setAttribute("usuario", u);
-            sessionScope.setAttribute("sucesso", u.mensagemUsuario());
+        if (cliente != null) {
+            sessionScope.setAttribute("usuario", cliente);
+            sessionScope.setAttribute("sucesso", cliente.mensagemUsuario());
             response.sendRedirect("MainServlet?parametro=Index");
         } else {
             sessionScope.setAttribute("erro", "Usuário ou senha inválidos.");

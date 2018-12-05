@@ -47,41 +47,27 @@ public class Pedido {
 
     public void setAberto() {
         pedido.setAberto(this);
-     //   setStatusPedido();
     }
 
     public void setFeito() {
         pedido.setFeito(this);
-//        setStatusPedido();
     }
 
     public void setPreparando() {
         pedido.setPreparando(this);
-  //      setStatusPedido();
     }
 
     public void setPronto() {
         pedido.setPronto(this);
-    //    setStatusPedido();
     }
 
     public void setEntregando() {
         pedido.setEntregando(this);
- //       setStatusPedido();
     }
 
     public void setEntregue() {
         pedido.setEntregue(this);
-   //     setStatusPedido();
     }
-/*
-    private void setStatusPedido() {
-        if (!estadoAntigo.equals(statusPedido)) {
-            this.statusPedido = pedido.getEstado();
-            
-        }
-    }
-*/
     public void removeItemCarrinho(Item i) {
         carrinho.remove(i);
     }

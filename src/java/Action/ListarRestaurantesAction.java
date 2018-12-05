@@ -18,7 +18,6 @@ public class ListarRestaurantesAction implements Action {
         RequestDispatcher dispacher = request.getRequestDispatcher("/restaurante/ListarRestaurantes.jsp");
         request.setAttribute("titulo", "Restaurantes Disponiveis");
         
-//        HttpSession sessionScope = request.getSession();
         ArrayList<Restaurante> restaurantes = RestauranteDao.getInstance().selectAllRestaurantes();
         request.setAttribute("isProprietario", false);
         request.setAttribute("contador", 0);

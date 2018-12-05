@@ -17,9 +17,9 @@ public class CadastrarUsuarioPostAction implements Action  {
         String nome = request.getParameter("nome");
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
-        Usuario u = UsuarioDao.getInstance().insertUsuarioCliente(nome, email, senha);
+        Usuario usuarioAux = UsuarioDao.getInstance().insertUsuarioCliente(nome, email, senha);
         
-        if (u != null) {
+        if (usuarioAux != null) {
             response.sendRedirect("MainServlet?parametro=Login");
         } else {
             HttpSession sessionScope = request.getSession();

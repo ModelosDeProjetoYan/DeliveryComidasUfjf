@@ -69,36 +69,24 @@ public class EnderecoEntregaDao {
 
     }
 
-    public Endereco insertEndereco(int idUsuario, String bairro, String cidade,
-        String complemento, int numero, String logradouro) {
+    public Endereco insertEndereco(Endereco endereco) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet resultado;
         Endereco end = null;
-
         try {
             conn = DataBaseLocator.getInstance().getConnection();
-
             ps = conn.prepareStatement("INSERT INTO ENDERECO_DE_ENTREGA (id_usuario,bairro, cidade, "
                     + "complemento, numero, logradouro)"
                     + " VALUES(?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, idUsuario);
-            ps.setString(2, bairro);
-            ps.setString(3, cidade);
-            ps.setString(4, complemento);
-            ps.setInt(5, numero);
-            ps.setString(6, logradouro);
-
+            ps.setInt(1, endereco.getId_usuario());
+            ps.setString(2, endereco.getBairro());
+            ps.setString(3, endereco.getCidade());
+            ps.setString(4, endereco.getComplemento());
+            ps.setInt(5, endereco.getNumero());
+            ps.setString(6, endereco.getLogradouro());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
-
-            end = new Endereco();
-            end.setBairro(bairro).
-                    setCidade(cidade).
-                    setComplemento(complemento).
-                    setId_usuario(idUsuario).
-                    setNumero(numero).
-                    setLogradouro(logradouro);
             if (rs.next()) {
                 end.setId(rs.getInt(1));
             }
@@ -107,7 +95,7 @@ public class EnderecoEntregaDao {
         } finally {
             closeResoucers(conn, ps);
         }
-        return end;
+        return endereco;
     }
 
 }
